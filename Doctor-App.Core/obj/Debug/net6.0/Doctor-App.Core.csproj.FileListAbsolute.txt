@@ -1,0 +1,15 @@
+C:\Users\Acer\source\repos\Doctor-App\Doctor-App.Core\bin\Debug\net6.0\Doctor-App.Core.exe
+C:\Users\Acer\source\repos\Doctor-App\Doctor-App.Core\bin\Debug\net6.0\Doctor-App.Core.deps.json
+C:\Users\Acer\source\repos\Doctor-App\Doctor-App.Core\bin\Debug\net6.0\Doctor-App.Core.runtimeconfig.json
+C:\Users\Acer\source\repos\Doctor-App\Doctor-App.Core\bin\Debug\net6.0\Doctor-App.Core.dll
+C:\Users\Acer\source\repos\Doctor-App\Doctor-App.Core\bin\Debug\net6.0\Doctor-App.Core.pdb
+C:\Users\Acer\source\repos\Doctor-App\Doctor-App.Core\obj\Debug\net6.0\Doctor-App.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Acer\source\repos\Doctor-App\Doctor-App.Core\obj\Debug\net6.0\Doctor-App.Core.AssemblyInfoInputs.cache
+C:\Users\Acer\source\repos\Doctor-App\Doctor-App.Core\obj\Debug\net6.0\Doctor-App.Core.AssemblyInfo.cs
+C:\Users\Acer\source\repos\Doctor-App\Doctor-App.Core\obj\Debug\net6.0\Doctor-App.Core.csproj.CoreCompileInputs.cache
+C:\Users\Acer\source\repos\Doctor-App\Doctor-App.Core\obj\Debug\net6.0\Doctor-App.Core.sourcelink.json
+C:\Users\Acer\source\repos\Doctor-App\Doctor-App.Core\obj\Debug\net6.0\Doctor-App.Core.dll
+C:\Users\Acer\source\repos\Doctor-App\Doctor-App.Core\obj\Debug\net6.0\refint\Doctor-App.Core.dll
+C:\Users\Acer\source\repos\Doctor-App\Doctor-App.Core\obj\Debug\net6.0\Doctor-App.Core.pdb
+C:\Users\Acer\source\repos\Doctor-App\Doctor-App.Core\obj\Debug\net6.0\Doctor-App.Core.genruntimeconfig.cache
+C:\Users\Acer\source\repos\Doctor-App\Doctor-App.Core\obj\Debug\net6.0\ref\Doctor-App.Core.dll
