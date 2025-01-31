@@ -1,12 +1,30 @@
 using Doctor_App.Data.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
+using Doctor_App.Data;
+using Doctor_App.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<DoctorAppDbContext>(options =>
     options.UseSqlServer(connectionString));
+
+builder.Services.AddDataProtection();
 // Add services to the container.
+builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = false;
+    options.Password.RequireDigit = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+})
+    .AddEntityFrameworkStores<DoctorAppDbContext>();
+
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
@@ -22,11 +40,14 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseAuthentication();;
 
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapRazorPages();
 
 app.Run();

@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Doctor-App-Tests", "Doctor-
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Doctor-App.Core", "Doctor-App.Core\Doctor-App.Core.csproj", "{2A760BA9-7535-4AAA-86F3-BCC5A5B13103}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Doctor-App.Infrastructure", "Doctor-App.Infrastructure\Doctor-App.Infrastructure.csproj", "{9FE459BF-0ED2-4B69-B4D8-E78EB3E2B468}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{2A760BA9-7535-4AAA-86F3-BCC5A5B13103}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A760BA9-7535-4AAA-86F3-BCC5A5B13103}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A760BA9-7535-4AAA-86F3-BCC5A5B13103}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FE459BF-0ED2-4B69-B4D8-E78EB3E2B468}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FE459BF-0ED2-4B69-B4D8-E78EB3E2B468}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FE459BF-0ED2-4B69-B4D8-E78EB3E2B468}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FE459BF-0ED2-4B69-B4D8-E78EB3E2B468}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
