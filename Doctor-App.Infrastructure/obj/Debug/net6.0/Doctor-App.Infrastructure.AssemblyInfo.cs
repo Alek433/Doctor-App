@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Doctor-App.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+32fc35c4bec05006ba930fee127ced4d68c09938")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+27d4a59cdacdb631759eaf23d7ab5452e357d14c")]
 [assembly: System.Reflection.AssemblyProductAttribute("Doctor-App.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Doctor-App.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

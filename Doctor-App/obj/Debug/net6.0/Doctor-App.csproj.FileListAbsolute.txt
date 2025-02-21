@@ -274,9 +274,6 @@ C:\Users\Acer\source\repos\Doctor-App\Doctor-App\bin\Debug\net6.0\nunit.engine.d
 C:\Users\Acer\source\repos\Doctor-App\Doctor-App\bin\Debug\net6.0\nunit.engine.api.dll
 C:\Users\Acer\source\repos\Doctor-App\Doctor-App\bin\Debug\net6.0\nunit.engine.core.dll
 C:\Users\Acer\source\repos\Doctor-App\Doctor-App\bin\Debug\net6.0\testcentric.engine.metadata.dll
-C:\Users\Acer\source\repos\Doctor-App\Doctor-App\bin\Debug\net6.0\Doctor-App.Core.deps.json
-C:\Users\Acer\source\repos\Doctor-App\Doctor-App\bin\Debug\net6.0\Doctor-App.Core.runtimeconfig.json
-C:\Users\Acer\source\repos\Doctor-App\Doctor-App\bin\Debug\net6.0\Doctor-App.Core.exe
 C:\Users\Acer\source\repos\Doctor-App\Doctor-App\bin\Debug\net6.0\Microsoft.VisualStudio.CodeCoverage.Shim.dll
 C:\Users\Acer\source\repos\Doctor-App\Doctor-App\bin\Debug\net6.0\Microsoft.TestPlatform.CoreUtilities.dll
 C:\Users\Acer\source\repos\Doctor-App\Doctor-App\bin\Debug\net6.0\Microsoft.TestPlatform.PlatformAbstractions.dll
@@ -357,3 +354,9 @@ C:\Users\Acer\source\repos\Doctor-App\Doctor-App\bin\Debug\net6.0\Doctor-App.Inf
 C:\Users\Acer\source\repos\Doctor-App\Doctor-App\bin\Debug\net6.0\Doctor-App-Tests.pdb
 C:\Users\Acer\source\repos\Doctor-App\Doctor-App\bin\Debug\net6.0\Doctor-App.Core.pdb
 C:\Users\Acer\source\repos\Doctor-App\Doctor-App\bin\Debug\net6.0\Doctor-App.Infrastructure.pdb
+C:\Users\Acer\source\repos\Doctor-App\Doctor-App\bin\Debug\net6.0\System.Web.Razor.dll
+C:\Users\Acer\source\repos\Doctor-App\Doctor-App\bin\Debug\net6.0\System.Web.Helpers.dll
+C:\Users\Acer\source\repos\Doctor-App\Doctor-App\bin\Debug\net6.0\System.Web.WebPages.Deployment.dll
+C:\Users\Acer\source\repos\Doctor-App\Doctor-App\bin\Debug\net6.0\System.Web.WebPages.Razor.dll
+C:\Users\Acer\source\repos\Doctor-App\Doctor-App\bin\Debug\net6.0\System.Web.WebPages.dll
+C:\Users\Acer\source\repos\Doctor-App\Doctor-App\bin\Debug\net6.0\Microsoft.Web.Infrastructure.dll

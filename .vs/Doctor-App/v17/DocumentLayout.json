@@ -3,44 +3,44 @@
   "WorkspaceRootPath": "C:\\Users\\Acer\\source\\repos\\Doctor-App\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{9FE459BF-0ED2-4B69-B4D8-E78EB3E2B468}|Doctor-App.Infrastructure\\Doctor-App.Infrastructure.csproj|c:\\users\\acer\\source\\repos\\doctor-app\\doctor-app.infrastructure\\migrations\\20250129190923_initial.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9FE459BF-0ED2-4B69-B4D8-E78EB3E2B468}|Doctor-App.Infrastructure\\Doctor-App.Infrastructure.csproj|solutionrelative:doctor-app.infrastructure\\migrations\\20250129190923_initial.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1AF6D930-14E1-4048-963B-579EC3809A06}|Doctor-App\\Doctor-App.csproj|c:\\users\\acer\\source\\repos\\doctor-app\\doctor-app\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{1AF6D930-14E1-4048-963B-579EC3809A06}|Doctor-App\\Doctor-App.csproj|solutionrelative:doctor-app\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1AF6D930-14E1-4048-963B-579EC3809A06}|Doctor-App\\Doctor-App.csproj|c:\\users\\acer\\source\\repos\\doctor-app\\doctor-app\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{1AF6D930-14E1-4048-963B-579EC3809A06}|Doctor-App\\Doctor-App.csproj|solutionrelative:doctor-app\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1AF6D930-14E1-4048-963B-579EC3809A06}|Doctor-App\\Doctor-App.csproj|c:\\users\\acer\\source\\repos\\doctor-app\\doctor-app\\views\\shared\\_loginpartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{1AF6D930-14E1-4048-963B-579EC3809A06}|Doctor-App\\Doctor-App.csproj|solutionrelative:doctor-app\\views\\shared\\_loginpartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DDEA2AF6-2E8D-4859-ABCB-30416582A2B8}|Doctor-App.Core\\Doctor-App.Core.csproj|c:\\users\\acer\\source\\repos\\doctor-app\\doctor-app.core\\services\\doctor\\becomedoctorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DDEA2AF6-2E8D-4859-ABCB-30416582A2B8}|Doctor-App.Core\\Doctor-App.Core.csproj|solutionrelative:doctor-app.core\\services\\doctor\\becomedoctorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DDEA2AF6-2E8D-4859-ABCB-30416582A2B8}|Doctor-App.Core\\Doctor-App.Core.csproj|c:\\users\\acer\\source\\repos\\doctor-app\\doctor-app.core\\services\\doctor\\ibecomedoctorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DDEA2AF6-2E8D-4859-ABCB-30416582A2B8}|Doctor-App.Core\\Doctor-App.Core.csproj|solutionrelative:doctor-app.core\\services\\doctor\\ibecomedoctorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{1AF6D930-14E1-4048-963B-579EC3809A06}|Doctor-App\\Doctor-App.csproj|c:\\users\\acer\\source\\repos\\doctor-app\\doctor-app\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1AF6D930-14E1-4048-963B-579EC3809A06}|Doctor-App\\Doctor-App.csproj|solutionrelative:doctor-app\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9FE459BF-0ED2-4B69-B4D8-E78EB3E2B468}|Doctor-App.Infrastructure\\Doctor-App.Infrastructure.csproj|c:\\users\\acer\\source\\repos\\doctor-app\\doctor-app.infrastructure\\data\\data\\entities\\visit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9FE459BF-0ED2-4B69-B4D8-E78EB3E2B468}|Doctor-App.Infrastructure\\Doctor-App.Infrastructure.csproj|solutionrelative:doctor-app.infrastructure\\data\\data\\entities\\visit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9FE459BF-0ED2-4B69-B4D8-E78EB3E2B468}|Doctor-App.Infrastructure\\Doctor-App.Infrastructure.csproj|c:\\users\\acer\\source\\repos\\doctor-app\\doctor-app.infrastructure\\data\\data\\entities\\billing.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9FE459BF-0ED2-4B69-B4D8-E78EB3E2B468}|Doctor-App.Infrastructure\\Doctor-App.Infrastructure.csproj|solutionrelative:doctor-app.infrastructure\\data\\data\\entities\\billing.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9FE459BF-0ED2-4B69-B4D8-E78EB3E2B468}|Doctor-App.Infrastructure\\Doctor-App.Infrastructure.csproj|c:\\users\\acer\\source\\repos\\doctor-app\\doctor-app.infrastructure\\data\\data\\entities\\appointment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9FE459BF-0ED2-4B69-B4D8-E78EB3E2B468}|Doctor-App.Infrastructure\\Doctor-App.Infrastructure.csproj|solutionrelative:doctor-app.infrastructure\\data\\data\\entities\\appointment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1AF6D930-14E1-4048-963B-579EC3809A06}|Doctor-App\\Doctor-App.csproj|c:\\users\\acer\\source\\repos\\doctor-app\\doctor-app\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1AF6D930-14E1-4048-963B-579EC3809A06}|Doctor-App\\Doctor-App.csproj|solutionrelative:doctor-app\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{9FE459BF-0ED2-4B69-B4D8-E78EB3E2B468}|Doctor-App.Infrastructure\\Doctor-App.Infrastructure.csproj|c:\\users\\acer\\source\\repos\\doctor-app\\doctor-app.infrastructure\\data\\data\\entities\\doctor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9FE459BF-0ED2-4B69-B4D8-E78EB3E2B468}|Doctor-App.Infrastructure\\Doctor-App.Infrastructure.csproj|solutionrelative:doctor-app.infrastructure\\data\\data\\entities\\doctor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9FE459BF-0ED2-4B69-B4D8-E78EB3E2B468}|Doctor-App.Infrastructure\\Doctor-App.Infrastructure.csproj|c:\\users\\acer\\source\\repos\\doctor-app\\doctor-app.infrastructure\\data\\data\\entities\\patient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9FE459BF-0ED2-4B69-B4D8-E78EB3E2B468}|Doctor-App.Infrastructure\\Doctor-App.Infrastructure.csproj|solutionrelative:doctor-app.infrastructure\\data\\data\\entities\\patient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DDEA2AF6-2E8D-4859-ABCB-30416582A2B8}|Doctor-App.Core\\Doctor-App.Core.csproj|c:\\users\\acer\\source\\repos\\doctor-app\\doctor-app.core\\extensions\\claimsprincipalextension.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DDEA2AF6-2E8D-4859-ABCB-30416582A2B8}|Doctor-App.Core\\Doctor-App.Core.csproj|solutionrelative:doctor-app.core\\extensions\\claimsprincipalextension.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9FE459BF-0ED2-4B69-B4D8-E78EB3E2B468}|Doctor-App.Infrastructure\\Doctor-App.Infrastructure.csproj|c:\\users\\acer\\source\\repos\\doctor-app\\doctor-app.infrastructure\\data\\data\\doctorappdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9FE459BF-0ED2-4B69-B4D8-E78EB3E2B468}|Doctor-App.Infrastructure\\Doctor-App.Infrastructure.csproj|solutionrelative:doctor-app.infrastructure\\data\\data\\doctorappdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1AF6D930-14E1-4048-963B-579EC3809A06}|Doctor-App\\Doctor-App.csproj|c:\\users\\acer\\source\\repos\\doctor-app\\doctor-app\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1AF6D930-14E1-4048-963B-579EC3809A06}|Doctor-App\\Doctor-App.csproj|solutionrelative:doctor-app\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9FE459BF-0ED2-4B69-B4D8-E78EB3E2B468}|Doctor-App.Infrastructure\\Doctor-App.Infrastructure.csproj|c:\\users\\acer\\source\\repos\\doctor-app\\doctor-app.infrastructure\\data\\common\\repository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9FE459BF-0ED2-4B69-B4D8-E78EB3E2B468}|Doctor-App.Infrastructure\\Doctor-App.Infrastructure.csproj|solutionrelative:doctor-app.infrastructure\\data\\common\\repository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1AF6D930-14E1-4048-963B-579EC3809A06}|Doctor-App\\Doctor-App.csproj|c:\\users\\acer\\source\\repos\\doctor-app\\doctor-app\\models\\doctor\\becomedoctormodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1AF6D930-14E1-4048-963B-579EC3809A06}|Doctor-App\\Doctor-App.csproj|solutionrelative:doctor-app\\models\\doctor\\becomedoctormodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -50,7 +50,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 11,
           "Children": [
             {
               "$type": "Bookmark",
@@ -70,98 +70,111 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "20250129190923_Initial.cs",
-              "DocumentMoniker": "C:\\Users\\Acer\\source\\repos\\Doctor-App\\Doctor-App.Infrastructure\\Migrations\\20250129190923_Initial.cs",
-              "RelativeDocumentMoniker": "Doctor-App.Infrastructure\\Migrations\\20250129190923_Initial.cs",
-              "ToolTip": "C:\\Users\\Acer\\source\\repos\\Doctor-App\\Doctor-App.Infrastructure\\Migrations\\20250129190923_Initial.cs",
-              "RelativeToolTip": "Doctor-App.Infrastructure\\Migrations\\20250129190923_Initial.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-29T19:09:24.441Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Doctor.cs",
-              "DocumentMoniker": "C:\\Users\\Acer\\source\\repos\\Doctor-App\\Doctor-App.Infrastructure\\Data\\Data\\Entities\\Doctor.cs",
-              "RelativeDocumentMoniker": "Doctor-App.Infrastructure\\Data\\Data\\Entities\\Doctor.cs",
-              "ToolTip": "C:\\Users\\Acer\\source\\repos\\Doctor-App\\Doctor-App.Infrastructure\\Data\\Data\\Entities\\Doctor.cs",
-              "RelativeToolTip": "Doctor-App.Infrastructure\\Data\\Data\\Entities\\Doctor.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-29T19:08:50.701Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Patient.cs",
-              "DocumentMoniker": "C:\\Users\\Acer\\source\\repos\\Doctor-App\\Doctor-App.Infrastructure\\Data\\Data\\Entities\\Patient.cs",
-              "RelativeDocumentMoniker": "Doctor-App.Infrastructure\\Data\\Data\\Entities\\Patient.cs",
-              "ToolTip": "C:\\Users\\Acer\\source\\repos\\Doctor-App\\Doctor-App.Infrastructure\\Data\\Data\\Entities\\Patient.cs",
-              "RelativeToolTip": "Doctor-App.Infrastructure\\Data\\Data\\Entities\\Patient.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-29T19:08:44.716Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Visit.cs",
-              "DocumentMoniker": "C:\\Users\\Acer\\source\\repos\\Doctor-App\\Doctor-App.Infrastructure\\Data\\Data\\Entities\\Visit.cs",
-              "RelativeDocumentMoniker": "Doctor-App.Infrastructure\\Data\\Data\\Entities\\Visit.cs",
-              "ToolTip": "C:\\Users\\Acer\\source\\repos\\Doctor-App\\Doctor-App.Infrastructure\\Data\\Data\\Entities\\Visit.cs",
-              "RelativeToolTip": "Doctor-App.Infrastructure\\Data\\Data\\Entities\\Visit.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAoAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-29T19:08:26.982Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Billing.cs",
-              "DocumentMoniker": "C:\\Users\\Acer\\source\\repos\\Doctor-App\\Doctor-App.Infrastructure\\Data\\Data\\Entities\\Billing.cs",
-              "RelativeDocumentMoniker": "Doctor-App.Infrastructure\\Data\\Data\\Entities\\Billing.cs",
-              "ToolTip": "C:\\Users\\Acer\\source\\repos\\Doctor-App\\Doctor-App.Infrastructure\\Data\\Data\\Entities\\Billing.cs",
-              "RelativeToolTip": "Doctor-App.Infrastructure\\Data\\Data\\Entities\\Billing.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-29T19:08:19.738Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Appointment.cs",
-              "DocumentMoniker": "C:\\Users\\Acer\\source\\repos\\Doctor-App\\Doctor-App.Infrastructure\\Data\\Data\\Entities\\Appointment.cs",
-              "RelativeDocumentMoniker": "Doctor-App.Infrastructure\\Data\\Data\\Entities\\Appointment.cs",
-              "ToolTip": "C:\\Users\\Acer\\source\\repos\\Doctor-App\\Doctor-App.Infrastructure\\Data\\Data\\Entities\\Appointment.cs",
-              "RelativeToolTip": "Doctor-App.Infrastructure\\Data\\Data\\Entities\\Appointment.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-29T19:08:11.221Z",
+              "Title": "_LoginPartial.cshtml",
+              "DocumentMoniker": "C:\\Users\\Acer\\source\\repos\\Doctor-App\\Doctor-App\\Views\\Shared\\_LoginPartial.cshtml",
+              "RelativeDocumentMoniker": "Doctor-App\\Views\\Shared\\_LoginPartial.cshtml",
+              "ToolTip": "C:\\Users\\Acer\\source\\repos\\Doctor-App\\Doctor-App\\Views\\Shared\\_LoginPartial.cshtml",
+              "RelativeToolTip": "Doctor-App\\Views\\Shared\\_LoginPartial.cshtml",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAA0AAABJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-02-21T18:45:58.05Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 7,
-              "Title": "DoctorAppDbContext.cs",
-              "DocumentMoniker": "C:\\Users\\Acer\\source\\repos\\Doctor-App\\Doctor-App.Infrastructure\\Data\\Data\\DoctorAppDbContext.cs",
-              "RelativeDocumentMoniker": "Doctor-App.Infrastructure\\Data\\Data\\DoctorAppDbContext.cs",
-              "ToolTip": "C:\\Users\\Acer\\source\\repos\\Doctor-App\\Doctor-App.Infrastructure\\Data\\Data\\DoctorAppDbContext.cs",
-              "RelativeToolTip": "Doctor-App.Infrastructure\\Data\\Data\\DoctorAppDbContext.cs",
-              "ViewState": "AgIAABAAAAAAAAAAAAA0wCAAAAAJAAAAAAAAAA==",
+              "Title": "Doctor.cs",
+              "DocumentMoniker": "C:\\Users\\Acer\\source\\repos\\Doctor-App\\Doctor-App.Infrastructure\\Data\\Data\\Entities\\Doctor.cs",
+              "RelativeDocumentMoniker": "Doctor-App.Infrastructure\\Data\\Data\\Entities\\Doctor.cs",
+              "ToolTip": "C:\\Users\\Acer\\source\\repos\\Doctor-App\\Doctor-App.Infrastructure\\Data\\Data\\Entities\\Doctor.cs",
+              "RelativeToolTip": "Doctor-App.Infrastructure\\Data\\Data\\Entities\\Doctor.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAyAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-29T18:25:40.566Z",
+              "WhenOpened": "2025-02-21T08:14:48.165Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "ClaimsPrincipalExtension.cs",
+              "DocumentMoniker": "C:\\Users\\Acer\\source\\repos\\Doctor-App\\Doctor-App.Core\\Extensions\\ClaimsPrincipalExtension.cs",
+              "RelativeDocumentMoniker": "Doctor-App.Core\\Extensions\\ClaimsPrincipalExtension.cs",
+              "ToolTip": "C:\\Users\\Acer\\source\\repos\\Doctor-App\\Doctor-App.Core\\Extensions\\ClaimsPrincipalExtension.cs",
+              "RelativeToolTip": "Doctor-App.Core\\Extensions\\ClaimsPrincipalExtension.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-21T08:01:18.832Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "BecomeDoctorService.cs",
+              "DocumentMoniker": "C:\\Users\\Acer\\source\\repos\\Doctor-App\\Doctor-App.Core\\Services\\Doctor\\BecomeDoctorService.cs",
+              "RelativeDocumentMoniker": "Doctor-App.Core\\Services\\Doctor\\BecomeDoctorService.cs",
+              "ToolTip": "C:\\Users\\Acer\\source\\repos\\Doctor-App\\Doctor-App.Core\\Services\\Doctor\\BecomeDoctorService.cs",
+              "RelativeToolTip": "Doctor-App.Core\\Services\\Doctor\\BecomeDoctorService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-20T07:30:53.418Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "IBecomeDoctorService.cs",
+              "DocumentMoniker": "C:\\Users\\Acer\\source\\repos\\Doctor-App\\Doctor-App.Core\\Services\\Doctor\\IBecomeDoctorService.cs",
+              "RelativeDocumentMoniker": "Doctor-App.Core\\Services\\Doctor\\IBecomeDoctorService.cs",
+              "ToolTip": "C:\\Users\\Acer\\source\\repos\\Doctor-App\\Doctor-App.Core\\Services\\Doctor\\IBecomeDoctorService.cs",
+              "RelativeToolTip": "Doctor-App.Core\\Services\\Doctor\\IBecomeDoctorService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-20T07:27:20.528Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\Acer\\source\\repos\\Doctor-App\\Doctor-App\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "Doctor-App\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\Acer\\source\\repos\\Doctor-App\\Doctor-App\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "Doctor-App\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAACwAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-02-19T18:15:56.929Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Acer\\source\\repos\\Doctor-App\\Doctor-App\\Program.cs",
+              "RelativeDocumentMoniker": "Doctor-App\\Program.cs",
+              "ToolTip": "C:\\Users\\Acer\\source\\repos\\Doctor-App\\Doctor-App\\Program.cs",
+              "RelativeToolTip": "Doctor-App\\Program.cs",
+              "ViewState": "AgIAABYAAAAAAAAAAAAAAB8AAABIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-19T10:33:11.49Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\Acer\\source\\repos\\Doctor-App\\Doctor-App\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "Doctor-App\\Views\\Home\\Index.cshtml",
+              "ToolTip": "C:\\Users\\Acer\\source\\repos\\Doctor-App\\Doctor-App\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "Doctor-App\\Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-02-16T16:11:11.635Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "HomeController.cs",
               "DocumentMoniker": "C:\\Users\\Acer\\source\\repos\\Doctor-App\\Doctor-App\\Controllers\\HomeController.cs",
               "RelativeDocumentMoniker": "Doctor-App\\Controllers\\HomeController.cs",
@@ -173,34 +186,16 @@
               "EditorCaption": ""
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\Acer\\source\\repos\\Doctor-App\\Doctor-App\\Program.cs",
-              "RelativeDocumentMoniker": "Doctor-App\\Program.cs",
-              "ToolTip": "C:\\Users\\Acer\\source\\repos\\Doctor-App\\Doctor-App\\Program.cs",
-              "RelativeToolTip": "Doctor-App\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAgAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-18T12:21:04.726Z",
-              "EditorCaption": ""
-            },
-            {
               "$type": "Document",
               "DocumentIndex": 9,
-              "Title": "Repository.cs",
-              "DocumentMoniker": "C:\\Users\\Acer\\source\\repos\\Doctor-App\\Doctor-App.Infrastructure\\Data\\Common\\Repository.cs",
-              "RelativeDocumentMoniker": "Doctor-App.Infrastructure\\Data\\Common\\Repository.cs",
-              "ToolTip": "C:\\Users\\Acer\\source\\repos\\Doctor-App\\Doctor-App.Infrastructure\\Data\\Common\\Repository.cs",
-              "RelativeToolTip": "Doctor-App.Infrastructure\\Data\\Common\\Repository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAJAAAAAAAAAA==",
+              "Title": "BecomeDoctorModel.cs",
+              "DocumentMoniker": "C:\\Users\\Acer\\source\\repos\\Doctor-App\\Doctor-App\\Models\\Doctor\\BecomeDoctorModel.cs",
+              "RelativeDocumentMoniker": "Doctor-App\\Models\\Doctor\\BecomeDoctorModel.cs",
+              "ToolTip": "C:\\Users\\Acer\\source\\repos\\Doctor-App\\Doctor-App\\Models\\Doctor\\BecomeDoctorModel.cs",
+              "RelativeToolTip": "Doctor-App\\Models\\Doctor\\BecomeDoctorModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAzAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-23T10:26:26.468Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-05T20:23:02.552Z"
             }
           ]
         }
