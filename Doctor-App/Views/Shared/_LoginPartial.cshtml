@@ -1,5 +1,5 @@
 ﻿@using Doctor_App.Core.Extensions
-@using Doctor_App.Core.Services.Doctor
+@using Doctor_App.Core.Services.DoctorServices
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
@@ -8,15 +8,20 @@
     ViewData["Title"] = "_LoginPartial";
 }
 
+@{
+    var userId = UserManager.GetUserId(User);
+    var isDoctor = userId != null && await doctors.ExistsByIdAsync(userId);
+}
+
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
-        @if (!await doctors.ExistsByIdAsync(UserManager.GetUserId(User)!))
+        @if (!isDoctor)
         {
             <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="" asp-controller="Doctor"
-                   asp-action="Become">Become Doctor</a>
+                <a class="nav-link text-dark" asp-controller="Doctor" asp-action="Become">Become a Doctor</a>
             </li>
+
         }
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>

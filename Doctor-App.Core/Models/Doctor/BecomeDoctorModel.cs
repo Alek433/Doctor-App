@@ -8,7 +8,5 @@
         public string ContactInformation { get; set; }
         public string OfficeLocation { get; set; }
 
-
-
     }
 }

@@ -4,7 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Doctor_App.Data;
 using Doctor_App.Infrastructure;
-using Doctor_App.Core.Services.Doctor;
+using Doctor_App.Core.Services.DoctorServices;
+using Doctor_App.Infrastructure.Data.Common;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -28,8 +29,15 @@ builder.Services.AddControllersWithViews(options =>
 {
     options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
 });
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("DoctorOnly", policy => policy.RequireRole("Doctor"));
+});
 
 builder.Services.AddScoped<IBecomeDoctorService, BecomeDoctorService>();
+
+builder.Services.AddScoped<IRepository, Repository>();
+builder.Services.AddScoped<DoctorAppDbContext>();
 
 builder.Services.AddRazorPages();
 

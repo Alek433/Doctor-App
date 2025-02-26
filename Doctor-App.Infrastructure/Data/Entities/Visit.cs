@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Doctor_App.Data.Models
+namespace Doctor_App.Infrastructure.Data.Entities
 {
     public class Visit
     {

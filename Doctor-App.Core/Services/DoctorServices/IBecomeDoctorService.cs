@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Doctor_App.Data.Models;
+using Doctor_App.Models.Doctor;
+using Doctor_App.Infrastructure.Data.Entities;
 
-namespace Doctor_App.Core.Services.Doctor
+namespace Doctor_App.Core.Services.DoctorServices
 {
     public interface IBecomeDoctorService
     {
@@ -12,6 +15,6 @@ namespace Doctor_App.Core.Services.Doctor
 
         Task<bool> ExistsByIdAsync(string userId);
 
-        Task<bool> BecomeDoctorAsync(string userId, string contactInformation);
+        Task<Guid> AddDoctorAsync(string userId, BecomeDoctorModel model);
     }
 }

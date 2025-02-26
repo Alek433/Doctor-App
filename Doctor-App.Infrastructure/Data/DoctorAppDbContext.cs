@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Connections;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Doctor_App.Infrastructure;
 using Microsoft.AspNetCore.Identity;
+using Doctor_App.Infrastructure.Data.Entities;
 
 namespace Doctor_App.Data.Models
 {

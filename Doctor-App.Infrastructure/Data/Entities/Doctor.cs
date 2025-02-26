@@ -1,12 +1,18 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Doctor_App.Data.Models
+namespace Doctor_App.Infrastructure.Data.Entities
 {
     public class Doctor
     {
         [Key]
         public Guid Id { get; set; } = Guid.NewGuid();
+        [Required]
+        public string UserId { get; set; } // Foreign key to Identity User
+
+        [ForeignKey(nameof(UserId))]
+        public virtual IdentityUser User { get; set; }
         [Required]
         [MaxLength(100)]
         public string FirstName { get; set; }

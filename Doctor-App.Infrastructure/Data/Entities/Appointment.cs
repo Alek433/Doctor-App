@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Doctor_App.Data.Models
+namespace Doctor_App.Infrastructure.Data.Entities
 {
     public class Appointment
     {
