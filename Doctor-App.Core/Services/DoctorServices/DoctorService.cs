@@ -13,12 +13,12 @@ using Doctor_App.Infrastructure.Data.Common;
 
 namespace Doctor_App.Core.Services.DoctorServices
 {
-    public class BecomeDoctorService : IBecomeDoctorService
+    public class DoctorService : IDoctorService
     {
         private readonly IRepository _context;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public BecomeDoctorService(IRepository context, UserManager<IdentityUser> userManager)
+        public DoctorService(IRepository context, UserManager<IdentityUser> userManager)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
@@ -30,6 +30,7 @@ namespace Doctor_App.Core.Services.DoctorServices
             {
                 throw new ArgumentNullException(nameof(model), "Invalid doctor data.");
             }
+
             var doctor = new Doctor()
             {
                 Id = Guid.NewGuid(),
@@ -62,12 +63,15 @@ namespace Doctor_App.Core.Services.DoctorServices
             return await _userManager.IsInRoleAsync(user, "Doctor");
         }
 
-        public string GetDoctorId(string userId)
+        public async Task<string> GetDoctorIdAsync(string userId)
         {
-            /*return this._context.GetByIdAsync
-                    .First(a => a.Id.ToString() == userId)
-                    .Id.ToString();*/
-            return null;
+            var doctor = await this._context.GetByIdAsync<Doctor>(userId);
+
+            if (doctor == null)
+            {
+                throw new NotImplementedException("Patient not found!");
+            }
+            return doctor.Id.ToString();
         }
 
     }

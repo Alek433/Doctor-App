@@ -16,7 +16,8 @@
             }
             else if (User.IsInRole("Patient"))
             {
-                <a class="btn btn-success btn-lg" asp-controller="Patient" asp-action="Records">View Medical Records</a>
+                <a class="btn btn-success btn-lg" asp-controller="Patient" asp-action="ViewMyRecords">View Medical Records</a>
+                <a class="btn btn-success btn-lg" asp-controller="Patient" asp-action="AssignDoctor">Assign a Doctor</a>
             }
         }
         else
@@ -41,7 +42,7 @@
                 <div class="card-body">
                     <h5 class="card-title">For Patients</h5>
                     <p class="card-text">View medical records, receive notifications, and track doctor visits.</p>
-                    <a asp-controller="Patient" asp-action="Records" class="btn btn-success">View Records</a>
+                    <a asp-controller="Patient" asp-action="ViewMyRecords" class="btn btn-success">View Records</a>
                 </div>
             </div>
         </div>

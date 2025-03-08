@@ -9,9 +9,9 @@ using Doctor_App.Infrastructure.Data.Entities;
 
 namespace Doctor_App.Core.Services.DoctorServices
 {
-    public interface IBecomeDoctorService
+    public interface IDoctorService
     {
-        string GetDoctorId(string userId);
+        Task<string> GetDoctorIdAsync(string userId);
 
         Task<bool> ExistsByIdAsync(string userId);
 

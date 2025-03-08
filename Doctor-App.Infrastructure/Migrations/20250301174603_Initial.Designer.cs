@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Doctor_App.Infrastructure.Migrations
 {
     [DbContext(typeof(DoctorAppDbContext))]
-    [Migration("20250226113049_AddUserId")]
-    partial class AddUserId
+    [Migration("20250301174603_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

@@ -49,22 +49,6 @@ namespace Doctor_App.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Doctors",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Specialization = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ContactInformation = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    OfficeLocation = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Doctors", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Patients",
                 columns: table => new
                 {
@@ -182,6 +166,29 @@ namespace Doctor_App.Infrastructure.Migrations
                     table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
                     table.ForeignKey(
                         name: "FK_AspNetUserTokens_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Doctors",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Specialization = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ContactInformation = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OfficeLocation = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Doctors", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Doctors_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -325,6 +332,11 @@ namespace Doctor_App.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Doctors_UserId",
+                table: "Doctors",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Visits_DoctorId",
                 table: "Visits",
                 column: "DoctorId");
@@ -362,9 +374,6 @@ namespace Doctor_App.Infrastructure.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
                 name: "Visits");
 
             migrationBuilder.DropTable(
@@ -372,6 +381,9 @@ namespace Doctor_App.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Patients");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
         }
     }
 }

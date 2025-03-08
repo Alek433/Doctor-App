@@ -3,9 +3,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Doctor_App.Data;
-using Doctor_App.Infrastructure;
+using Doctor_App.Infrastructure.Data;
 using Doctor_App.Core.Services.DoctorServices;
 using Doctor_App.Infrastructure.Data.Common;
+using Doctor_App.Core.Services.PatientServices;
+using Microsoft.AspNetCore.Hosting;
+using Doctor_App.Infrastructure.Data.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -34,15 +37,13 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("DoctorOnly", policy => policy.RequireRole("Doctor"));
 });
 
-builder.Services.AddScoped<IBecomeDoctorService, BecomeDoctorService>();
-
+builder.Services.AddScoped<IDoctorService, DoctorService>();
 builder.Services.AddScoped<IRepository, Repository>();
 builder.Services.AddScoped<DoctorAppDbContext>();
-
+builder.Services.AddScoped<IPatientService, PatientService>();
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
-
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -50,6 +51,12 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    await EnsureRolesExist(services);
+}
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
@@ -65,10 +72,11 @@ app.MapControllerRoute(
 app.MapRazorPages();
 
 app.Run();
-/*async Task SeedRoles(IServiceProvider services)
+async Task EnsureRolesExist(IServiceProvider services)
 {
     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-    string[] roles = { "Patient", "Doctor" };
+
+    string[] roles = { "Doctor", "Patient", "Admin" };
 
     foreach (var role in roles)
     {
@@ -77,4 +85,4 @@ app.Run();
             await roleManager.CreateAsync(new IdentityRole(role));
         }
     }
-}*/
+}

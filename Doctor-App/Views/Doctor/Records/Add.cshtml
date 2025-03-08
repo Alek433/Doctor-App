@@ -1,5 +1,54 @@
-﻿@*
+﻿@using Doctor_App.Core.Models.Doctor
+@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@{
+@model AddPatientRecordModel
+<h2>Add Record</h2>
+
+@using (Html.BeginForm("Add", "Doctor", FormMethod.Post))
+{
+    <div class="container">
+        <h2>Add New Medical Record</h2>
+
+        <div class="form-group">
+            <label for="PatientId">Patient</label>
+            <select asp-for="PatientId" class="form-control">
+                <option value="">-- Select Patient --</option>
+                <!-- Populate this dynamically with patient options -->
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="Diagnosis">Diagnosis</label>
+            <input asp-for="Diagnosis" class="form-control" required />
+        </div>
+
+        <div class="form-group">
+            <label for="Treatment">Treatment</label>
+            <input asp-for="Treatment" class="form-control" required />
+        </div>
+
+        <div class="form-group">
+            <label for="VisitDate">Visit Date</label>
+            <input asp-for="VisitDate" type="date" class="form-control" required />
+        </div>
+
+        <div class="form-group">
+            <label for="ReasonForVisit">Reason for Visit</label>
+            <textarea asp-for="ReasonForVisit" class="form-control" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="Prescriptions">Prescriptions</label>
+            <textarea asp-for="Prescriptions" class="form-control"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="Notes">Notes</label>
+            <textarea asp-for="Notes" class="form-control"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-success">Save</button>
+        <a asp-action="Dashboard" class="btn btn-secondary">Cancel</a>
+    </div>
 }
