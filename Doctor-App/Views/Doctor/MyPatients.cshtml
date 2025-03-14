@@ -1,0 +1,41 @@
+﻿@using Doctor_App.Core.Models
+@model List<PatientViewModel>
+
+@{
+    ViewData["Title"] = "My Patients";
+}
+
+@if (Model != null && Model.Any())
+{
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">My Patients</h2>
+
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Date of Birth</th>
+                    <th>Gender</th>
+                    <th>Contact</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var patient in Model)
+                {
+                    <tr>
+                        <td>@patient.FirstName</td>
+                        <td>@patient.LastName</td>
+                        <td>@patient.DateOfBirth.ToShortDateString()</td>
+                        <td>@patient.Gender</td>
+                        <td>@patient.ContactInformation</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <p>No patients assigned yet.</p>
+}

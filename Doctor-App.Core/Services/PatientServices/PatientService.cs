@@ -17,11 +17,13 @@ namespace Doctor_App.Core.Services.PatientServices
     public class PatientService : IPatientService
     {
         private readonly IRepository _context;
+        private readonly DoctorAppDbContext _dbContext;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public PatientService(IRepository context, UserManager<IdentityUser> userManager)
+        public PatientService(IRepository context, DoctorAppDbContext dbContext, UserManager<IdentityUser> userManager)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
+            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         }
         public async Task<Guid> AddPatientAsync(string userId, BecomePatientViewModel model)
@@ -34,6 +36,7 @@ namespace Doctor_App.Core.Services.PatientServices
             var patient = new Patient()
             {
                 Id = Guid.NewGuid(),
+                UserId = userId,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 DateOfBirth = model.DateOfBirth,
@@ -74,6 +77,28 @@ namespace Doctor_App.Core.Services.PatientServices
             }
             return patient.Id.ToString();
         }
+        public async Task AssignDoctorToPatientAsync(Guid patientId, Guid doctorId)
+        {
+            var existingAssignment = await _dbContext.PatientDoctors
+                   .FirstOrDefaultAsync(pd => pd.PatientId == patientId && pd.DoctorId == doctorId);
 
+            if (existingAssignment == null)
+            {
+                var patientDoctor = new PatientDoctor
+                {
+                    PatientId = patientId,
+                    DoctorId = doctorId
+                };
+
+                _dbContext.PatientDoctors.Add(patientDoctor);
+                await _dbContext.SaveChangesAsync();
+
+                Console.WriteLine($"✔️ Patient {patientId} assigned to Doctor {doctorId}.");
+            }
+            else
+            {
+                Console.WriteLine($"⚠️ Patient {patientId} is already assigned to Doctor {doctorId}.");
+            }
+        }
     }
 }

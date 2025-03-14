@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Doctor_App.Infrastructure.Migrations
 {
     [DbContext(typeof(DoctorAppDbContext))]
-    [Migration("20250301174603_Initial")]
-    partial class Initial
+    [Migration("20250314125613_UserId")]
+    partial class UserId
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,36 +23,6 @@ namespace Doctor_App.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("Doctor_App.Infrastructure.Data.Entities.Appointment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("AppointmentDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("DoctorId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("PatientId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DoctorId");
-
-                    b.HasIndex("PatientId");
-
-                    b.ToTable("Appointments");
-                });
 
             modelBuilder.Entity("Doctor_App.Infrastructure.Data.Entities.Billing", b =>
                 {
@@ -158,9 +128,30 @@ namespace Doctor_App.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Patients");
+                });
+
+            modelBuilder.Entity("Doctor_App.Infrastructure.Data.Entities.PatientDoctor", b =>
+                {
+                    b.Property<Guid>("PatientId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("DoctorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("PatientId", "DoctorId");
+
+                    b.HasIndex("DoctorId");
+
+                    b.ToTable("PatientDoctors");
                 });
 
             modelBuilder.Entity("Doctor_App.Infrastructure.Data.Entities.Visit", b =>
@@ -190,6 +181,10 @@ namespace Doctor_App.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ReasonForVisit")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -407,25 +402,6 @@ namespace Doctor_App.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Doctor_App.Infrastructure.Data.Entities.Appointment", b =>
-                {
-                    b.HasOne("Doctor_App.Infrastructure.Data.Entities.Doctor", "Doctor")
-                        .WithMany("Appointments")
-                        .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Doctor_App.Infrastructure.Data.Entities.Patient", "Patient")
-                        .WithMany("Appointments")
-                        .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Doctor");
-
-                    b.Navigation("Patient");
-                });
-
             modelBuilder.Entity("Doctor_App.Infrastructure.Data.Entities.Billing", b =>
                 {
                     b.HasOne("Doctor_App.Infrastructure.Data.Entities.Visit", "Visit")
@@ -442,10 +418,40 @@ namespace Doctor_App.Infrastructure.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Doctor_App.Infrastructure.Data.Entities.Patient", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Doctor_App.Infrastructure.Data.Entities.PatientDoctor", b =>
+                {
+                    b.HasOne("Doctor_App.Infrastructure.Data.Entities.Doctor", "Doctor")
+                        .WithMany("PatientDoctors")
+                        .HasForeignKey("DoctorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Doctor_App.Infrastructure.Data.Entities.Patient", "Patient")
+                        .WithMany("PatientDoctors")
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Doctor");
+
+                    b.Navigation("Patient");
                 });
 
             modelBuilder.Entity("Doctor_App.Infrastructure.Data.Entities.Visit", b =>
@@ -520,14 +526,14 @@ namespace Doctor_App.Infrastructure.Migrations
 
             modelBuilder.Entity("Doctor_App.Infrastructure.Data.Entities.Doctor", b =>
                 {
-                    b.Navigation("Appointments");
+                    b.Navigation("PatientDoctors");
 
                     b.Navigation("Visits");
                 });
 
             modelBuilder.Entity("Doctor_App.Infrastructure.Data.Entities.Patient", b =>
                 {
-                    b.Navigation("Appointments");
+                    b.Navigation("PatientDoctors");
 
                     b.Navigation("Visits");
                 });

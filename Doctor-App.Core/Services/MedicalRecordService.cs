@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Doctor_App.Infrastructure.Data.Entities;
 using Doctor_App.Core.Models;
+using System.Security.Claims;
 
 namespace Doctor_App.Core.Services
 {
@@ -140,5 +141,6 @@ namespace Doctor_App.Core.Services
             await _context.SaveChangesAsync();
             return true;
         }
+
     }
 }

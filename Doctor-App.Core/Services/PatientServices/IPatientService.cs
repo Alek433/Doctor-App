@@ -17,5 +17,6 @@ namespace Doctor_App.Core.Services.PatientServices
         Task<bool> ExistsByIdAsync(string userId);
 
         Task<Guid> AddPatientAsync(string userId, BecomePatientViewModel model);
+        Task AssignDoctorToPatientAsync(Guid patientId, Guid doctorId);
     }
 }

@@ -13,6 +13,7 @@
             if (User.IsInRole("Doctor"))
             {
                 <a class="btn btn-primary btn-lg" asp-controller="Doctor" asp-action="Dashboard">Doctor Dashboard</a>
+                <a class="btn btn-primary btn-lg" asp-controller="Doctor" asp-action="MyPatients">My Patients</a>
             }
             else if (User.IsInRole("Patient"))
             {

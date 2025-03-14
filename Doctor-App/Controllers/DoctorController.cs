@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace Doctor_App.Controllers
@@ -18,12 +19,14 @@ namespace Doctor_App.Controllers
     {
         private readonly IDoctorService _doctorService;
         private readonly IMedicalRecordService _medicalRecordService;
+        private readonly DoctorAppDbContext _dbContext;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public DoctorController(IDoctorService doctorService, IMedicalRecordService medicalRecordService, UserManager<IdentityUser> userManager)
+        public DoctorController(IDoctorService doctorService, IMedicalRecordService medicalRecordService, DoctorAppDbContext dbContext, UserManager<IdentityUser> userManager)
         {
             _doctorService = doctorService;
             _medicalRecordService = medicalRecordService;
+            _dbContext = dbContext;
             _userManager = userManager;
         }
         [HttpGet]
@@ -71,6 +74,17 @@ namespace Doctor_App.Controllers
             }
 
             return RedirectToAction("Index", "Home");
+        }
+        [HttpGet]
+        public async Task<IActionResult> MyPatients()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var doctor = await _dbContext.Doctors.FirstOrDefaultAsync(d => d.UserId == userId);
+            if (doctor == null) 
+                return Unauthorized();
+
+            var patients = await _doctorService.GetPatientsByDoctorIdAsync(doctor.Id);
+            return View(patients);
         }
         [HttpGet]
         public async Task<IActionResult> Dashboard()

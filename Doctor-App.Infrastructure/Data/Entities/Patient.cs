@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Doctor_App.Infrastructure.Data.Entities
 {
@@ -6,6 +8,11 @@ namespace Doctor_App.Infrastructure.Data.Entities
     {
         [Key]
         public Guid Id { get; set; } = Guid.NewGuid();
+        [Required]
+        public string UserId { get; set; } // Foreign key to IdentityUser
+        // Navigation property to AspNetUsers table
+        [ForeignKey(nameof(UserId))]
+        public IdentityUser User { get; set; }
         [Required]
         [MaxLength(100)]
         public string FirstName { get; set; }
@@ -20,6 +27,6 @@ namespace Doctor_App.Infrastructure.Data.Entities
 
         // Navigation Property
         public ICollection<Visit> Visits { get; set; }
-        public ICollection<Appointment> Appointments { get; set; }
+        public ICollection<PatientDoctor> PatientDoctors { get; set; } = new List<PatientDoctor>();
     }
 }

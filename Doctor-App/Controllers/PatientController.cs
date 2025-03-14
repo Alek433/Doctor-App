@@ -1,5 +1,8 @@
-﻿using Doctor_App.Core.Models.Patient;
+﻿using Doctor_App.Core.Models;
+using Doctor_App.Core.Models.Doctor;
+using Doctor_App.Core.Models.Patient;
 using Doctor_App.Core.Services;
+using Doctor_App.Core.Services.DoctorServices;
 using Doctor_App.Core.Services.PatientServices;
 using Doctor_App.Data.Models;
 using Doctor_App.Infrastructure.Data.Entities;
@@ -17,13 +20,15 @@ namespace Doctor_App.Controllers
     {
         private readonly IPatientService _patientService;
         private readonly IMedicalRecordService _medicalRecordService;
+        private readonly IDoctorService _doctorService;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly DoctorAppDbContext _context;
 
-        public PatientController(IPatientService patientService, IMedicalRecordService medicalRecordService, DoctorAppDbContext context, UserManager<IdentityUser> userManager)
+        public PatientController(IPatientService patientService, IMedicalRecordService medicalRecordService, IDoctorService doctorService, DoctorAppDbContext context, UserManager<IdentityUser> userManager)
         {
             _patientService = patientService;
             _medicalRecordService = medicalRecordService;
+            _doctorService = doctorService;
             _context = context;
             _userManager = userManager;
         }
@@ -89,17 +94,43 @@ namespace Doctor_App.Controllers
             var records = await _medicalRecordService.GetPatientRecordAsync(patientId);
             return View(records);
         }
+        [HttpGet]
+        public async Task<IActionResult> AssignDoctor()
+        {
+            var patientId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (patientId == null)
+                return Unauthorized();
+
+            // Retrieve the patient from the database
+            var patient = await _context.FindAsync<Patient>(Guid.Parse(patientId));
+
+            // Retrieve all doctors from the database
+            var doctors = await _context.Doctors.ToListAsync();
+
+            // Convert the doctors to a ViewModel list
+            var doctorList = doctors.Select(d => new DoctorViewModel
+            {
+                Id = d.Id,
+                FirstName = d.FirstName,
+                LastName = d.LastName,
+                Specialization = d.Specialization
+            }).ToList();
+
+            return View(doctorList);
+        }
         [HttpPost]
         public async Task<IActionResult> AssignDoctor(Guid doctorId)
         {
-            var patientId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (patientId == null) return Unauthorized();
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Get the logged-in user's ID
 
-            var relationship = new Appointment { DoctorId = doctorId, PatientId = Guid.Parse(patientId) };
-            _context.Appointments.Add(relationship);
-            await _context.SaveChangesAsync();
+            var patient = await _context.Patients.FirstOrDefaultAsync(p => p.UserId == userId);
+            if (patient == null)
+            {
+                return NotFound("Patient not found.");
+            }
+            await _patientService.AssignDoctorToPatientAsync(patient.Id, doctorId);
 
-            return RedirectToAction("Dashboard", "Patient");
+            return RedirectToAction("Index", "Home");
         }
         public IActionResult ReceiveNotifications() => View();
     }

@@ -10,17 +10,22 @@ using System.Text;
 using System.Threading.Tasks;
 using Doctor_App.Infrastructure.Data.Entities;
 using Doctor_App.Infrastructure.Data.Common;
+using Doctor_App.Core.Models;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Security.Claims;
 
 namespace Doctor_App.Core.Services.DoctorServices
 {
     public class DoctorService : IDoctorService
     {
         private readonly IRepository _context;
+        private readonly DoctorAppDbContext _dbContext;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public DoctorService(IRepository context, UserManager<IdentityUser> userManager)
+        public DoctorService(IRepository context, DoctorAppDbContext dbContext, UserManager<IdentityUser> userManager)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
+            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         }
 
@@ -73,6 +78,25 @@ namespace Doctor_App.Core.Services.DoctorServices
             }
             return doctor.Id.ToString();
         }
-
+        public async Task<List<PatientViewModel>> GetPatientsByDoctorIdAsync(Guid doctorId)
+        {
+            var patients = await _dbContext.PatientDoctors
+                     .Where(pd => pd.DoctorId == doctorId)
+                     .Include(pd => pd.Patient)
+                     .ToListAsync();
+            Console.WriteLine($"Doctor {doctorId} has {patients.Count} patients.");
+            // Convert to ViewModel
+            return patients
+                     .Where(p => p.Patient != null) // Ensure only valid patients are returned
+                     .Select(p => new PatientViewModel
+                     {
+                         Id = p.Patient.Id,
+                         FirstName = p.Patient.FirstName,
+                         LastName = p.Patient.LastName,
+                         DateOfBirth = p.Patient.DateOfBirth,
+                         Gender = p.Patient.Gender,
+                         ContactInformation = p.Patient.ContactInformation
+                     }).ToList();
+        }
     }
 }

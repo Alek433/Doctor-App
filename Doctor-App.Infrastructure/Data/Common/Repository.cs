@@ -1,8 +1,10 @@
 ﻿using Doctor_App.Data.Models;
+using Doctor_App.Infrastructure.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -31,7 +33,15 @@ namespace Doctor_App.Infrastructure.Data.Common
             await _context.Set<T>().AddRangeAsync(entities);
             await SaveChangesAsync();
         }
+        public async Task<bool> ExistsAsync<T>(Expression<Func<T, bool>> predicate) where T : class
+        {
+            return await _context.Set<T>().AnyAsync(predicate);
+        }
 
+        public async Task<T?> GetFirstOrDefaultAsync<T>(Expression<Func<T, bool>> predicate) where T : class
+        {
+            return await _context.Set<T>().FirstOrDefaultAsync(predicate);
+        }
         public IQueryable<T> All<T>(bool tracking = true) where T : class
         {
             return tracking ? DbSet<T>() : DbSet<T>().AsNoTracking();
@@ -64,6 +74,10 @@ namespace Doctor_App.Infrastructure.Data.Common
         public async Task<int> SaveChangesAsync()
         {
             return await _context.SaveChangesAsync();
+        }
+        public async Task<IEnumerable<T>> GetAllAsync<T>() where T : class
+        {
+            return await _context.Set<T>().ToListAsync();
         }
     }
 }

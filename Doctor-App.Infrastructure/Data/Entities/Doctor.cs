@@ -25,6 +25,6 @@ namespace Doctor_App.Infrastructure.Data.Entities
 
         // Navigation Property
         public ICollection<Visit> Visits { get; set; }
-        public ICollection<Appointment> Appointments { get; set; }
+        public ICollection<PatientDoctor> PatientDoctors { get; set; } = new List<PatientDoctor>();
     }
 }

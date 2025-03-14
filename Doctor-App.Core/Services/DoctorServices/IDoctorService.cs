@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Doctor_App.Data.Models;
 using Doctor_App.Models.Doctor;
 using Doctor_App.Infrastructure.Data.Entities;
+using Doctor_App.Core.Models;
 
 namespace Doctor_App.Core.Services.DoctorServices
 {
@@ -16,5 +17,7 @@ namespace Doctor_App.Core.Services.DoctorServices
         Task<bool> ExistsByIdAsync(string userId);
 
         Task<Guid> AddDoctorAsync(string userId, BecomeDoctorModel model);
+
+        Task<List<PatientViewModel>> GetPatientsByDoctorIdAsync(Guid doctorId);
     }
 }

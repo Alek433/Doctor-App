@@ -196,27 +196,23 @@ namespace Doctor_App.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Appointments",
+                name: "PatientDoctors",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
                     PatientId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    DoctorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    AppointmentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    DoctorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Appointments", x => x.Id);
+                    table.PrimaryKey("PK_PatientDoctors", x => new { x.PatientId, x.DoctorId });
                     table.ForeignKey(
-                        name: "FK_Appointments_Doctors_DoctorId",
+                        name: "FK_PatientDoctors_Doctors_DoctorId",
                         column: x => x.DoctorId,
                         principalTable: "Doctors",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Appointments_Patients_PatientId",
+                        name: "FK_PatientDoctors_Patients_PatientId",
                         column: x => x.PatientId,
                         principalTable: "Patients",
                         principalColumn: "Id",
@@ -232,6 +228,7 @@ namespace Doctor_App.Infrastructure.Migrations
                     PatientId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     DoctorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     VisitDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ReasonForVisit = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Diagnosis = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Prescriptions = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -275,16 +272,6 @@ namespace Doctor_App.Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Appointments_DoctorId",
-                table: "Appointments",
-                column: "DoctorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Appointments_PatientId",
-                table: "Appointments",
-                column: "PatientId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -337,6 +324,11 @@ namespace Doctor_App.Infrastructure.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PatientDoctors_DoctorId",
+                table: "PatientDoctors",
+                column: "DoctorId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Visits_DoctorId",
                 table: "Visits",
                 column: "DoctorId");
@@ -349,9 +341,6 @@ namespace Doctor_App.Infrastructure.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Appointments");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -369,6 +358,9 @@ namespace Doctor_App.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Billings");
+
+            migrationBuilder.DropTable(
+                name: "PatientDoctors");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
