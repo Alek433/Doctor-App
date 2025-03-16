@@ -100,5 +100,10 @@ namespace Doctor_App.Core.Services.PatientServices
                 Console.WriteLine($"⚠️ Patient {patientId} is already assigned to Doctor {doctorId}.");
             }
         }
+
+        public async Task<Patient?> GetPatientByUserIdAsync(string userId)
+        {
+            return await _dbContext.Patients.FirstOrDefaultAsync(p => p.UserId == userId);
+        }
     }
 }

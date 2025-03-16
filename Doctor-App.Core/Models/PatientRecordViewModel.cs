@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,5 +19,7 @@ namespace Doctor_App.Core.Models
         public string Diagnosis { get; set; }
         public string Prescriptions { get; set; }
         public string Notes { get; set; }
+        public List<SelectListItem> Patients { get; set; } = new List<SelectListItem>();
+
     }
 }

@@ -8,6 +8,11 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <!--  <link rel="stylesheet" href="~/Doctor_App.styles.css" asp-append-version="true" /> -->
 </head>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
@@ -37,7 +42,7 @@
                         @if (User.IsInRole("Patient"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Patient" asp-action="Records">My Medical Records</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Patient" asp-action="ViewMyRecords">My Medical Records</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Notification" asp-action="Index">Notifications</a>

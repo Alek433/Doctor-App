@@ -13,10 +13,9 @@ namespace Doctor_App.Core.Services.PatientServices
     public interface IPatientService
     {
         Task<string> GetPatientIdAsync(string userId);
-
         Task<bool> ExistsByIdAsync(string userId);
-
         Task<Guid> AddPatientAsync(string userId, BecomePatientViewModel model);
         Task AssignDoctorToPatientAsync(Guid patientId, Guid doctorId);
+        Task<Patient?> GetPatientByUserIdAsync(string userId);
     }
 }

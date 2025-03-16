@@ -83,16 +83,34 @@ namespace Doctor_App.Controllers
         {
             return View();
         }
+        [HttpGet]
         public async Task<IActionResult> ViewMyRecords()
         {
-            int patientId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            if (string.IsNullOrEmpty(patientId.ToString()))
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (string.IsNullOrEmpty(userId))
             {
                 return Unauthorized();
             }
 
-            var records = await _medicalRecordService.GetPatientRecordAsync(patientId);
-            return View(records);
+            // Ensure you have a method to get PatientId from UserId
+            var patient = await _patientService.GetPatientByUserIdAsync(userId);
+
+            if (patient == null)
+            {
+                return NotFound("Patient record not found.");
+            }
+
+            Guid patientId = patient.Id; // Get the PatientId from the retrieved patient
+
+            var records = await _medicalRecordService.GetPatientRecordsByPatientIdAsync(patientId);
+
+            if (records == null || !records.Any())
+            {
+                return View(); // Show a friendly "No records found" view if necessary
+            }
+
+            return View("ViewMyRecords", records);
         }
         [HttpGet]
         public async Task<IActionResult> AssignDoctor()

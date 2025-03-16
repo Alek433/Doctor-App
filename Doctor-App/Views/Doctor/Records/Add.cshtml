@@ -1,8 +1,9 @@
-﻿@using Doctor_App.Core.Models.Doctor
+﻿@using Doctor_App.Core.Models
+@using Doctor_App.Core.Models.Doctor
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@model AddPatientRecordModel
+@model PatientRecordViewModel
 <h2>Add Record</h2>
 
 @using (Html.BeginForm("Add", "Doctor", FormMethod.Post))
@@ -12,20 +13,15 @@
 
         <div class="form-group">
             <label for="PatientId">Patient</label>
-            <select asp-for="PatientId" class="form-control">
+            <select asp-for="PatientId" asp-items="Model.Patients" class="form-control">
                 <option value="">-- Select Patient --</option>
-                <!-- Populate this dynamically with patient options -->
             </select>
+            <span asp-validation-for="PatientId" class="text-danger"></span>
         </div>
 
         <div class="form-group">
             <label for="Diagnosis">Diagnosis</label>
             <input asp-for="Diagnosis" class="form-control" required />
-        </div>
-
-        <div class="form-group">
-            <label for="Treatment">Treatment</label>
-            <input asp-for="Treatment" class="form-control" required />
         </div>
 
         <div class="form-group">

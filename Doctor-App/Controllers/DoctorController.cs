@@ -4,6 +4,7 @@ using Doctor_App.Core.Services;
 using Doctor_App.Core.Services.DoctorServices;
 using Doctor_App.Core.Services.PatientServices;
 using Doctor_App.Data.Models;
+using Doctor_App.Infrastructure.Data.Entities;
 using Doctor_App.Models.Doctor;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -11,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Doctor_App.Controllers
 {
@@ -89,33 +91,51 @@ namespace Doctor_App.Controllers
         [HttpGet]
         public async Task<IActionResult> Dashboard()
         {
-
-            string doctorId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (string.IsNullOrEmpty(doctorId))
+            string doctorUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(doctorUserId))
             {
                 return Unauthorized();
             }
 
-            var patientRecords = await _medicalRecordService.GetPatientRecordsByDoctorIdAsync(doctorId);
+            var patientRecords = await _medicalRecordService.GetPatientRecordsByDoctorIdAsync(doctorUserId);
 
             var viewModel = new DoctorDashboardViewModel
             {
-                DoctorId = doctorId,
+                DoctorId = doctorUserId,
                 PatientRecords = patientRecords
             };
 
             return View("Records/Dashboard", viewModel);
         }
+
         [HttpGet]
-        public IActionResult Add()
+        public async Task<IActionResult> Add()
         {
-            return View("Records/Add");
+            string doctorUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(doctorUserId))
+            {
+                return Unauthorized();
+            }
+
+            var model = new PatientRecordViewModel
+            {
+                Patients = await _medicalRecordService.GetPatientsForDoctorAsync(doctorUserId)
+            };
+
+            return View("Records/Add", model);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add(PatientRecordViewModel model)
         {
-            if (!ModelState.IsValid)
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+
+            // Pass the correct userId
+            var newRecordId = await _medicalRecordService.AddPatientRecordAsync(model, userId);
+
+            return RedirectToAction("Dashboard");
+            /*if (!ModelState.IsValid)
             {
                 return View(model);
             }
@@ -130,7 +150,7 @@ namespace Doctor_App.Controllers
             model.DoctorId = doctorGuid;
             await _medicalRecordService.AddPatientRecordAsync(model);
 
-            return RedirectToAction("Dashboard");
+            return RedirectToAction("Dashboard");*/
         }
         public async Task<IActionResult> ViewPatientRecords()
         {
@@ -141,40 +161,50 @@ namespace Doctor_App.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var record = await _medicalRecordService.GetPatientRecordAsync(id);
+            var record = await _medicalRecordService.GetPatientRecordByIdAsync(id);
+
             if (record == null)
             {
                 return NotFound();
             }
-            return View(record);
+
+            return View("Records/Edit", record);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]  
-        public async Task<IActionResult> Edit(Guid id, PatientRecordViewModel model)
+        public async Task<IActionResult> Edit(PatientRecordViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return View("~/Views/Doctor/Records/Edit.cshtml", model); // ✅ Explicit view path
             }
-            bool updated = await _medicalRecordService.UpdatePatientRecordAsync(id, model);
+
+            await _medicalRecordService.UpdatePatientRecordAsync(model);
+            return RedirectToAction("Dashboard");
+            /*if (!ModelState.IsValid)
+            {
+                return View("Records/Edit", model);
+            }
+            bool updated = await _medicalRecordService.UpdatePatientRecordAsync(model);
             if (!updated)
             {
                 return NotFound();
             }
 
-            return RedirectToAction("ViewPatientRecords");
+            return RedirectToAction("Dashboard");*/
         }
         //public IActionResult EditMedicalCard(int patientId) => View();
         [HttpPost]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> Delete(int id)
         {
-            bool deleted = await _medicalRecordService.DeletePatientRecordAsync(id);
-            if (!deleted)
+            var record = await _medicalRecordService.GetPatientRecordByIdAsync(id);
+            if (record == null)
             {
                 return NotFound();
             }
 
-            return RedirectToAction("ViewPatientRecords");
+            await _medicalRecordService.DeletePatientRecordAsync(id);
+            return RedirectToAction("Dashboard");
         }
     }
 }
