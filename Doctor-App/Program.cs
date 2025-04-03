@@ -10,6 +10,7 @@ using Doctor_App.Core.Services.PatientServices;
 using Microsoft.AspNetCore.Hosting;
 using Doctor_App.Infrastructure.Data.Entities;
 using Doctor_App.Core.Services;
+using Doctor_App.Core.Services.AppointmentService;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -43,6 +44,7 @@ builder.Services.AddScoped<IRepository, Repository>();
 builder.Services.AddScoped<DoctorAppDbContext>();
 builder.Services.AddScoped<IPatientService, PatientService>();
 builder.Services.AddScoped<IMedicalRecordService,  MedicalRecordService>();
+builder.Services.AddScoped<IAppointmentService, AppointmentService>();
 builder.Services.AddRazorPages();
 
 var app = builder.Build();

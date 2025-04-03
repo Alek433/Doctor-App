@@ -1,0 +1,29 @@
+﻿@model Doctor_App.Core.Models.Appointment.ManageAppointmentsViewModel
+
+<h2>Your Appointments</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Doctor</th>
+            <th>Patient</th>
+            <th>Date</th>
+            <th>Reason</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var appointment in Model.Appointments)
+        {
+            <tr>
+                <td>@appointment.DoctorName</td>
+                <td>@appointment.PatientName</td>
+                <td>@appointment.AppointmentDate.ToString("yyyy-MM-dd HH:mm")</td>
+                <td>@appointment.Reason</td>
+                <td>@appointment.Status</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-controller="Appointment" asp-action="Create" class="btn btn-primary">Add Appointment</a>

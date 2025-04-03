@@ -197,6 +197,8 @@ namespace Doctor_App.Core.Services
                        Id = v.Id,
                        DoctorId = v.DoctorId,
                        PatientId = v.PatientId,
+                       FirstName = v.Patient.FirstName,
+                       LastName = v.Patient.LastName,
                        VisitDate = v.VisitDate,
                        ReasonForVisit = v.ReasonForVisit,
                        Diagnosis = v.Diagnosis,

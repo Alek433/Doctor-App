@@ -16,6 +16,7 @@ namespace Doctor_App.Data.Models
         public DbSet<Visit> Visits { get; set; }
         public DbSet<Billing> Billings { get; set; }
         public DbSet<PatientDoctor> PatientDoctors { get; set; }
+        public DbSet<Appointment> Appointments { get; set; }
         public DoctorAppDbContext(DbContextOptions<DoctorAppDbContext> options)
            : base(options)
         {
@@ -76,6 +77,17 @@ namespace Doctor_App.Data.Models
                 .WithMany()
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
+            // 📌 One-to-Many Relationship (Doctor ↔ Appointments)
+            modelBuilder.Entity<Appointment>()
+                .HasOne(a => a.Doctor)
+                .WithMany(d => d.Appointments)
+                .HasForeignKey(a => a.DoctorId);
+
+            // 📌 One-to-Many Relationship (Patient ↔ Appointments)
+            modelBuilder.Entity<Appointment>()
+                .HasOne(a => a.Patient)
+                .WithMany(p => p.Appointments)
+                .HasForeignKey(a => a.PatientId);
         }
     }
 }
