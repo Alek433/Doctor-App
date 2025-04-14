@@ -1,7 +1,10 @@
-﻿@using Doctor_App.Core.Models
+﻿@using Doctor_App.Core.Models.Patient
 @model List<PatientRecordViewModel>
 
 <h2>My Medical Records</h2>
+@{
+    var recordIndex = 0;
+}
 
 @if (Model != null && Model.Any())
 {
@@ -21,16 +24,27 @@
         <tbody>
             @foreach (var record in Model)
             {
+                var collapseId = $"collapseDetails{recordIndex}";
                 <tr>
                     <td>@record.FirstName</td>
                     <td>@record.LastName</td>
                     <td>@record.VisitDate.ToShortDateString()</td>
                     <td>@record.DoctorId</td>
                     <td>@record.Diagnosis</td>
-                    <td>@record.Prescriptions</td>
-                    <td>@record.ReasonForVisit</td>
-                    <td>@record.Notes</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#@collapseId" aria-expanded="false" aria-controls="@collapseId">
+                            Show Details
+                        </button>
+                    </td>
                 </tr>
+                <tr class="collapse" id="@collapseId">
+                    <td colspan="6">
+                        <strong>Reason for Visit:</strong> @record.ReasonForVisit<br />
+                        <strong>Prescriptions:</strong> @record.Prescriptions<br />
+                        <strong>Notes:</strong> @record.Notes
+                    </td>
+                </tr>
+                recordIndex++;
             }
         </tbody>
     </table>

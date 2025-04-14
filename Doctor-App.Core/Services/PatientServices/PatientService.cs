@@ -1,5 +1,4 @@
-﻿using Doctor_App.Core.Models;
-using Doctor_App.Core.Models.Patient;
+﻿using Doctor_App.Core.Models.Patient;
 using Doctor_App.Data.Models;
 using Doctor_App.Infrastructure.Data.Common;
 using Doctor_App.Infrastructure.Data.Entities;
@@ -66,7 +65,18 @@ namespace Doctor_App.Core.Services.PatientServices
 
             return await _userManager.IsInRoleAsync(user, "Patient");
         }
-
+        public async Task<List<PatientViewModel>> GetAllPatientsAsync()
+        {
+            return await _dbContext.Patients
+                .Select(p => new PatientViewModel
+                {
+                    Id = p.Id,
+                    FirstName = p.FirstName,
+                    LastName = p.LastName,
+                    Email = p.User.Email
+                })
+                .ToListAsync();
+        }
         public async Task<string> GetPatientIdAsync(string userId)
         {
             var patient = await this._context.GetByIdAsync<Patient>(userId);

@@ -54,7 +54,7 @@ namespace Doctor_App.Infrastructure.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("Appointments");
+                    b.ToTable("Appointments", (string)null);
                 });
 
             modelBuilder.Entity("Doctor_App.Infrastructure.Data.Entities.Billing", b =>
@@ -84,7 +84,7 @@ namespace Doctor_App.Infrastructure.Migrations
                     b.HasIndex("VisitId")
                         .IsUnique();
 
-                    b.ToTable("Billings");
+                    b.ToTable("Billings", (string)null);
                 });
 
             modelBuilder.Entity("Doctor_App.Infrastructure.Data.Entities.Doctor", b =>
@@ -123,7 +123,7 @@ namespace Doctor_App.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Doctors");
+                    b.ToTable("Doctors", (string)null);
                 });
 
             modelBuilder.Entity("Doctor_App.Infrastructure.Data.Entities.Patient", b =>
@@ -169,7 +169,7 @@ namespace Doctor_App.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Patients");
+                    b.ToTable("Patients", (string)null);
                 });
 
             modelBuilder.Entity("Doctor_App.Infrastructure.Data.Entities.PatientDoctor", b =>
@@ -184,7 +184,7 @@ namespace Doctor_App.Infrastructure.Migrations
 
                     b.HasIndex("DoctorId");
 
-                    b.ToTable("PatientDoctors");
+                    b.ToTable("PatientDoctors", (string)null);
                 });
 
             modelBuilder.Entity("Doctor_App.Infrastructure.Data.Entities.Visit", b =>
@@ -226,7 +226,7 @@ namespace Doctor_App.Infrastructure.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("Visits");
+                    b.ToTable("Visits", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

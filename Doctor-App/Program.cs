@@ -9,8 +9,9 @@ using Doctor_App.Infrastructure.Data.Common;
 using Doctor_App.Core.Services.PatientServices;
 using Microsoft.AspNetCore.Hosting;
 using Doctor_App.Infrastructure.Data.Entities;
-using Doctor_App.Core.Services;
 using Doctor_App.Core.Services.AppointmentService;
+using Doctor_App.Core.Services.MedicalRecordServices;
+using Doctor_App.Core.Services.BillingServices;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -38,13 +39,13 @@ builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("DoctorOnly", policy => policy.RequireRole("Doctor"));
 });
-
 builder.Services.AddScoped<IDoctorService, DoctorService>();
 builder.Services.AddScoped<IRepository, Repository>();
 builder.Services.AddScoped<DoctorAppDbContext>();
 builder.Services.AddScoped<IPatientService, PatientService>();
 builder.Services.AddScoped<IMedicalRecordService,  MedicalRecordService>();
 builder.Services.AddScoped<IAppointmentService, AppointmentService>();
+builder.Services.AddScoped<IBillingService, BillingService>();
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
@@ -58,10 +59,11 @@ if (!app.Environment.IsDevelopment())
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
-    await EnsureRolesExist(services);
+    await Doctor_App.Infrastructure.SeedData.SeedRolesAndAdminAsync(services);
 }
 
 app.UseHttpsRedirection();
+
 app.UseStaticFiles();
 
 app.UseRouting();
@@ -76,17 +78,3 @@ app.MapControllerRoute(
 app.MapRazorPages();
 
 app.Run();
-async Task EnsureRolesExist(IServiceProvider services)
-{
-    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-
-    string[] roles = { "Doctor", "Patient", "Admin" };
-
-    foreach (var role in roles)
-    {
-        if (!await roleManager.RoleExistsAsync(role))
-        {
-            await roleManager.CreateAsync(new IdentityRole(role));
-        }
-    }
-}

@@ -1,0 +1,40 @@
+﻿@using Doctor_App.Core.Models.Patient
+@model IEnumerable<PatientRecordViewModel>
+@{
+    ViewData["Title"] = "All Medical Records";
+}
+
+<h2 class="mb-4 text-success">All Medical Records</h2>
+
+@if (Model != null && Model.Any())
+{
+    <table class="table table-hover table-bordered">
+        <thead class="table-success">
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Date of Visit</th>
+                <th>Diagnosis</th>
+                <th>Prescriptions</th>
+                <th>Notes</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var record in Model)
+            {
+                <tr>
+                    <td>@record.FirstName</td>
+                    <td>@record.LastName</td>
+                    <td>@record.VisitDate.ToShortDateString()</td>
+                    <td>@record.Diagnosis</td>
+                    <td>@record.Prescriptions</td>
+                    <td>@record.Notes</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-warning">No medical records available.</div>
+}

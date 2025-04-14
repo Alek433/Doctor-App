@@ -6,12 +6,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Doctor_App.Infrastructure.Data.Entities;
-using Doctor_App.Core.Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Doctor_App.Infrastructure.Data.Common;
+using Doctor_App.Core.Models.Visit;
+using Doctor_App.Core.Models.Patient;
+using System.Globalization;
+using Doctor_App.Core.Extensions;
 
-namespace Doctor_App.Core.Services
+namespace Doctor_App.Core.Services.MedicalRecordServices
 {
     public class MedicalRecordService : IMedicalRecordService
     {
@@ -82,12 +85,72 @@ namespace Doctor_App.Core.Services
                 PatientId = x.PatientId,
                 DoctorId = x.DoctorId,
                 VisitDate = x.VisitDate,
+                FirstName = x.Patient.FirstName,
+                LastName = x.Patient.LastName,
                 ReasonForVisit = x.ReasonForVisit,
                 Diagnosis = x.Diagnosis,
                 Prescriptions = x.Prescriptions,
                 Notes = x.Notes,
             })
                 .ToListAsync();
+        }
+        public async Task<List<VisitViewModel>> GetVisitsByDateAsync(DateTime date)
+        {
+            return await _context.Visits
+                .Where(v => v.VisitDate.Date == date.Date)
+                .Select(v => new VisitViewModel
+                {
+                    VisitId = v.Id,
+                    VisitDate = v.VisitDate,
+                    Diagnosis = v.Diagnosis,
+                    Prescriptions = v.Prescriptions,
+                    ReasonForVisit = v.ReasonForVisit,
+                    Notes = v.Notes,
+                    PatientName = v.Patient.FirstName + " " + v.Patient.LastName,
+                    DoctorName = v.Doctor.FirstName + " " + v.Doctor.LastName
+                })
+                .ToListAsync();
+        }
+        public async Task<List<VisitStatsViewModel>> GetVisitStatsAsync(string doctorId)
+        {
+            var visits = await _context.Visits
+                .Where(v => v.DoctorId.ToString() == doctorId)
+                .ToListAsync();
+
+            var groupedByDay = visits
+                .GroupBy(v => v.VisitDate.Date)
+                .Select(g => new VisitStatsViewModel
+                {
+                    Period = "Day",
+                    Date = g.Key,
+                    VisitCount = g.Count()
+                });
+
+            var groupedByWeek = visits
+                .GroupBy(v =>
+                    CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(
+                        v.VisitDate, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday))
+                .Select(g => new VisitStatsViewModel
+                {
+                    Period = "Week",
+                    Date = g.First().VisitDate.StartOfWeek(DayOfWeek.Monday),
+                    VisitCount = g.Count()
+                });
+
+            var groupedByMonth = visits
+                .GroupBy(v => new { v.VisitDate.Year, v.VisitDate.Month })
+                .Select(g => new VisitStatsViewModel
+                {
+                    Period = "Month",
+                    Date = new DateTime(g.Key.Year, g.Key.Month, 1),
+                    VisitCount = g.Count()
+                });
+
+            return groupedByDay
+                .Concat(groupedByWeek)
+                .Concat(groupedByMonth)
+                .OrderBy(v => v.Date)
+                .ToList();
         }
         public async Task<Visit?> GetPatientRecordByDoctorAsync(Guid doctorUserId)
         {
@@ -125,6 +188,20 @@ namespace Doctor_App.Core.Services
                 .Select(dp => dp.Patient)
                 .ToListAsync();
         }*/
+        public async Task<List<VisitViewModel>> GetAllVisitsAsync()
+        {
+            return await _context.Visits
+                .Include(v => v.Doctor)
+                .Include(v => v.Patient)
+                .Select(v => new VisitViewModel
+                {
+                    VisitId = v.Id,
+                    DoctorName = v.Doctor.FirstName + " " + v.Doctor.LastName,
+                    PatientName = v.Patient.FirstName + " " + v.Patient.LastName,
+                    VisitDate = v.VisitDate
+                })
+                .ToListAsync();
+        }
         public async Task<List<PatientRecordViewModel>> GetPatientRecordsByDoctorIdAsync(string doctorId)
         {
             return await _context.Visits
@@ -142,7 +219,7 @@ namespace Doctor_App.Core.Services
                     Diagnosis = v.Diagnosis,
                     Prescriptions = v.Prescriptions,
                     Notes = v.Notes,
-                    FirstName = v.Patient.FirstName, 
+                    FirstName = v.Patient.FirstName,
                     LastName = v.Patient.LastName
                 })
                 .ToListAsync();
@@ -194,17 +271,17 @@ namespace Doctor_App.Core.Services
                   .OrderByDescending(v => v.VisitDate)
                   .Select(v => new PatientRecordViewModel
                   {
-                       Id = v.Id,
-                       DoctorId = v.DoctorId,
-                       PatientId = v.PatientId,
-                       FirstName = v.Patient.FirstName,
-                       LastName = v.Patient.LastName,
-                       VisitDate = v.VisitDate,
-                       ReasonForVisit = v.ReasonForVisit,
-                       Diagnosis = v.Diagnosis,
-                       Prescriptions = v.Prescriptions,
-                       Notes = v.Notes
-                 })
+                      Id = v.Id,
+                      DoctorId = v.DoctorId,
+                      PatientId = v.PatientId,
+                      FirstName = v.Patient.FirstName,
+                      LastName = v.Patient.LastName,
+                      VisitDate = v.VisitDate,
+                      ReasonForVisit = v.ReasonForVisit,
+                      Diagnosis = v.Diagnosis,
+                      Prescriptions = v.Prescriptions,
+                      Notes = v.Notes
+                  })
                  .ToListAsync();
         }
         public async Task<PatientRecordViewModel?> GetPatientRecordByIdAsync(int id)
@@ -225,7 +302,7 @@ namespace Doctor_App.Core.Services
                     FirstName = v.Patient.FirstName,
                     LastName = v.Patient.LastName
                 })
-                .FirstOrDefaultAsync(); 
+                .FirstOrDefaultAsync();
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using Doctor_App.Core.Models;
-using Doctor_App.Core.Models.Doctor;
-using Doctor_App.Core.Services;
+﻿using Doctor_App.Core.Models.Doctor;
 using Doctor_App.Core.Services.DoctorServices;
 using Doctor_App.Core.Services.PatientServices;
 using Doctor_App.Data.Models;
@@ -13,6 +11,8 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Doctor_App.Core.Services.MedicalRecordServices;
+using Doctor_App.Core.Models.Patient;
 
 namespace Doctor_App.Controllers
 {
@@ -98,11 +98,14 @@ namespace Doctor_App.Controllers
             }
 
             var patientRecords = await _medicalRecordService.GetPatientRecordsByDoctorIdAsync(doctorUserId);
+            var visitStats = await _medicalRecordService.GetVisitStatsAsync(doctorUserId);
 
             var viewModel = new DoctorDashboardViewModel
             {
                 DoctorId = doctorUserId,
-                PatientRecords = patientRecords
+                PatientRecords = patientRecords,
+                VisitStats = visitStats
+
             };
 
             return View("Records/Dashboard", viewModel);
@@ -119,7 +122,7 @@ namespace Doctor_App.Controllers
 
             var model = new PatientRecordViewModel
             {
-                Patients = await _medicalRecordService.GetPatientsForDoctorAsync(doctorUserId)
+                Patients = await _medicalRecordService.GetPatientsForDoctorAsync(Guid.Parse(doctorUserId))
             };
 
             return View("Records/Add", model);
@@ -129,8 +132,6 @@ namespace Doctor_App.Controllers
         public async Task<IActionResult> Add(PatientRecordViewModel model)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-
             // Pass the correct userId
             var newRecordId = await _medicalRecordService.AddPatientRecordAsync(model, userId);
 
@@ -206,5 +207,11 @@ namespace Doctor_App.Controllers
             await _medicalRecordService.DeletePatientRecordAsync(id);
             return RedirectToAction("Dashboard");
         }
+        public async Task<IActionResult> VisitsByDate(DateTime date)
+        {
+            var visits = await _medicalRecordService.GetVisitsByDateAsync(date);
+            return PartialView("_VisitListPartial", visits);
+        }
+
     }
 }

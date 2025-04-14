@@ -10,9 +10,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Doctor_App.Infrastructure.Data.Entities;
 using Doctor_App.Infrastructure.Data.Common;
-using Doctor_App.Core.Models;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Security.Claims;
+using Doctor_App.Core.Models.Doctor;
+using Doctor_App.Core.Models.Patient;
 
 namespace Doctor_App.Core.Services.DoctorServices
 {
@@ -67,7 +68,19 @@ namespace Doctor_App.Core.Services.DoctorServices
 
             return await _userManager.IsInRoleAsync(user, "Doctor");
         }
-
+        public async Task<List<DoctorViewModel>> GetAllDoctorsAsync()
+        {
+            return await _dbContext.Doctors
+                .Select(d => new DoctorViewModel
+                {
+                    Id = d.Id,
+                    FirstName = d.FirstName,
+                    LastName = d.LastName,
+                    Email = d.User.Email,
+                    Specialization= d.Specialization,
+                })
+                .ToListAsync();
+        }
         public async Task<string> GetDoctorIdAsync(string userId)
         {
             var doctor = await this._context.GetByIdAsync<Doctor>(userId);

@@ -44,20 +44,24 @@ namespace Doctor_App.Core.Services.AppointmentService
         // ✅ Get all appointments
         public async Task<List<AppointmentViewModel>> GetAllAppointmentsAsync()
         {
-            return await _context.Appointments
+            var appointments = await _context.Appointments
                 .Include(a => a.Patient)
                 .Include(a => a.Doctor)
-                .OrderBy(a => a.AppointmentDate)
-                .Select(a => new AppointmentViewModel
-                {
-                    Id = a.Id,
-                    PatientId = a.PatientId,
-                    DoctorId = a.DoctorId,
-                    AppointmentDate = a.AppointmentDate,
-                    Reason = a.Reason,
-                    Status = a.Status
-                })
                 .ToListAsync();
+
+            var result = appointments.Select(a => new AppointmentViewModel
+            {
+                Id = a.Id,
+                AppointmentDate = a.AppointmentDate,
+                Reason = a.Reason,
+                Status = a.Status,
+                PatientId = a.PatientId,
+                DoctorId = a.DoctorId,
+                PatientName = a.Patient != null ? a.Patient.FirstName + " " + a.Patient.LastName : "N/A",
+                DoctorName = a.Doctor != null ? a.Doctor.FirstName + " " + a.Doctor.LastName : "N/A"
+            }).ToList();
+
+            return result;
         }
 
         // ✅ Get appointments by patient ID

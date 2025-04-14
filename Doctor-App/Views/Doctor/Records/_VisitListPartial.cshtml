@@ -1,0 +1,41 @@
+﻿@model List<Doctor_App.Core.Models.Visit.VisitViewModel>
+
+@if (Model != null && Model.Any())
+{
+    <table class="table table-bordered table-hover">
+        <thead class="table-success">
+            <tr>
+                <th>Patient Name</th>
+                <th>Doctor Name</th>
+                <th>Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var visit in Model)
+            {
+                <tr>
+                    <td>@visit.PatientName</td>
+                    <td>@visit.DoctorName</td>
+                    <td>@visit.VisitDate.ToShortDateString()</td>
+                    <td>
+                        <button class="btn btn-outline-success btn-sm view-visit"
+                                data-id="@visit.VisitId"
+                                data-patient="@visit.PatientName"
+                                data-doctor="@visit.DoctorName"
+                                data-date="@visit.VisitDate.ToShortDateString()"
+                                data-diagnosis="@visit.Diagnosis"
+                                data-prescriptions="@visit.Prescriptions"
+                                data-notes="@visit.Notes">
+                            View
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p class="text-muted">No visits found for this date.</p>
+}

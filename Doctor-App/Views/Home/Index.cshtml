@@ -2,58 +2,105 @@
     ViewData["Title"] = "Home";
 }
 
-<div class="container mt-5">
-    <div class="jumbotron text-center">
-        <h1 class="display-4">Welcome to Doctor App</h1>
-        <p class="lead">Manage patient visits, medical records, and appointments easily.</p>
-        <hr class="my-4">
-
-        @if (User.Identity.IsAuthenticated)
-        {
-            if (User.IsInRole("Doctor"))
+<div class="text-center py-5" style="background: linear-gradient(to right, #dceefb, #c4f0f8);">
+    <div class="container">
+        <div class="mb-4">
+            <img src="~/images/medical-report.png" alt="Doctor Icon" width="100" class="mb-3" />
+            <h1 class="display-5 fw-bold">Welcome to Doctor App</h1>
+            <p class="lead">Manage patient visits, medical records, and appointments easily</p>
+            @if (User.Identity.IsAuthenticated)
             {
-                <a class="btn btn-primary btn-lg" asp-controller="Doctor" asp-action="Dashboard">Doctor Dashboard</a>
-                <a class="btn btn-primary btn-lg" asp-controller="Doctor" asp-action="MyPatients">My Patients</a>
+                if (User.IsInRole("Doctor"))
+                {
+                    <a class="btn btn-primary btn-lg" asp-controller="Doctor" asp-action="Dashboard">Doctor Dashboard</a>
+                    <a class="btn btn-primary btn-lg" asp-controller="Doctor" asp-action="MyPatients">My Patients</a>
+                }
+                else if (User.IsInRole("Patient"))
+                {
+                    <a class="btn btn-success btn-lg" asp-controller="Patient" asp-action="ViewMyRecords">View Medical Records</a>
+                    <a class="btn btn-success btn-lg" asp-controller="Patient" asp-action="AssignDoctor">Assign a Doctor</a>
+                }
+                else
+                {
+                    // Only show if user has NO role
+                    <a class="btn btn-outline-primary btn-lg" asp-controller="Account" asp-action="BecomeDoctor">Become a Doctor</a>
+                    <a class="btn btn-outline-success btn-lg" asp-controller="Account" asp-action="BecomePatient">Become a Patient</a>
+                }
             }
-            else if (User.IsInRole("Patient"))
+            @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
             {
-                <a class="btn btn-success btn-lg" asp-controller="Patient" asp-action="ViewMyRecords">View Medical Records</a>
-                <a class="btn btn-success btn-lg" asp-controller="Patient" asp-action="AssignDoctor">Assign a Doctor</a>
-            }
-        }
-        else
-        {
-            <p class="lead">You need to login or register to have access to our services!!!</p>
-        }
-    </div>
+                <div class="container mt-4">
+                    <h2 class="mb-4">Admin Controls</h2>
+                    <div class="row g-3">
 
-    <div class="row mt-5">
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">For Doctors</h5>
-                    <p class="card-text">Manage appointments, update medical records, and oversee patient history.</p>
-                    <a asp-controller="Doctor" asp-action="Dashboard" class="btn btn-primary">Go to Dashboard</a>
+                        <div class="col-md-4">
+                            <a asp-controller="Admin" asp-action="AdminAppointments" class="btn btn-outline-primary w-100">
+                                Manage Appointments
+                            </a>
+                        </div>
+
+                        <div class="col-md-4">
+                            <a asp-controller="Admin" asp-action="AdminPatients" class="btn btn-outline-success w-100">
+                                Manage Patients
+                            </a>
+                        </div>
+
+                        <div class="col-md-4">
+                            <a asp-controller="Admin" asp-action="AllRecords" class="btn btn-outline-dark w-100">
+                                All Medical Records
+                            </a>
+                        </div>
+
+                        <div class="col-md-4">
+                            <a asp-controller="Admin" asp-action="EditBill" class="btn btn-outline-warning w-100">
+                                Edit Bills
+                            </a>
+                        </div>
+
+                        <div class="col-md-4">
+                            <a asp-controller="Admin" asp-action="ManageDoctors" class="btn btn-outline-info w-100">
+                                Manage Doctors
+                            </a>
+                        </div>
+
+                        <div class="col-md-4">
+                            <a asp-controller="Admin" asp-action="ManageVisits" class="btn btn-outline-secondary w-100">
+                                Manage Visits
+                            </a>
+                        </div>
+
+                    </div>
                 </div>
-            </div>
+            }
+            else
+            {
+                <p class="lead">You need to login or register to have access to our services!!!</p>
+            }
         </div>
 
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">For Patients</h5>
-                    <p class="card-text">View medical records, receive notifications, and track doctor visits.</p>
-                    <a asp-controller="Patient" asp-action="ViewMyRecords" class="btn btn-success">View Records</a>
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-4">
+                <div class="card shadow rounded-4 border-0 text-center p-4 mb-4">
+                    <img src="~/images/doctor.png" class="mx-auto mb-3" style="width: 60px;" />
+                    <h5 class="fw-bold">For Doctors</h5>
+                    <p>Manage appointments, update medical records, and oversee patient history.</p>
+                    <a href="/Doctor/Dashboard" class="btn btn-primary rounded-pill px-4">Go to Dashboard</a>
                 </div>
             </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Appointments</h5>
-                    <p class="card-text">Schedule, reschedule, or cancel appointments with ease.</p>
-                    <a asp-controller="Appointment" asp-action="Manage" class="btn btn-warning">Manage Appointments</a>
+            <div class="col-md-4">
+                <div class="card shadow rounded-4 border-0 text-center p-4 mb-4">
+                    <img src="~/images/medical.png" class="mx-auto mb-3" style="width: 60px;" />
+                    <h5 class="fw-bold">For Patients</h5>
+                    <p>View medical records, receive notifications, and track doctor visits.</p>
+                    <a href="/Patient/ViewMyRecords" class="btn btn-success rounded-pill px-4">View Records</a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card shadow rounded-4 border-0 text-center p-4 mb-4">
+                    <img src="~/images/calendar.png" class="mx-auto mb-3" style="width: 60px;" />
+                    <h5 class="fw-bold">Appointments</h5>
+                    <p>Schedule, reschedule, or cancel appointments with ease.</p>
+                    <a href="/Appointment/Manage" class="btn btn-warning text-white rounded-pill px-4">Manage Appointments</a>
                 </div>
             </div>
         </div>

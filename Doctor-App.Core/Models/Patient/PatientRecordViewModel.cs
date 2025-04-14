@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Doctor_App.Core.Models
+namespace Doctor_App.Core.Models.Patient
 {
     public class PatientRecordViewModel
     {
@@ -13,7 +13,7 @@ namespace Doctor_App.Core.Models
         public Guid PatientId { get; set; }
         public Guid DoctorId { get; set; }
         public DateTime VisitDate { get; set; }
-        public string FirstName {  get; set; }
+        public string FirstName { get; set; }
         public string LastName { get; set; }
         public string ReasonForVisit { get; set; }
         public string Diagnosis { get; set; }

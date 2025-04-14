@@ -1,69 +1,72 @@
-﻿<!DOCTYPE html>
+﻿﻿@using Doctor_App.Core.Extensions
+@using Doctor_App.Core.Services.DoctorServices
+@using Doctor_App.Core.Services.PatientServices
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@inject IDoctorService doctors
+@inject IPatientService patients
+@{
+    var userId = UserManager.GetUserId(User);
+    var isDoctor = userId != null && await doctors.ExistsByIdAsync(userId);
+    var isPatient = userId != null && await patients.ExistsByIdAsync(userId);
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - DoctorApp</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <!--  <link rel="stylesheet" href="~/Doctor_App.styles.css" asp-append-version="true" /> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
 </head>
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
-<body>
+<body style="background-color: #f9fdfb;">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">DoctorApp</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-success shadow-sm">
+            <div class="container">
+                <a class="navbar-brand fw-bold" href="/">🌿 DoctorApp</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        @if (User.IsInRole("Doctor"))
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link text-white" href="/">Home</a></li>
+                        @if (isDoctor || isPatient)
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Doctor" asp-action="Dashboard">Doctor Dashboard</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="MedicalRecord" asp-action="Manage">Manage Records</a>
-                            </li>
+                            <li class="nav-item"><a class="nav-link text-white" href="/Appointment/Manage">Appointments</a></li>
                         }
-                        @if (User.IsInRole("Patient"))
+                        @if (isPatient)
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Patient" asp-action="ViewMyRecords">My Medical Records</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Notification" asp-action="Index">Notifications</a>
-                            </li>
+                            <li class="nav-item"><a class="nav-link text-white" href="/Patient/ViewMyRecords">Records</a></li>
                         }
                     </ul>
+
                     <ul class="navbar-nav">
-                        <partial name="_LoginPartial" />
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <li class="nav-item"><a class="nav-link text-white" href="/Identity/Account/Manage">Hello, @User.Identity.Name</a></li>
+                            <form class="d-inline" asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                <button type="submit" class="btn btn-link nav-link text-white">Logout</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <li class="nav-item"><a class="nav-link text-white" href="/Identity/Account/Login">Login</a></li>
+                            <li class="nav-item"><a class="nav-link text-white" href="/Identity/Account/Register">Register</a></li>
+                        }
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+
+    <main class="container mt-4">
+        @RenderBody()
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

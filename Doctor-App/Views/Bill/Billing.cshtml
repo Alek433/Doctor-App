@@ -1,0 +1,25 @@
+﻿@model List<Doctor_App.Core.Models.Billing.BillViewModel>
+
+    <h2>Billing Details</h2>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Visit ID</th>
+                <th>Amount</th>
+                <th>Insurance</th>
+                <th>Payment Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var bill in Model)
+            {
+                <tr>
+                    <td>@bill.VisitId</td>
+                    <td>@bill.Amount.ToString("C")</td>
+                    <td>@bill.InsuranceDetails</td>
+                    <td>@bill.PaymentStatus</td>
+                </tr>
+            }
+        </tbody>
+    </table>

@@ -1,0 +1,40 @@
+﻿@model List<Doctor_App.Core.Models.Appointment.AppointmentViewModel>
+
+@{
+    ViewData["Title"] = "All Appointments";
+}
+
+<h2>All Appointments</h2>
+
+@if (Model != null && Model.Any())
+{
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Patient Name</th>
+                <th>Doctor Name</th>
+                <th>Date</th>
+                <th>Reason</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var appointment in Model)
+            {
+                <tr>
+                    <td>@appointment.PatientName</td>
+                    <td>@appointment.DoctorName</td>
+                    <td>@appointment.AppointmentDate.ToShortDateString()</td>
+                    <td>@appointment.Reason</td>
+                    <td>@appointment.Status</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-info">
+        No appointments found.
+    </div>
+}

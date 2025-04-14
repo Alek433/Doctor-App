@@ -1,8 +1,8 @@
 ﻿using Doctor_App.Core.Models;
 using Doctor_App.Core.Models.Doctor;
 using Doctor_App.Core.Models.Patient;
-using Doctor_App.Core.Services;
 using Doctor_App.Core.Services.DoctorServices;
+using Doctor_App.Core.Services.MedicalRecordServices;
 using Doctor_App.Core.Services.PatientServices;
 using Doctor_App.Data.Models;
 using Doctor_App.Infrastructure.Data.Entities;
