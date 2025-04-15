@@ -21,6 +21,7 @@ namespace Doctor_App.Core.Services.MedicalRecordServices
         Task<List<VisitViewModel>> GetAllVisitsAsync();
         Task<List<VisitStatsViewModel>> GetVisitStatsAsync(string doctorId);
         Task<List<VisitViewModel>> GetVisitsByDateAsync(DateTime date);
+        Task<Visit?> GetVisitByIdAsync(int id);
         Task<IEnumerable<PatientRecordViewModel>> GetAllPatientRecordsAsync();
         Task<bool> UpdatePatientRecordAsync(PatientRecordViewModel model);
         Task DeletePatientRecordAsync(int id);

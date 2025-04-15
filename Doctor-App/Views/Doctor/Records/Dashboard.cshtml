@@ -4,7 +4,6 @@
     ViewData["Title"] = "Dashboard";
     var serializedVisitStats = JsonConvert.SerializeObject(Model.VisitStats);
 }
-
 <h2 class="mb-4">Visits Overview</h2>
 
 <h4>Total Visits: @Model.PatientRecords.Count()</h4>
@@ -12,7 +11,7 @@
 <div>
     <canvas id="visitsChart" height="100"></canvas>
 </div>
-
+<a asp-controller="Doctor" asp-action="Add" class="btn btn-info btn-sm">Add record</a>
 <!-- Add this section to show visit counts -->
 <div class="mt-4">
     <h5>Daily Visit Summary:</h5>
@@ -47,7 +46,6 @@
         </thead>
         <tbody>
             @foreach (var record in Model.PatientRecords)
-
             {
                 <tr>
                     <td>@record.FirstName</td>
@@ -60,6 +58,7 @@
                     <td>
                         <a asp-controller="Doctor" asp-action="View" asp-route-id="@record.Id" class="btn btn-info btn-sm">View</a>
                         <a asp-controller="Doctor" asp-action="Edit" asp-route-id="@record.Id" class="btn btn-warning btn-sm">Edit</a>
+                        <a asp-controller="Billing" asp-action="Create" asp-route-visitId="@record.Id" class="btn btn-info btn-sm">Create a billing</a>
                         <form asp-controller="Doctor" asp-action="Delete" asp-route-id="@record.Id" method="post" class="d-inline">
                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
                         </form>

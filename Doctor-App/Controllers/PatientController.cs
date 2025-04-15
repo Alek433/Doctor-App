@@ -1,6 +1,9 @@
-﻿using Doctor_App.Core.Models;
+﻿using Doctor_App.Core.Extensions;
+using Doctor_App.Core.Models;
+using Doctor_App.Core.Models.Billing;
 using Doctor_App.Core.Models.Doctor;
 using Doctor_App.Core.Models.Patient;
+using Doctor_App.Core.Services.BillingServices;
 using Doctor_App.Core.Services.DoctorServices;
 using Doctor_App.Core.Services.MedicalRecordServices;
 using Doctor_App.Core.Services.PatientServices;
@@ -21,14 +24,16 @@ namespace Doctor_App.Controllers
         private readonly IPatientService _patientService;
         private readonly IMedicalRecordService _medicalRecordService;
         private readonly IDoctorService _doctorService;
+        private readonly IBillingService _billingService;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly DoctorAppDbContext _context;
 
-        public PatientController(IPatientService patientService, IMedicalRecordService medicalRecordService, IDoctorService doctorService, DoctorAppDbContext context, UserManager<IdentityUser> userManager)
+        public PatientController(IPatientService patientService, IMedicalRecordService medicalRecordService, IDoctorService doctorService, IBillingService billingService, DoctorAppDbContext context, UserManager<IdentityUser> userManager)
         {
             _patientService = patientService;
             _medicalRecordService = medicalRecordService;
             _doctorService = doctorService;
+            _billingService = billingService;
             _context = context;
             _userManager = userManager;
         }
@@ -149,6 +154,33 @@ namespace Doctor_App.Controllers
             await _patientService.AssignDoctorToPatientAsync(patient.Id, doctorId);
 
             return RedirectToAction("Index", "Home");
+        }
+        [Authorize(Roles = "Patient")]
+        public async Task<IActionResult> MyBills()
+        {
+            var userId = User.GetUserId(); // Extension method or however you fetch current user ID
+            var bills = await _billingService.GetBillsByPatientUserIdAsync(userId);
+
+            return View(bills);
+        }
+        [HttpGet]
+        public async Task<IActionResult> EditBill(int id)
+        {
+            var bill = await _billingService.GetBillByIdAsync(id);
+            if (bill == null) return NotFound();
+
+            return View(bill);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditBill(BillViewModel model)
+        {
+            if (!ModelState.IsValid) return View(model);
+
+            model.PaymentStatus = "PendingAdminReview"; // Next stage
+            await _billingService.UpdateBillAsync(model);
+
+            return RedirectToAction("MyBills");
         }
         public IActionResult ReceiveNotifications() => View();
     }

@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Doctor_App.Core.Models.Billing.BillViewModel>
+
+@{
+    ViewData["Title"] = "Pending Bills for Review";
+}
+
+<h2>Pending Bills for Review</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Visit ID</th>
+            <th>Doctor</th>
+            <th>Patient</th>
+            <th>Amount</th>
+            <th>Insurance</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var bill in Model.Where(b => b.PaymentStatus == "PendingAdminReview"))
+        {
+            <tr>
+                <td>@bill.VisitId</td>
+                <td>@bill.DoctorName</td>
+                <td>@bill.PatientName</td>
+                <td>@bill.Amount.ToString("C")</td>
+                <td>@bill.InsuranceDetails</td>
+                <td>@bill.PaymentStatus</td>
+
+                <td>
+                    <a asp-action="Review" asp-route-id="@bill.Id" class="btn btn-sm btn-primary">Review</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Doctor_App.Core.Models.Billing.BillViewModel>
+
+@{
+    ViewData["Title"] = "All Bills";
+}
+
+<h2>All Bills (Reviewed)</h2>
+
+<div class="mb-3">
+    <a asp-controller="Admin" asp-action="PendingBills" class="btn btn-warning">
+        View Pending Bills
+    </a>
+</div>
+
+@if (!Model.Any(b => b.PaymentStatus == "Approved" || b.PaymentStatus == "Rejected"))
+{
+    <p>No approved or rejected bills found.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Visit ID</th>
+                <th>Doctor</th>
+                <th>Patient</th>
+                <th>Amount</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var bill in Model.Where(b => b.PaymentStatus == "Approved" || b.PaymentStatus == "Rejected"))
+            {
+                <tr>
+                    <td>@bill.VisitId</td>
+                    <td>@bill.DoctorName</td>
+                    <td>@bill.PatientName</td>
+                    <td>@bill.Amount.ToString("C")</td>
+                    <td>
+                        @if (bill.PaymentStatus == "Approved")
+                        {
+                            <span class="badge bg-success">Approved</span>
+                        }
+                        else if (bill.PaymentStatus == "Rejected")
+                        {
+                            <span class="badge bg-danger">Rejected</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

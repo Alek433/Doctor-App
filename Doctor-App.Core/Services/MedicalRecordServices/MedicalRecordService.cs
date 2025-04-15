@@ -68,14 +68,21 @@ namespace Doctor_App.Core.Services.MedicalRecordServices
         }
         public async Task<List<SelectListItem>> GetPatientsForDoctorAsync(Guid doctorId)
         {
-            return await _context.PatientDoctors
-                .Where(pd => pd.DoctorId == doctorId)
+            var doctor = await _context.Doctors
+                   .Include(d => d.PatientDoctors)
+                   .ThenInclude(pd => pd.Patient)
+                   .FirstOrDefaultAsync(d => d.UserId == doctorId.ToString());
+
+            if (doctor == null)
+                throw new Exception("Doctor not found.");
+
+            return doctor.PatientDoctors
                 .Select(pd => new SelectListItem
                 {
-                    Value = pd.PatientId.ToString(),
+                    Value = pd.Patient.Id.ToString(),
                     Text = pd.Patient.FirstName + " " + pd.Patient.LastName
                 })
-                .ToListAsync();
+                .ToList();
         }
         public async Task<IEnumerable<PatientRecordViewModel>> GetAllPatientRecordsAsync()
         {
@@ -110,6 +117,13 @@ namespace Doctor_App.Core.Services.MedicalRecordServices
                     DoctorName = v.Doctor.FirstName + " " + v.Doctor.LastName
                 })
                 .ToListAsync();
+        }
+        public async Task<Visit?> GetVisitByIdAsync(int id)
+        {
+            return await _context.Visits
+                .Include(v => v.Patient)
+                .Include(v => v.Doctor)
+                .FirstOrDefaultAsync(v => v.Id == id);
         }
         public async Task<List<VisitStatsViewModel>> GetVisitStatsAsync(string doctorId)
         {
@@ -181,13 +195,6 @@ namespace Doctor_App.Core.Services.MedicalRecordServices
                     Notes = record.Notes
                 }).ToList();
         }
-        /*public async Task<List<Patient>> GetPatientsByDoctorIdAsync(Guid doctorId)
-        {
-            return await _context.Appointments
-                .Where(dp => dp.DoctorId == doctorId)
-                .Select(dp => dp.Patient)
-                .ToListAsync();
-        }*/
         public async Task<List<VisitViewModel>> GetAllVisitsAsync()
         {
             return await _context.Visits

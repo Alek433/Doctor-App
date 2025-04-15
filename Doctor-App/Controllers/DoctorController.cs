@@ -99,6 +99,7 @@ namespace Doctor_App.Controllers
 
             var patientRecords = await _medicalRecordService.GetPatientRecordsByDoctorIdAsync(doctorUserId);
             var visitStats = await _medicalRecordService.GetVisitStatsAsync(doctorUserId);
+            var visits = await _medicalRecordService.GetAllVisitsAsync();
 
             var viewModel = new DoctorDashboardViewModel
             {
@@ -115,6 +116,7 @@ namespace Doctor_App.Controllers
         public async Task<IActionResult> Add()
         {
             string doctorUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var patients = await _medicalRecordService.GetPatientsForDoctorAsync(Guid.Parse(doctorUserId));
             if (string.IsNullOrEmpty(doctorUserId))
             {
                 return Unauthorized();
@@ -122,7 +124,7 @@ namespace Doctor_App.Controllers
 
             var model = new PatientRecordViewModel
             {
-                Patients = await _medicalRecordService.GetPatientsForDoctorAsync(Guid.Parse(doctorUserId))
+                Patients = patients
             };
 
             return View("Records/Add", model);
@@ -133,25 +135,10 @@ namespace Doctor_App.Controllers
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             // Pass the correct userId
-            var newRecordId = await _medicalRecordService.AddPatientRecordAsync(model, userId);
+            var visitId = await _medicalRecordService.AddPatientRecordAsync(model, userId);
+            return RedirectToAction("Records/Dashboard");
 
-            return RedirectToAction("Dashboard");
-            /*if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
-            // Get Doctor's ID (assuming User.Identity holds the doctor’s UserId)
-            string doctorId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (string.IsNullOrEmpty(doctorId) || !Guid.TryParse(doctorId, out Guid doctorGuid))
-            {
-                return Unauthorized();
-            }
-
-            model.DoctorId = doctorGuid;
-            await _medicalRecordService.AddPatientRecordAsync(model);
-
-            return RedirectToAction("Dashboard");*/
+            //return RedirectToAction("Create", "Billing", new { visitId = visitId });
         }
         public async Task<IActionResult> ViewPatientRecords()
         {

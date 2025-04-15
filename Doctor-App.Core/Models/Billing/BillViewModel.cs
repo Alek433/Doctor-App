@@ -10,11 +10,9 @@ namespace Doctor_App.Core.Models.Billing
     public class BillViewModel
     {
         public int Id { get; set; }
-        [Display(Name = "Visit ID")]
         public int VisitId { get; set; }
 
         [Display(Name = "Amount")]
-        [DataType(DataType.Currency)]
         public decimal Amount { get; set; }
 
         [Display(Name = "Insurance Details")]
@@ -22,8 +20,7 @@ namespace Doctor_App.Core.Models.Billing
 
         [Display(Name = "Payment Status")]
         public string PaymentStatus { get; set; }
-
-        [Display(Name = "Patient Name")]
         public string PatientName { get; set; }
+        public string DoctorName { get; set; }
     }
 }

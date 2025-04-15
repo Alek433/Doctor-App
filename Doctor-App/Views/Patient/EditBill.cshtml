@@ -1,0 +1,45 @@
+﻿@model Doctor_App.Core.Models.Billing.BillViewModel
+@{
+    ViewData["Title"] = "Edit Bill";
+}
+
+<form asp-action="EditBill" method="post">
+    @* Hidden Fields *@
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="VisitId" />
+
+    <div class="form-group">
+        <label asp-for="DoctorName"></label>
+        <input asp-for="DoctorName" class="form-control" readonly />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="PatientName"></label>
+        <input asp-for="PatientName" class="form-control" readonly />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Amount"></label>
+        <input asp-for="Amount" class="form-control" />
+        <span asp-validation-for="Amount" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="InsuranceDetails"></label>
+        <input asp-for="InsuranceDetails" class="form-control" />
+        <span asp-validation-for="InsuranceDetails" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="PaymentStatus"></label>
+        <input asp-for="PaymentStatus" class="form-control" readonly value="PendingAdminReview" />
+        <span asp-validation-for="PaymentStatus" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

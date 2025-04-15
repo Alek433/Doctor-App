@@ -1,0 +1,33 @@
+﻿@using Doctor_App.Core.Models.Billing
+@model List<BillViewModel>
+
+<h2>Pending Bills</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Patient</th>
+            <th>Doctor</th>
+            <th>Amount</th>
+            <th>Insurance</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var bill in Model)
+        {
+            <tr>
+                <td>@bill.PatientName</td>
+                <td>@bill.DoctorName</td>
+                <td>@bill.Amount</td>
+                <td>@bill.InsuranceDetails</td>
+                <td>@bill.PaymentStatus</td>
+                <td>
+                    <form method="post" asp-action="Approve" asp-route-id="@bill.Id">
+                        <button type="submit">Approve</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

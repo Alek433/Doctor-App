@@ -1,0 +1,41 @@
+﻿@using Doctor_App.Core.Models.Billing
+@model BillViewModel
+
+@{
+    ViewData["Title"] = "Create Bill";
+}
+<form asp-action="Create" method="post">
+    @* Hidden Fields *@
+    <input type="hidden" asp-for="VisitId" />
+    <input type="hidden" asp-for="PaymentStatus" value="SentToPatient" />
+
+    <div class="form-group">
+        <label asp-for="DoctorName"></label>
+        <input asp-for="DoctorName" class="form-control" readonly />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="PatientName"></label>
+        <input asp-for="PatientName" class="form-control" readonly />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Amount"></label>
+        <input asp-for="Amount" class="form-control" readonly />
+        <span asp-validation-for="Amount" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="InsuranceDetails"></label>
+        <input asp-for="InsuranceDetails" class="form-control" />
+        <span asp-validation-for="InsuranceDetails" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit To Patient</button>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

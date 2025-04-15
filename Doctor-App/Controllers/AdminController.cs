@@ -6,6 +6,7 @@ using Doctor_App.Core.Services.MedicalRecordServices;
 using Doctor_App.Core.Services.PatientServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Doctor_App.Controllers
 {
@@ -29,10 +30,40 @@ namespace Doctor_App.Controllers
         // View all bills
         public async Task<IActionResult> AllBills()
         {
-            var bills = await _billingService.GetAllBillsAsync();
+            var bills = await _billingService.GetPendingBillsAsync();
             return View(bills);
         }
+        [HttpGet]
+        public async Task<IActionResult> PendingBills()
+        {
+            var pending = (await _billingService.GetBillsPendingApprovalAsync())
+               .Where(b => b.PaymentStatus == "PendingAdminReview");
 
+            return View(pending);
+        }
+        [HttpGet]
+        public async Task<IActionResult> Review(int id)
+        {
+            var bill = await _billingService.GetBillByIdAsync(id);
+            if (bill == null) return NotFound();
+            return View(bill);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Review(BillViewModel model, string action)
+        {
+            if (action == "Approve")
+            {
+                model.PaymentStatus = "Approved";
+            }
+            else if (action == "Reject")
+            {
+                model.PaymentStatus = "Rejected";
+            }
+
+            await _billingService.UpdateBillAsync(model);
+            return RedirectToAction("PendingBills");
+        }
         // Manage doctors
         public async Task<IActionResult> ManageDoctors()
         {
@@ -48,7 +79,7 @@ namespace Doctor_App.Controllers
         }
 
         // Edit bill
-        public async Task<IActionResult> EditBill(int id)
+        /*public async Task<IActionResult> EditBill(int id)
         {
             var bill = await _billingService.GetBillByIdAsync(id);
             return View(bill);
@@ -60,6 +91,16 @@ namespace Doctor_App.Controllers
             if (!ModelState.IsValid) return View(model);
             await _billingService.UpdateBillAsync(model);
             return RedirectToAction("AllBills");
+        }*/
+        public async Task<IActionResult> DeleteBill(int id)
+        {
+            var result = await _billingService.DeleteBillByIdAsync(id);
+            if (!result)
+            {
+                return NotFound();
+            }
+
+            return RedirectToAction("PendingBills");
         }
 
         // View all medical records
@@ -77,6 +118,12 @@ namespace Doctor_App.Controllers
         {
             var visits = await _medicalRecordService.GetAllVisitsAsync(); // You can implement this method in IVisitService
             return View(visits);
+        }
+        public async Task<IActionResult> ReviewBills()
+        {
+            var allBills = await _billingService.GetPendingBillsAsync();
+            var pendingBills = allBills.Where(b => b.PaymentStatus == "PendingApproval").ToList();
+            return View(pendingBills);
         }
     }
 }

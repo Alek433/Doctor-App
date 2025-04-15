@@ -1,0 +1,38 @@
+﻿@model Doctor_App.Core.Models.Billing.BillViewModel
+
+@{
+    ViewData["Title"] = "Review Bill";
+}
+
+<h2>Review Bill</h2>
+
+<form asp-action="Review" method="post">
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="VisitId" />
+
+    <div class="form-group">
+        <label asp-for="DoctorName"></label>
+        <input asp-for="DoctorName" class="form-control" readonly />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="PatientName"></label>
+        <input asp-for="PatientName" class="form-control" readonly />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Amount"></label>
+        <input asp-for="Amount" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="InsuranceDetails"></label>
+        <input asp-for="InsuranceDetails" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Review Action:</label><br />
+        <button type="submit" name="action" value="Approve" class="btn btn-success">✅ Approve</button>
+        <button type="submit" name="action" value="Reject" class="btn btn-danger">❌ Reject</button>
+    </div>
+</form>

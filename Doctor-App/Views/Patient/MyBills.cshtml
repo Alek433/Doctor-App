@@ -1,14 +1,25 @@
-﻿@model List<Doctor_App.Core.Models.Billing.BillViewModel>
+﻿@model IEnumerable<Doctor_App.Core.Models.Billing.BillViewModel>
 
-    <h2>Billing Details</h2>
+@{
+    ViewData["Title"] = "My Bills";
+}
 
-    <table class="table table-striped">
+<h2>My Bills</h2>
+
+@if (Model == null || !Model.Any())
+{
+    <p>No bills available.</p>
+}
+else
+{
+    <table class="table">
         <thead>
             <tr>
                 <th>Visit ID</th>
+                <th>Doctor</th>
                 <th>Amount</th>
                 <th>Insurance</th>
-                <th>Payment Status</th>
+                <th>Status</th>
             </tr>
         </thead>
         <tbody>
@@ -16,10 +27,15 @@
             {
                 <tr>
                     <td>@bill.VisitId</td>
+                    <td>@bill.DoctorName</td>
                     <td>@bill.Amount.ToString("C")</td>
                     <td>@bill.InsuranceDetails</td>
                     <td>@bill.PaymentStatus</td>
+                    <td>
+                        <a asp-action="EditBill" asp-route-id="@bill.Id" class="btn btn-sm btn-primary">Complete</a>
+                    </td>
                 </tr>
             }
         </tbody>
     </table>
+}
