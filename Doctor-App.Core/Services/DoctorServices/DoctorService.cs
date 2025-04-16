@@ -36,7 +36,12 @@ namespace Doctor_App.Core.Services.DoctorServices
             {
                 throw new ArgumentNullException(nameof(model), "Invalid doctor data.");
             }
-
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user != null)
+            {
+                await _userManager.AddToRoleAsync(user, "Doctor"); // Add doctor role
+            }
+            else if (user == null) return Guid.Empty;
             var doctor = new Doctor()
             {
                 Id = Guid.NewGuid(),
@@ -45,16 +50,11 @@ namespace Doctor_App.Core.Services.DoctorServices
                 LastName = model.LastName,
                 Specialization = model.Specialization,
                 ContactInformation = model.ContactInformation,
-                OfficeLocation = model.OfficeLocation
+                OfficeLocation = model.OfficeLocation,
             };
             await _context.AddAsync(doctor);
             await _context.SaveChangesAsync();
-
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user != null)
-            {
-                await _userManager.AddToRoleAsync(user, "Doctor"); // Add doctor role
-            }
+            
             return doctor.Id;
         }
 

@@ -100,7 +100,15 @@ namespace Doctor_App.Controllers
             var patientRecords = await _medicalRecordService.GetPatientRecordsByDoctorIdAsync(doctorUserId);
             var visitStats = await _medicalRecordService.GetVisitStatsAsync(doctorUserId);
             var visits = await _medicalRecordService.GetAllVisitsAsync();
+            var billedVisitIds = await _dbContext.Billings
+                     .Select(b => b.VisitId)
+                     .ToListAsync();
 
+            // Set the HasBilling flag on each patient record
+            foreach (var record in patientRecords)
+            {
+                record.HasBilling = billedVisitIds.Contains(record.Id);
+            }
             var viewModel = new DoctorDashboardViewModel
             {
                 DoctorId = doctorUserId,
@@ -136,7 +144,7 @@ namespace Doctor_App.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             // Pass the correct userId
             var visitId = await _medicalRecordService.AddPatientRecordAsync(model, userId);
-            return RedirectToAction("Records/Dashboard");
+            return RedirectToAction("Dashboard");
 
             //return RedirectToAction("Create", "Billing", new { visitId = visitId });
         }

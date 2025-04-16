@@ -41,13 +41,11 @@ namespace Doctor_App.Controllers
                         .Include(a => a.Doctor)
                         .Select(a => new AppointmentViewModel  // ✅ Convert Appointment to ViewModel
                         {
-                            Id = a.Id,
                             DoctorName = a.Doctor != null ? a.Doctor.FirstName + " " + a.Doctor.LastName : "N/A",
                             PatientId = a.PatientId,
                             DoctorId = a.DoctorId,
                             AppointmentDate = a.AppointmentDate,
                             Reason = a.Reason,
-                            Status = a.Status
                         })
                         .ToListAsync();
                 }
@@ -62,13 +60,11 @@ namespace Doctor_App.Controllers
                         .Include(a => a.Patient)
                         .Select(a => new AppointmentViewModel
                         {
-                            Id = a.Id,
                             PatientName = a.Patient != null ? a.Patient.FirstName + " " + a.Patient.LastName : "N/A",
                             PatientId = a.PatientId,
                             DoctorId = a.DoctorId,
                             AppointmentDate = a.AppointmentDate,
                             Reason = a.Reason,
-                            Status = a.Status
                         })
                         .ToListAsync();
                 }
@@ -119,60 +115,72 @@ namespace Doctor_App.Controllers
         [Authorize(Roles = "Patient,Doctor")]
         public async Task<IActionResult> Create(AppointmentViewModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                // Recreate dropdowns if validation fails
-                model.AvailableDoctors = await _context.Doctors
-                    .Select(d => new SelectListItem
-                    {
-                        Value = d.Id.ToString(),
-                        Text = d.FirstName + " " + d.LastName
-                    })
-                    .ToListAsync();
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var role = User.FindFirstValue(ClaimTypes.Role);
 
-                return View("Create", model);
-            }
-
-            var userGuid = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            var userRoleType = User.FindFirstValue(ClaimTypes.Role);
-
-            if (userRoleType == "Patient")
+            if (role == "Patient")
             {
-                model.PatientId = userGuid;
-            }
-            else if (userRoleType == "Doctor")
-            {
-                // ❌ Fix: Ensure the doctor selects a patient!
-                if (model.PatientId == Guid.Empty)
+                var patient = await _context.Patients.FirstOrDefaultAsync(p => p.UserId == userId);
+                if (patient == null)
                 {
-                    ModelState.AddModelError("", "Please select a patient for the appointment.");
-                    model.AvailableDoctors = await _context.Doctors
-                        .Select(d => new SelectListItem
-                        {
-                            Value = d.Id.ToString(),
-                            Text = d.FirstName + " " + d.LastName
-                        })
-                        .ToListAsync();
-                    return View("Create", model);
+                    ModelState.AddModelError("", "You are not registered as a patient.");
+                    model.AvailableDoctors = await _appointmentService.GetAvailableDoctorsAsync();
+                    return View(model);
                 }
 
-                model.DoctorId = userGuid; // Assign the logged-in doctor's ID
+                model.PatientId = patient.Id;
             }
-            else
+            else if (role == "Doctor")
             {
-                return Unauthorized();
+                var doctor = await _context.Doctors.FirstOrDefaultAsync(d => d.UserId == userId);
+                if (doctor == null)
+                {
+                    ModelState.AddModelError("", "You are not registered as a doctor.");
+                    model.AvailableDoctors = await _appointmentService.GetAvailableDoctorsAsync();
+                    model.AvailablePatients = await _appointmentService.GetAvailablePatientsAsync(); // load patients if doctor
+                    return View(model);
+                }
+
+                model.DoctorId = doctor.Id;
             }
 
-            // ✅ Pass the correct model to be saved
-            bool success = await _appointmentService.CreateAppointmentAsync(model);
-
-            if (!success)
+            if (!ModelState.IsValid)
             {
-                ModelState.AddModelError("", "Failed to create appointment. Please try again.");
-                return View("Create", model);
+                model.AvailableDoctors = await _appointmentService.GetAvailableDoctorsAsync();
+                if (role == "Doctor")
+                {
+                    model.AvailablePatients = await _appointmentService.GetAvailablePatientsAsync();
+                }
+                return View(model);
             }
 
-            return RedirectToAction("Manage");
+            try
+            {
+                bool success = await _appointmentService.CreateAppointmentAsync(model);
+                if (success)
+                {
+                    if (role == "Patient")
+                    {
+                        return RedirectToAction("Manage", "Appointment"); // redirect patients
+                    }
+                    else if (role == "Doctor")
+                    {
+                        return RedirectToAction("Manage", "Appointment"); // redirect doctors
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+            }
+
+            model.AvailableDoctors = await _appointmentService.GetAvailableDoctorsAsync();
+            if (role == "Doctor")
+            {
+                model.AvailablePatients = await _appointmentService.GetAvailablePatientsAsync();
+            }
+
+            return View(model);
         }
 
         [HttpPost("Cancel/{appointmentId}")]

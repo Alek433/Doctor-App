@@ -19,6 +19,7 @@ namespace Doctor_App.Core.Models.Patient
         public string Diagnosis { get; set; }
         public string Prescriptions { get; set; }
         public string Notes { get; set; }
+        public bool HasBilling { get; set; }
         public List<SelectListItem> Patients { get; set; } = new List<SelectListItem>();
 
     }

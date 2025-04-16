@@ -12,6 +12,6 @@ namespace Doctor_App.Core.Models.Doctor
     {
         public string DoctorId { get; set; }
         public List<PatientRecordViewModel> PatientRecords { get; set; } = new List<PatientRecordViewModel>();
-        public List<VisitStatsViewModel> VisitStats { get; set; } = new();
+        public IEnumerable<VisitStatsViewModel> VisitStats { get; set; }
     }
 }

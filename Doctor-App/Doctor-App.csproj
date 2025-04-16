@@ -26,7 +26,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Doctor-App-Tests\Doctor-App-Tests.csproj" />
     <ProjectReference Include="..\Doctor-App.Core\Doctor-App.Core.csproj" />
     <ProjectReference Include="..\Doctor-App.Infrastructure\Doctor-App.Infrastructure.csproj" />
   </ItemGroup>

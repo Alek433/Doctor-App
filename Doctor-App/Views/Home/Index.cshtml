@@ -24,8 +24,8 @@
                 else
                 {
                     // Only show if user has NO role
-                    <a class="btn btn-outline-primary btn-lg" asp-controller="Account" asp-action="BecomeDoctor">Become a Doctor</a>
-                    <a class="btn btn-outline-success btn-lg" asp-controller="Account" asp-action="BecomePatient">Become a Patient</a>
+                    <a class="btn btn-outline-primary btn-lg" asp-controller="Doctor" asp-action="Become">Become a Doctor</a>
+                    <a class="btn btn-outline-success btn-lg" asp-controller="Patient" asp-action="Become">Become a Patient</a>
                 }
             }
             @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))

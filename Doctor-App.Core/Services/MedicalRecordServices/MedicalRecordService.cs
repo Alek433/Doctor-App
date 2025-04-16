@@ -125,7 +125,7 @@ namespace Doctor_App.Core.Services.MedicalRecordServices
                 .Include(v => v.Doctor)
                 .FirstOrDefaultAsync(v => v.Id == id);
         }
-        public async Task<List<VisitStatsViewModel>> GetVisitStatsAsync(string doctorId)
+        public async Task<IEnumerable<VisitStatsViewModel>> GetVisitStatsAsync(string doctorId)
         {
             var visits = await _context.Visits
                 .Where(v => v.DoctorId.ToString() == doctorId)
@@ -159,20 +159,13 @@ namespace Doctor_App.Core.Services.MedicalRecordServices
                     Date = new DateTime(g.Key.Year, g.Key.Month, 1),
                     VisitCount = g.Count()
                 });
-
             return groupedByDay
                 .Concat(groupedByWeek)
                 .Concat(groupedByMonth)
                 .OrderBy(v => v.Date)
-                .ToList();
+              .ToList(); 
         }
-        public async Task<Visit?> GetPatientRecordByDoctorAsync(Guid doctorUserId)
-        {
-            return await _context.Visits
-                .Include(r => r.Doctor)
-                .FirstOrDefaultAsync(r => r.Doctor.UserId == doctorUserId.ToString());
-        }
-        public async Task<List<PatientRecordViewModel>> GetPatientRecordsAsync(string userId)
+        /*public async Task<List<PatientRecordViewModel>> GetPatientRecordsAsync(string userId)
         {
             var patient = await _context.Patients
                 .Include(p => p.Visits) // Ensure records are loaded
@@ -194,7 +187,7 @@ namespace Doctor_App.Core.Services.MedicalRecordServices
                     Prescriptions = record.Prescriptions,
                     Notes = record.Notes
                 }).ToList();
-        }
+        }*/
         public async Task<List<VisitViewModel>> GetAllVisitsAsync()
         {
             return await _context.Visits
@@ -250,7 +243,7 @@ namespace Doctor_App.Core.Services.MedicalRecordServices
             await _context.SaveChangesAsync();
             return true;
         }
-        public async Task<List<SelectListItem>> GetPatientsForDoctorAsync(string doctorUserId)
+        /*public async Task<List<SelectListItem>> GetPatientsForDoctorAsync(string doctorUserId)
         {
             var doctor = await _context.Doctors
                 .Include(d => d.PatientDoctors)
@@ -269,7 +262,7 @@ namespace Doctor_App.Core.Services.MedicalRecordServices
                     Text = pd.Patient.FirstName + " " + pd.Patient.LastName
                 })
                 .ToList();
-        }
+        }*/
 
         public async Task<List<PatientRecordViewModel>> GetPatientRecordsByPatientIdAsync(Guid patientId)
         {

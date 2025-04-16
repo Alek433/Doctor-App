@@ -82,7 +82,7 @@ namespace Doctor_App.Controllers
                 return View(model);
             }
 
-            return RedirectToAction("Index", "Home");
+            return Redirect("/Identity/Account/Logout");
         }
         public IActionResult Index()
         {
@@ -112,7 +112,7 @@ namespace Doctor_App.Controllers
 
             if (records == null || !records.Any())
             {
-                return View(); // Show a friendly "No records found" view if necessary
+                return View("ViewMyRecords"); // Show a friendly "No records found" view if necessary
             }
 
             return View("ViewMyRecords", records);
@@ -146,7 +146,8 @@ namespace Doctor_App.Controllers
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Get the logged-in user's ID
 
-            var patient = await _context.Patients.FirstOrDefaultAsync(p => p.UserId == userId);
+            //var patient = await _context.Patients.FirstOrDefaultAsync(p => p.UserId == userId);
+            var patient = await _patientService.GetPatientByUserIdAsync(userId);
             if (patient == null)
             {
                 return NotFound("Patient not found.");

@@ -22,8 +22,6 @@ namespace Doctor_App.Data.Models
         {
 
         }
-        public DoctorAppDbContext() { }
-
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
             if (!builder.IsConfigured)

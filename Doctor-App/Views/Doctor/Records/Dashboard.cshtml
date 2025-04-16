@@ -16,7 +16,7 @@
 <div class="mt-4">
     <h5>Daily Visit Summary:</h5>
     <ul class="list-unstyled">
-        @foreach (var visit in Model.VisitStats.OrderBy(v => v.Date))
+        @foreach (var visit in Model.VisitStats)
         {
             <li>@visit.Date.ToShortDateString() - <strong>@visit.VisitCount</strong> visits</li>
         }
@@ -58,7 +58,19 @@
                     <td>
                         <a asp-controller="Doctor" asp-action="View" asp-route-id="@record.Id" class="btn btn-info btn-sm">View</a>
                         <a asp-controller="Doctor" asp-action="Edit" asp-route-id="@record.Id" class="btn btn-warning btn-sm">Edit</a>
-                        <a asp-controller="Billing" asp-action="Create" asp-route-visitId="@record.Id" class="btn btn-info btn-sm">Create a billing</a>
+                        @if (!record.HasBilling)
+                        {
+                            <a asp-controller="Billing"
+                               asp-action="Create"
+                               asp-route-visitId="@record.Id"
+                               class="btn btn-info btn-sm">
+                                Create a billing
+                            </a>
+                        }
+                        else
+                        {
+                            <button class="btn btn-secondary btn-sm" disabled>Billing Created</button>
+                        }
                         <form asp-controller="Doctor" asp-action="Delete" asp-route-id="@record.Id" method="post" class="d-inline">
                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
                         </form>

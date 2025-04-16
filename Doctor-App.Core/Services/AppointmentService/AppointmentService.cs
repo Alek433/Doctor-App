@@ -1,6 +1,7 @@
 ﻿using Doctor_App.Core.Models.Appointment;
 using Doctor_App.Data.Models;
 using Doctor_App.Infrastructure.Data.Entities;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -26,13 +27,23 @@ namespace Doctor_App.Core.Services.AppointmentService
             {
                 return false;
             }
+            var patientExists = await _context.Patients.AnyAsync(p => p.Id == model.PatientId);
+            if (!patientExists)
+            {
+                throw new InvalidOperationException("The patient with the provided ID does not exist.");
+            }
+            var doctorExists = await _context.Patients.AnyAsync(p => p.Id == model.DoctorId);
+            if (!patientExists)
+            {
+                throw new InvalidOperationException("The doctor with the provided ID does not exist.");
+            }
             var appointment = new Appointment
             {
                 PatientId = model.PatientId,
                 DoctorId = model.DoctorId,
                 AppointmentDate = model.AppointmentDate,
                 Reason = model.Reason,
-                Status = model.Status ?? "Scheduled"
+                Status = "Scheduled"
             };
 
             _context.Appointments.Add(appointment);
@@ -51,10 +62,8 @@ namespace Doctor_App.Core.Services.AppointmentService
 
             var result = appointments.Select(a => new AppointmentViewModel
             {
-                Id = a.Id,
                 AppointmentDate = a.AppointmentDate,
                 Reason = a.Reason,
-                Status = a.Status,
                 PatientId = a.PatientId,
                 DoctorId = a.DoctorId,
                 PatientName = a.Patient != null ? a.Patient.FirstName + " " + a.Patient.LastName : "N/A",
@@ -72,11 +81,9 @@ namespace Doctor_App.Core.Services.AppointmentService
                 .OrderByDescending(a => a.AppointmentDate)
                 .Select(a => new AppointmentViewModel
                 {
-                    Id = a.Id,
                     DoctorId = a.DoctorId,
                     AppointmentDate = a.AppointmentDate,
                     Reason = a.Reason,
-                    Status = a.Status
                 })
                 .ToListAsync();
         }
@@ -89,11 +96,9 @@ namespace Doctor_App.Core.Services.AppointmentService
                 .OrderByDescending(a => a.AppointmentDate)
                 .Select(a => new AppointmentViewModel
                 {
-                    Id = a.Id,
                     PatientId = a.PatientId,
                     AppointmentDate = a.AppointmentDate,
                     Reason = a.Reason,
-                    Status = a.Status
                 })
                 .ToListAsync();
         }
@@ -106,6 +111,26 @@ namespace Doctor_App.Core.Services.AppointmentService
 
             appointment.Status = "Cancelled";
             return await _context.SaveChangesAsync() > 0;
+        }
+        public async Task<List<SelectListItem>> GetAvailableDoctorsAsync()
+        {
+            return await _context.Doctors
+                .Select(d => new SelectListItem
+                {
+                    Value = d.Id.ToString(),
+                    Text = d.FirstName + " " + d.LastName
+                })
+                .ToListAsync();
+        }
+        public async Task<List<SelectListItem>> GetAvailablePatientsAsync()
+        {
+            return await _context.Patients
+                .Select(d => new SelectListItem
+                {
+                    Value = d.Id.ToString(),
+                    Text = d.FirstName + " " + d.LastName
+                })
+                .ToListAsync();
         }
     }
 }

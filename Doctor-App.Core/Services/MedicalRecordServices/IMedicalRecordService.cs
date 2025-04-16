@@ -19,7 +19,7 @@ namespace Doctor_App.Core.Services.MedicalRecordServices
         Task<List<PatientRecordViewModel>> GetPatientRecordsByPatientIdAsync(Guid patientId);
         Task<List<PatientRecordViewModel>> GetPatientRecordsByDoctorIdAsync(string doctorId);
         Task<List<VisitViewModel>> GetAllVisitsAsync();
-        Task<List<VisitStatsViewModel>> GetVisitStatsAsync(string doctorId);
+        Task<IEnumerable<VisitStatsViewModel>> GetVisitStatsAsync(string doctorId);
         Task<List<VisitViewModel>> GetVisitsByDateAsync(DateTime date);
         Task<Visit?> GetVisitByIdAsync(int id);
         Task<IEnumerable<PatientRecordViewModel>> GetAllPatientRecordsAsync();

@@ -10,12 +10,10 @@ namespace Doctor_App.Core.Models.Appointment
 {
     public class AppointmentViewModel
     {
-        public int Id { get; set; }
         public Guid PatientId { get; set; }  // For doctor selection
         public Guid DoctorId { get; set; }   // For patient selection
         public DateTime AppointmentDate { get; set; }
         public string Reason { get; set; }
-        public string Status { get; set; }
 
         public string? PatientName { get; set; }  // For doctor view
         public string? DoctorName { get; set; }   // For patient view
