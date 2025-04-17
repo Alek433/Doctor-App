@@ -12,6 +12,7 @@ using Doctor_App.Infrastructure.Data.Entities;
 using Doctor_App.Core.Services.AppointmentService;
 using Doctor_App.Core.Services.MedicalRecordServices;
 using Doctor_App.Core.Services.BillingServices;
+using Doctor_App.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
