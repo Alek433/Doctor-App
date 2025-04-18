@@ -207,6 +207,15 @@ namespace Doctor_App.Controllers
             var visits = await _medicalRecordService.GetVisitsByDateAsync(date);
             return PartialView("_VisitListPartial", visits);
         }
-
+        [HttpGet]
+        public async Task<IActionResult> View(int id)
+        {
+            var record = await _medicalRecordService.GetPatientRecordByIdAsync(id);
+            if (record == null)
+            {
+                return NotFound();
+            }
+            return View("Records/View", record);
+        }
     }
 }

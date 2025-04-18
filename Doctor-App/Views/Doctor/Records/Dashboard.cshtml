@@ -56,11 +56,6 @@
                                 <th>First Name</th>
                                 <th>Last Name</th>
                                 <th>Visit Date</th>
-                                <th>Reason</th>
-                                <th>Diagnosis</th>
-                                <th>Prescriptions</th>
-                                <th>Notes</th>
-                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -71,10 +66,6 @@
                                     <td>@record.FirstName</td>
                                     <td>@record.LastName</td>
                                     <td>@record.VisitDate.ToShortDateString()</td>
-                                    <td>@record.ReasonForVisit</td>
-                                    <td>@record.Diagnosis</td>
-                                    <td>@record.Prescriptions</td>
-                                    <td>@record.Notes</td>
                                     <td>
                                         <div class="btn-group" role="group">
                                             <a asp-controller="Doctor" asp-action="View" asp-route-id="@record.Id" class="btn btn-info btn-sm">View</a>
