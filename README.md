@@ -17,6 +17,21 @@ This is a web application designed for clinics and hospitals to manage **patient
 - 📥 Doctor-patient assignment system
 
 ---
+Admin -
+email: admin@hospital.com
+password: Admin@123
+
+Patient -
+email: patient@hospital.com
+password: Patient@123
+
+Doctor -
+email: doctor@hospital.com
+password: Doctor@123
+
+Unassigned user:
+email: user@hospital.com
+password: User@123
 
 ## 🔧 Setup Instructions
 
@@ -102,3 +117,6 @@ Doctor submits bill after visit
 Patient reviews & adds insurance info
 
 Admin verifies & approves the bill
+
+Unnassigned user (Becoming a doctor or patient)
+In home are two buttons(Becoming a Doctor or Becoming a Patient) - you choose 
