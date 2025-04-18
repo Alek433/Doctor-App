@@ -21,6 +21,45 @@
                     <a class="btn btn-success btn-lg" asp-controller="Patient" asp-action="AssignDoctor">Assign a Doctor</a>
                     <a class="btn btn-success btn-lg" asp-controller="Patient" asp-action="MyBills">My Bills</a>
                 }
+                else if (User.IsInRole("Admin"))
+                {
+                    <div class="container mt-4">
+                        <h2 class="mb-4">Admin Controls</h2>
+                        <div class="row g-3">
+
+                            <div class="col-md-4">
+                                <a asp-controller="Admin" asp-action="AdminAppointments" class="btn btn-outline-primary w-100">
+                                    Manage Appointments
+                                </a>
+                            </div>
+
+                            <div class="col-md-4">
+                                <a asp-controller="Admin" asp-action="ManagePatients" class="btn btn-outline-success w-100">
+                                    Manage Patients
+                                </a>
+                            </div>
+
+                            <div class="col-md-4">
+                                <a asp-controller="Admin" asp-action="AllRecords" class="btn btn-outline-dark w-100">
+                                    All Medical Records
+                                </a>
+                            </div>
+
+                            <div class="col-md-4">
+                                <a asp-controller="Admin" asp-action="AllBills" class="btn btn-outline-warning w-100">
+                                    All Bills
+                                </a>
+                            </div>
+
+                            <div class="col-md-4">
+                                <a asp-controller="Admin" asp-action="ManageDoctors" class="btn btn-outline-info w-100">
+                                    Manage Doctors
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                }
                 else
                 {
                     // Only show if user has NO role
@@ -28,52 +67,7 @@
                     <a class="btn btn-outline-success btn-lg" asp-controller="Patient" asp-action="Become">Become a Patient</a>
                 }
             }
-            @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
-            {
-                <div class="container mt-4">
-                    <h2 class="mb-4">Admin Controls</h2>
-                    <div class="row g-3">
-
-                        <div class="col-md-4">
-                            <a asp-controller="Admin" asp-action="AdminAppointments" class="btn btn-outline-primary w-100">
-                                Manage Appointments
-                            </a>
-                        </div>
-
-                        <div class="col-md-4">
-                            <a asp-controller="Admin" asp-action="AdminPatients" class="btn btn-outline-success w-100">
-                                Manage Patients
-                            </a>
-                        </div>
-
-                        <div class="col-md-4">
-                            <a asp-controller="Admin" asp-action="AllRecords" class="btn btn-outline-dark w-100">
-                                All Medical Records
-                            </a>
-                        </div>
-
-                        <div class="col-md-4">
-                            <a asp-controller="Admin" asp-action="AllBills" class="btn btn-outline-warning w-100">
-                                All Bills
-                            </a>
-                        </div>
-
-                        <div class="col-md-4">
-                            <a asp-controller="Admin" asp-action="ManageDoctors" class="btn btn-outline-info w-100">
-                                Manage Doctors
-                            </a>
-                        </div>
-
-                        <div class="col-md-4">
-                            <a asp-controller="Admin" asp-action="ManageVisits" class="btn btn-outline-secondary w-100">
-                                Manage Visits
-                            </a>
-                        </div>
-
-                    </div>
-                </div>
-            }
-            else
+            else if (!User.Identity.IsAuthenticated)
             {
                 <p class="lead">You need to login or register to have access to our services!!!</p>
             }

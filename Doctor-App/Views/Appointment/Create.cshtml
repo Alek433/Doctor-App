@@ -6,47 +6,59 @@
     var isPatient = User.IsInRole("Patient");
 }
 
-<h2>Create Appointment</h2>
-
-<form asp-action="Create" method="post">
-    @if (isDoctor)
-    {
-        <div class="form-group">
-            <label asp-for="PatientId" class="control-label">Select Patient</label>
-            <select asp-for="PatientId" class="form-control" asp-items="Model.AvailablePatients">
-                <option value="">-- Select a Patient --</option>
-            </select>
-            <span asp-validation-for="PatientId" class="text-danger"></span>
+<div class="container mt-5">
+    <div class="card shadow-lg rounded-4">
+        <div class="card-header bg-primary text-white">
+            <h2 class="mb-0">@ViewData["Title"]</h2>
         </div>
-    }
-    else if (isPatient)
-    {
-        <div class="form-group">
-            <label asp-for="DoctorId" class="control-label">Select Doctor</label>
-            <select asp-for="DoctorId" class="form-control" asp-items="Model.AvailableDoctors">
-                <option value="">-- Select a Doctor --</option>
-            </select>
-            <span asp-validation-for="DoctorId" class="text-danger"></span>
+        <div class="card-body">
+            <form asp-action="Create" method="post">
+                @if (isDoctor)
+                {
+                    <div class="mb-3">
+                        <label asp-for="PatientId" class="form-label">Select Patient</label>
+                        <select asp-for="PatientId" class="form-select" asp-items="Model.AvailablePatients">
+                            <option value="">-- Select a Patient --</option>
+                        </select>
+                        <span asp-validation-for="PatientId" class="text-danger"></span>
+                    </div>
+                }
+                else if (isPatient)
+                {
+                    <div class="mb-3">
+                        <label asp-for="DoctorId" class="form-label">Select Doctor</label>
+                        <select asp-for="DoctorId" class="form-select" asp-items="Model.AvailableDoctors">
+                            <option value="">-- Select a Doctor --</option>
+                        </select>
+                        <span asp-validation-for="DoctorId" class="text-danger"></span>
+                    </div>
+                }
+
+                <div class="mb-3">
+                    <label asp-for="AppointmentDate" class="form-label">Appointment Date</label>
+                    <input asp-for="AppointmentDate" class="form-control" type="datetime-local" />
+                    <span asp-validation-for="AppointmentDate" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Reason" class="form-label">Reason for Appointment</label>
+                    <textarea asp-for="Reason" class="form-control" rows="3" placeholder="Enter reason..."></textarea>
+                    <span asp-validation-for="Reason" class="text-danger"></span>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-success px-4">
+                        <i class="bi bi-check-circle"></i> Create Appointment
+                    </button>
+                    <a asp-action="Manage" class="btn btn-outline-secondary px-4">
+                        <i class="bi bi-x-circle"></i> Cancel
+                    </a>
+                </div>
+            </form>
         </div>
-    }
-
-    <div class="form-group">
-        <label asp-for="AppointmentDate" class="control-label">Appointment Date</label>
-        <input asp-for="AppointmentDate" class="form-control" type="datetime-local" />
-        <span asp-validation-for="AppointmentDate" class="text-danger"></span>
     </div>
+</div>
 
-    <div class="form-group">
-        <label asp-for="Reason" class="control-label">Reason for Appointment</label>
-        <textarea asp-for="Reason" class="form-control" rows="3"></textarea>
-        <span asp-validation-for="Reason" class="text-danger"></span>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Create Appointment</button>
-    <a asp-action="Manage" class="btn btn-secondary">Cancel</a>
-</form>
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    <partial name="_ValidationScriptsPartial" />
 }

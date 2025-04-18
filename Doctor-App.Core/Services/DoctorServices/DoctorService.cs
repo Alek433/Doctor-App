@@ -78,6 +78,8 @@ namespace Doctor_App.Core.Services.DoctorServices
                     LastName = d.LastName,
                     Email = d.User.Email,
                     Specialization= d.Specialization,
+                    OfficeLocation= d.OfficeLocation,
+                    ContactInformation= d.ContactInformation,
                 })
                 .ToListAsync();
         }

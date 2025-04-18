@@ -2,93 +2,122 @@
 @model Doctor_App.Core.Models.Doctor.DoctorDashboardViewModel
 @{
     ViewData["Title"] = "Dashboard";
+
     var serializedVisitStats = JsonConvert.SerializeObject(Model.VisitStats);
 }
-<h2 class="mb-4">Visits Overview</h2>
+<div class="container mt-4">
+    <h2 class="mb-4 text-primary">Doctor Dashboard</h2>
 
-<h4>Total Visits: @Model.PatientRecords.Count()</h4>
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card shadow-sm border-info">
+                <div class="card-body">
+                    <h5 class="card-title">Visits Overview</h5>
+                    <h6 class="text-muted">Total Visits: @Model.PatientRecords.Count()</h6>
+                    <canvas id="visitsChart" height="100"></canvas>
+                </div>
+            </div>
+        </div>
 
-<div>
-    <canvas id="visitsChart" height="100"></canvas>
-</div>
-<a asp-controller="Doctor" asp-action="Add" class="btn btn-info btn-sm">Add record</a>
-<!-- Add this section to show visit counts -->
-<div class="mt-4">
-    <h5>Daily Visit Summary:</h5>
-    <ul class="list-unstyled">
-        @foreach (var visit in Model.VisitStats)
-        {
-            <li>@visit.Date.ToShortDateString() - <strong>@visit.VisitCount</strong> visits</li>
-        }
-    </ul>
-</div>
+        <div class="col-md-6">
+            <div class="card shadow-sm border-secondary">
+                <div class="card-body">
+                    <h5 class="card-title">Daily Visit Summary</h5>
+                    <ul class="list-group">
+                        @foreach (var visit in Model.VisitStats)
 
-<div id="visitList" class="mt-5">
-    <!-- Visits for selected date will be injected here -->
-</div>
-
-@if (Model.PatientRecords.Any())
-
-{
-    <h4 class="mt-5">Patient Records</h4>
-    <table class="table table-bordered mt-3">
-        <thead class="thead-light">
-            <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Visit Date</th>
-                <th>Reason</th>
-                <th>Diagnosis</th>
-                <th>Prescriptions</th>
-                <th>Notes</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var record in Model.PatientRecords)
-            {
-                <tr>
-                    <td>@record.FirstName</td>
-                    <td>@record.LastName</td>
-                    <td>@record.VisitDate.ToShortDateString()</td>
-                    <td>@record.ReasonForVisit</td>
-                    <td>@record.Diagnosis</td>
-                    <td>@record.Prescriptions</td>
-                    <td>@record.Notes</td>
-                    <td>
-                        <a asp-controller="Doctor" asp-action="View" asp-route-id="@record.Id" class="btn btn-info btn-sm">View</a>
-                        <a asp-controller="Doctor" asp-action="Edit" asp-route-id="@record.Id" class="btn btn-warning btn-sm">Edit</a>
-                        @if (!record.HasBilling)
                         {
-                            <a asp-controller="Billing"
-                               asp-action="Create"
-                               asp-route-visitId="@record.Id"
-                               class="btn btn-info btn-sm">
-                                Create a billing
-                            </a>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                @visit.Date.ToShortDateString()
+                                <span class="badge badge-primary badge-pill">@visit.VisitCount</span>
+                            </li>
                         }
-                        else
-                        {
-                            <button class="btn btn-secondary btn-sm" disabled>Billing Created</button>
-                        }
-                        <form asp-controller="Doctor" asp-action="Delete" asp-route-id="@record.Id" method="post" class="d-inline">
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
-                        </form>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+                    </ul>
+                    <a asp-controller="Doctor" asp-action="Add" class="btn btn-info btn-sm mt-3">+ Add Visit Record</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="visitList" class="mt-4"></div>
+
+    @if (Model.PatientRecords.Any())
+
+    {
+        <div class="card shadow-sm border-success mt-4">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">Patient Records</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-bordered mb-0">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Visit Date</th>
+                                <th>Reason</th>
+                                <th>Diagnosis</th>
+                                <th>Prescriptions</th>
+                                <th>Notes</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var record in Model.PatientRecords)
+
+                            {
+                                <tr>
+                                    <td>@record.FirstName</td>
+                                    <td>@record.LastName</td>
+                                    <td>@record.VisitDate.ToShortDateString()</td>
+                                    <td>@record.ReasonForVisit</td>
+                                    <td>@record.Diagnosis</td>
+                                    <td>@record.Prescriptions</td>
+                                    <td>@record.Notes</td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            <a asp-controller="Doctor" asp-action="View" asp-route-id="@record.Id" class="btn btn-info btn-sm">View</a>
+                                            <a asp-controller="Doctor" asp-action="Edit" asp-route-id="@record.Id" class="btn btn-warning btn-sm">Edit</a>
+                                            @if (!record.HasBilling)
+
+                                            {
+                                                <a asp-controller="Billing"
+                                                   asp-action="Create"
+                                                   asp-route-visitId="@record.Id"
+                                                   class="btn btn-secondary btn-sm">
+                                                    Billing
+                                                </a>
+                                            }
+
+                                            else
+
+                                            {
+                                                <button class="btn btn-light btn-sm" disabled>Billing Created</button>
+                                            }
+                                            <form asp-controller="Doctor" asp-action="Delete" asp-route-id="@record.Id" method="post" class="d-inline">
+                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+</div>
 
 <!-- Visit Detail Modal -->
 <div class="modal fade" id="visitDetailModal" tabindex="-1" role="dialog" aria-labelledby="visitDetailModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header bg-primary text-white">
                 <h5 class="modal-title">Visit Details</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span>&times;</span>
                 </button>
             </div>
             <div class="modal-body">
@@ -150,4 +179,3 @@
         }
     </script>
 }
-

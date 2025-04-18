@@ -73,7 +73,10 @@ namespace Doctor_App.Core.Services.PatientServices
                     Id = p.Id,
                     FirstName = p.FirstName,
                     LastName = p.LastName,
-                    Email = p.User.Email
+                    Email = p.User.Email,
+                    DateOfBirth= p.DateOfBirth,
+                    Gender = p.Gender,
+                    ContactInformation= p.ContactInformation
                 })
                 .ToListAsync();
         }

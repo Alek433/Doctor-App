@@ -118,28 +118,29 @@ namespace Doctor_App.Controllers
             return View("ViewMyRecords", records);
         }
         [HttpGet]
-        public async Task<IActionResult> AssignDoctor()
+        public async Task<IActionResult> AssignDoctor(string specialization, string officeLocation)
         {
             var patientId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (patientId == null)
                 return Unauthorized();
 
-            // Retrieve the patient from the database
-            var patient = await _context.FindAsync<Patient>(Guid.Parse(patientId));
+            var allDoctors = await _doctorService.GetAllDoctorsAsync();
 
-            // Retrieve all doctors from the database
-            var doctors = await _context.Doctors.ToListAsync();
-
-            // Convert the doctors to a ViewModel list
-            var doctorList = doctors.Select(d => new DoctorViewModel
+            if (!string.IsNullOrWhiteSpace(specialization))
             {
-                Id = d.Id,
-                FirstName = d.FirstName,
-                LastName = d.LastName,
-                Specialization = d.Specialization
-            }).ToList();
+                allDoctors = allDoctors
+                    .Where(d => d.Specialization != null && d.Specialization.Contains(specialization, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+            }
 
-            return View(doctorList);
+            if (!string.IsNullOrWhiteSpace(officeLocation))
+            {
+                allDoctors = allDoctors
+                    .Where(d => d.OfficeLocation != null && d.OfficeLocation.Contains(officeLocation, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+            }
+
+            return View(allDoctors);
         }
         [HttpPost]
         public async Task<IActionResult> AssignDoctor(Guid doctorId)

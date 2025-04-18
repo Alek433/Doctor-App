@@ -3,43 +3,62 @@
     ViewData["Title"] = "Edit Bill";
 }
 
-<form asp-action="EditBill" method="post">
-    @* Hidden Fields *@
-    <input type="hidden" asp-for="Id" />
-    <input type="hidden" asp-for="VisitId" />
+<div class="container mt-5">
+    <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-header bg-primary text-white d-flex align-items-center">
+            <i class="bi bi-pencil-square fs-4 me-2"></i>
+            <h3 class="mb-0">Edit Bill Details</h3>
+        </div>
 
-    <div class="form-group">
-        <label asp-for="DoctorName"></label>
-        <input asp-for="DoctorName" class="form-control" readonly />
+        <div class="card-body p-4">
+            <form asp-action="EditBill" method="post">
+                @* Hidden Fields *@
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="VisitId" />
+
+                <div class="mb-3">
+                    <label asp-for="DoctorName" class="form-label fw-semibold">Doctor</label>
+                    <input asp-for="DoctorName" class="form-control" readonly />
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="PatientName" class="form-label fw-semibold">Patient</label>
+                    <input asp-for="PatientName" class="form-control" readonly />
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Amount" class="form-label fw-semibold">Amount</label>
+                    <input asp-for="Amount" class="form-control" />
+                    <span asp-validation-for="Amount" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="InsuranceDetails" class="form-label fw-semibold">Insurance</label>
+                    <input asp-for="InsuranceDetails" class="form-control" />
+                    <span asp-validation-for="InsuranceDetails" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="PaymentStatus" class="form-label fw-semibold">Status</label>
+                    <input asp-for="PaymentStatus" class="form-control" readonly value="PendingAdminReview" />
+                    <span asp-validation-for="PaymentStatus" class="text-danger"></span>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <a asp-action="MyBills" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left-circle me-1"></i> Cancel
+                    </a>
+                    <button type="submit" class="btn btn-success">
+                        <i class="bi bi-send-check me-1"></i> Submit for Review
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
-
-    <div class="form-group">
-        <label asp-for="PatientName"></label>
-        <input asp-for="PatientName" class="form-control" readonly />
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Amount"></label>
-        <input asp-for="Amount" class="form-control" />
-        <span asp-validation-for="Amount" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="InsuranceDetails"></label>
-        <input asp-for="InsuranceDetails" class="form-control" />
-        <span asp-validation-for="InsuranceDetails" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="PaymentStatus"></label>
-        <input asp-for="PaymentStatus" class="form-control" readonly value="PendingAdminReview" />
-        <span asp-validation-for="PaymentStatus" class="text-danger"></span>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+</div>
 
 
 @section Scripts {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
     <partial name="_ValidationScriptsPartial" />
 }

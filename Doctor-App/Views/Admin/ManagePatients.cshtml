@@ -1,0 +1,78 @@
+﻿@using Doctor_App.Core.Models.Patient
+@model List<PatientViewModel>
+
+@{
+    ViewData["Title"] = "All Patients";
+}
+
+@section Styles {
+    <style>
+        .patient-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+        }
+
+        .patient-table th {
+            background-color: #1e293b;
+            color: #fff;
+        }
+
+        .patient-table td, .patient-table th {
+            vertical-align: middle;
+        }
+
+        .header-icon {
+            font-size: 1.5rem;
+            margin-right: 10px;
+            color: #0d6efd;
+        }
+    </style>
+}
+
+<div class="container mt-5">
+    <div class="patient-card">
+        <h2 class="mb-4">
+            <i class="bi bi-person-vcard header-icon"></i>
+            @ViewData["Title"]
+        </h2>
+
+        @if (Model != null && Model.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover patient-table">
+                    <thead>
+                        <tr>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th>Date of Birth</th>
+                            <th>Gender</th>
+                            <th>Contact Information</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var visit in Model)
+                        {
+                            <tr>
+                                <td>@visit.FirstName</td>
+                                <td>@visit.LastName</td>
+                                <td>@visit.Email</td>
+                                <td>@visit.DateOfBirth.ToString("yyyy-MM-dd")</td>
+                                <td>@visit.Gender</td>
+                                <td>@visit.ContactInformation</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-warning">
+                <i class="bi bi-exclamation-circle"></i> No patients found.
+            </div>
+        }
+    </div>
+</div>

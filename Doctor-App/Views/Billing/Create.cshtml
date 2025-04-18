@@ -4,35 +4,52 @@
 @{
     ViewData["Title"] = "Create Bill";
 }
-<form asp-action="Create" method="post">
-    @* Hidden Fields *@
-    <input type="hidden" asp-for="VisitId" />
-    <input type="hidden" asp-for="PaymentStatus" value="SentToPatient" />
+<div class="container mt-5">
+    <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0"><i class="bi bi-receipt-cutoff me-2"></i>Create Medical Bill</h3>
+        </div>
 
-    <div class="form-group">
-        <label asp-for="DoctorName"></label>
-        <input asp-for="DoctorName" class="form-control" readonly />
+        <div class="card-body">
+            <form asp-action="Create" method="post">
+                @* Hidden Fields *@
+                <input type="hidden" asp-for="VisitId" />
+                <input type="hidden" asp-for="PaymentStatus" value="SentToPatient" />
+
+                <div class="mb-3">
+                    <label asp-for="DoctorName" class="form-label fw-bold">Doctor</label>
+                    <input asp-for="DoctorName" class="form-control bg-light" readonly />
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="PatientName" class="form-label fw-bold">Patient</label>
+                    <input asp-for="PatientName" class="form-control bg-light" readonly />
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Amount" class="form-label fw-bold">Amount ($)</label>
+                    <input asp-for="Amount" class="form-control bg-light text-success fw-bold" placeholder="Enter amount..." />
+                    <span asp-validation-for="Amount" class="text-danger"></span>
+                </div>
+
+                <div class="mb-4">
+                    <label asp-for="InsuranceDetails" class="form-label fw-bold">Insurance Details</label>
+                    <input asp-for="InsuranceDetails" class="form-control" placeholder="Enter insurance info..." />
+                    <span asp-validation-for="InsuranceDetails" class="text-danger"></span>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-success px-4">
+                        <i class="bi bi-send-check me-1"></i>Submit to Patient
+                    </button>
+                    <a asp-action="Dashboard" asp-controller="Doctor" class="btn btn-outline-secondary px-4">
+                        <i class="bi bi-x-circle me-1"></i>Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
     </div>
-
-    <div class="form-group">
-        <label asp-for="PatientName"></label>
-        <input asp-for="PatientName" class="form-control" readonly />
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Amount"></label>
-        <input asp-for="Amount" class="form-control" readonly />
-        <span asp-validation-for="Amount" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="InsuranceDetails"></label>
-        <input asp-for="InsuranceDetails" class="form-control" />
-        <span asp-validation-for="InsuranceDetails" class="text-danger"></span>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Submit To Patient</button>
-</form>
+</div>
 
 @section Scripts {
     @{

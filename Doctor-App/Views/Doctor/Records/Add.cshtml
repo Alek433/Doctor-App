@@ -1,46 +1,56 @@
 ﻿@using Doctor_App.Core.Models.Patient
 @model PatientRecordViewModel
-<h2>Add Record</h2>
 
-@using (Html.BeginForm("Add", "Doctor", FormMethod.Post))
-{
-    <div class="container">
-        <h2>Add New Medical Record</h2>
-
-        <div class="form-group">
-            <label for="PatientId">Patient</label>
-            <select asp-for="PatientId" asp-items="Model.Patients" class="form-control">
-                <option value="">-- Select Patient --</option>
-            </select>
-            <span asp-validation-for="PatientId" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
-            <label for="Diagnosis">Diagnosis</label>
-            <input asp-for="Diagnosis" class="form-control" required />
-        </div>
-
-        <div class="form-group">
-            <label for="VisitDate">Visit Date</label>
-            <input asp-for="VisitDate" type="date" class="form-control" required />
-        </div>
-
-        <div class="form-group">
-            <label for="ReasonForVisit">Reason for Visit</label>
-            <textarea asp-for="ReasonForVisit" class="form-control" required></textarea>
-        </div>
-
-        <div class="form-group">
-            <label for="Prescriptions">Prescriptions</label>
-            <textarea asp-for="Prescriptions" class="form-control"></textarea>
-        </div>
-
-        <div class="form-group">
-            <label for="Notes">Notes</label>
-            <textarea asp-for="Notes" class="form-control"></textarea>
-        </div>
-
-        <button type="submit" class="btn btn-success">Save</button>
-        <a asp-action="Dashboard" class="btn btn-secondary">Cancel</a>
-    </div>
+@{
+    ViewData["Title"] = "Add Record";
 }
+
+<div class="container mt-5">
+    <div class="card shadow-lg rounded-3">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">Add New Medical Record</h3>
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm("Add", "Doctor", FormMethod.Post))
+            {
+                <div class="form-group mb-3">
+                    <label asp-for="PatientId" class="form-label">Patient</label>
+                    <select asp-for="PatientId" asp-items="Model.Patients" class="form-control">
+                        <option value="">-- Select Patient --</option>
+                    </select>
+                    <span asp-validation-for="PatientId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Diagnosis" class="form-label">Diagnosis</label>
+                    <input asp-for="Diagnosis" class="form-control" placeholder="Enter diagnosis..." required />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="VisitDate" class="form-label">Visit Date</label>
+                    <input asp-for="VisitDate" type="date" class="form-control" required />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="ReasonForVisit" class="form-label">Reason for Visit</label>
+                    <textarea asp-for="ReasonForVisit" class="form-control" placeholder="Describe the reason for visit..." rows="3" required></textarea>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Prescriptions" class="form-label">Prescriptions</label>
+                    <textarea asp-for="Prescriptions" class="form-control" placeholder="List any prescriptions..." rows="2"></textarea>
+                </div>
+
+                <div class="form-group mb-4">
+                    <label asp-for="Notes" class="form-label">Notes</label>
+                    <textarea asp-for="Notes" class="form-control" placeholder="Additional notes..." rows="3"></textarea>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-success px-4">💾 Save Record</button>
+                    <a asp-action="Dashboard" class="btn btn-outline-secondary px-4">↩ Back to Dashboard</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>

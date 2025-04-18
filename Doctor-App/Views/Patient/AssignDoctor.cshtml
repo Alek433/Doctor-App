@@ -3,35 +3,86 @@
 
 @{
     ViewData["Title"] = "Assign a Doctor";
+
+    var specializationFilter = Context.Request.Query["Specialization"].ToString();
+}
+
+@section Styles {
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+    <style>
+        .doctor-card {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+
+        .doctor-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+        }
+
+        .specialization-badge {
+            font-size: 0.85rem;
+            background-color: #dff0ff;
+            color: #007bff;
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+
+        .search-box {
+            border-radius: 0.5rem;
+            box-shadow: 0 0.25rem 0.75rem rgba(0,0,0,0.05);
+            padding: 1.5rem;
+        }
+    </style>
 }
 
 <div class="container mt-5">
-    <h2 class="text-center mb-4">Assign a Doctor</h2>
+    <h2 class="text-center mb-4"><i class="bi bi-person-plus-fill me-2"></i>Assign a Doctor</h2>
 
-    <table class="table table-bordered">
-        <thead class="thead-dark">
-            <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Specialization</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
+    <!-- 🔍 Search Form -->
+    <div class="search-box bg-light mb-4">
+        <form method="get" class="row g-3 align-items-end">
+            <div class="col-md-5">
+                <label for="specialization" class="form-label fw-semibold">Specialization</label>
+                <input type="text" class="form-control" id="specialization" name="specialization" value="@specializationFilter" placeholder="e.g., Cardiology" />
+            </div>
+            <div class="col-md-2 text-end">
+                <button type="submit" class="btn btn-primary w-100"><i class="bi bi-search me-1"></i>Search</button>
+            </div>
+        </form>
+    </div>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info text-center">
+            <i class="bi bi-exclamation-circle me-2"></i>No doctors available at the moment.
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
             @foreach (var doctor in Model)
             {
-                <tr>
-                    <td>@doctor.FirstName</td>
-                    <td>@doctor.LastName</td>
-                    <td>@doctor.Specialization</td>
-                    <td>
-                        <form asp-action="AssignDoctor" asp-controller="Patient" method="post">
-                            <input type="hidden" name="doctorId" value="@doctor.Id" />
-                            <button type="submit" class="btn btn-primary">Assign</button>
-                        </form>
-                    </td>
-                </tr>
+                <div class="col-md-6 col-lg-4">
+                    <div class="card doctor-card border-0 shadow-sm h-100">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">
+                                <i class="bi bi-person-circle me-2"></i>@doctor.FirstName @doctor.LastName
+                            </h5>
+                            <p class="card-text">
+                                <span class="specialization-badge">@doctor.Specialization</span>
+                            </p>
+                            <p class="text-muted mb-1"><i class="bi bi-building me-1"></i><strong>Office:</strong> @doctor.OfficeLocation</p>
+                            <p class="text-muted mb-2"><i class="bi bi-telephone me-1"></i><strong>Contact:</strong> @doctor.ContactInformation</p>
+                            <form asp-action="AssignDoctor" asp-controller="Patient" method="post">
+                                <input type="hidden" name="doctorId" value="@doctor.Id" />
+                                <button type="submit" class="btn btn-success w-100 mt-2">
+                                    <i class="bi bi-check2-circle me-1"></i> Assign
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             }
-        </tbody>
-    </table>
+        </div>
+    }
 </div>
