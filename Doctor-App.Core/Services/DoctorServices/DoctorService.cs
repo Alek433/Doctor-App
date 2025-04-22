@@ -50,6 +50,7 @@ namespace Doctor_App.Core.Services.DoctorServices
                 LastName = model.LastName,
                 Specialization = model.Specialization,
                 ContactInformation = model.ContactInformation,
+                City = model.City,
                 OfficeLocation = model.OfficeLocation,
             };
             await _context.AddAsync(doctor);
@@ -78,6 +79,7 @@ namespace Doctor_App.Core.Services.DoctorServices
                     LastName = d.LastName,
                     Email = d.User.Email,
                     Specialization= d.Specialization,
+                    City = d.City,
                     OfficeLocation= d.OfficeLocation,
                     ContactInformation= d.ContactInformation,
                 })

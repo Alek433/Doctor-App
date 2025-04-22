@@ -68,7 +68,7 @@ namespace Doctor_App.Core.Services.BillingServices
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<List<BillViewModel>> GetPendingBillsAsync()
+        public async Task<List<BillViewModel>> GetAllBillsAsync()
         {
             var bills = await _dbContext.Billings
                 .Include(b => b.Visit)

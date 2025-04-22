@@ -6,6 +6,7 @@
         public string LastName { get; set; }
         public string Specialization { get; set; } 
         public string ContactInformation { get; set; }
+        public string City { get; set; }
         public string OfficeLocation { get; set; }
     }
 }

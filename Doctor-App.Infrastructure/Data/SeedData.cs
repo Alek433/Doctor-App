@@ -47,8 +47,8 @@ namespace Doctor_App.Infrastructure
                     await userManager.AddToRoleAsync(user, "Admin");
                 }
             }
-            var userEmail = "user@hospital.com";
-            var userPassword = "User@123"; // Change to something more secure
+            var userEmail = "user1@hospital.com";
+            var userPassword = "User1@123"; // Change to something more secure
 
             var normalUser = await userManager.FindByEmailAsync(userEmail);
 

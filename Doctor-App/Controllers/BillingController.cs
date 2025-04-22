@@ -40,58 +40,13 @@ namespace Doctor_App.Web.Controllers
             await _billingService.CreateBillAsync(model);
             return RedirectToAction("Dashboard", "Doctor");
         }
-        /*[HttpGet]
-        public async Task<IActionResult> EditBill(int id)
-        {
-            var bill = await _billingService.GetBillByIdAsync(id);
-            if (bill == null)
-            {
-                return NotFound();
-            }
-
-            return View("EditBill", bill); // View: Edit.cshtml
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditBill(int id, BillViewModel model)
-        {
-            if (id != model.Id)
-                return BadRequest();
-
-            if (!ModelState.IsValid)
-                return View(model);
-
-            await _billingService.UpdateBillAsync(model);
-
-            // Optionally: notify patient (via email/notification system)
-
-            return RedirectToAction("MyBills", "Patient"); // Or any admin dashboard
-        }*/
 
 
         [HttpGet("Review")]
         public async Task<IActionResult> Review()
         {
-            var bills = await _billingService.GetPendingBillsAsync();
+            var bills = await _billingService.GetAllBillsAsync();
             return View(bills);
         }
-
-        /*[HttpPost]
-        public async Task<IActionResult> Approve(int id)
-        {
-            var bill = await _billingService.GetBillByIdAsync(id);
-            if (bill == null) return NotFound();
-
-            bill.PaymentStatus = "SentToPatient";
-            await _billingService.UpdateBillAsync(bill); // make sure this method exists
-            return RedirectToAction("Edit");
-        }
-        [HttpPost]
-        public async Task<IActionResult> ConfirmPayment(int id)
-        {
-            await _billingService.MarkAsPaidAsync(id);
-            return RedirectToAction("MyBills", "Patient");
-        }*/
     }
 }

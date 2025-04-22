@@ -12,7 +12,7 @@ namespace Doctor_App.Core.Services.BillingServices
     {
         Task<BillViewModel?> GetBillViewByVisitIdAsync(int visitId);
         Task CreateBillAsync(BillViewModel model);
-        Task<List<BillViewModel>> GetPendingBillsAsync();
+        Task<List<BillViewModel>> GetAllBillsAsync();
         Task<IEnumerable<BillViewModel>> GetBillsPendingApprovalAsync();
         Task ApproveBillAsync(int billId);
         Task<BillViewModel?> GetBillByIdAsync(int billId);
@@ -21,9 +21,5 @@ namespace Doctor_App.Core.Services.BillingServices
         Task<IEnumerable<BillViewModel>> GetBillsForPatientAsync(Guid patientId);
         Task<bool> DeleteBillByIdAsync(int id);
         Task MarkAsPaidAsync(int billId);
-        /*Task<BillViewModel?> GetBillByVisitIdAsync(int visitId);
-        /*Task CreateBillAsync(Billing bill);
-        Task UpdatePaymentStatusAsync(int billingId, string status);*/
-        //Task UpdateBillAsync(BillViewModel model);
     }
 }
