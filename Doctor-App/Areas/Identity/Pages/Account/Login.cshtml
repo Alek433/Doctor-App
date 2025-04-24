@@ -3,10 +3,11 @@
 
 @{
     ViewData["Title"] = "Log in";
+    ViewData["PageBackground"] = "#d4edda";
 }
-
-<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
-    <div class="card shadow-lg p-5 rounded-4" style="width: 100%; max-width: 400px;">
+<div style="background-color: #d4edda; min-height: 100vh;">
+  <div class="container d-flex justify-content-center align-items-center" style="min-height: 75vh;">
+    <div class="card shadow-lg p-5 rounded-4" style="width: 100%; max-width: 700px;">
         <h2 class="text-center mb-4 text-primary">@ViewData["Title"]</h2>
 
         <form id="account" method="post">
@@ -42,8 +43,8 @@
             </div>
         </form>
     </div>
+  </div>
 </div>
-
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }

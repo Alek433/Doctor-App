@@ -8,19 +8,18 @@ using Doctor_App.Models.Doctor;
 using Doctor_App.Infrastructure.Data.Entities;
 using Doctor_App.Core.Models.Doctor;
 using Doctor_App.Core.Models.Patient;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Doctor_App.Core.Services.DoctorServices
 {
     public interface IDoctorService
     {
         Task<string> GetDoctorIdAsync(string userId);
-
         Task<bool> ExistsByIdAsync(string userId);
-
         Task<List<DoctorViewModel>> GetAllDoctorsAsync();
-
         Task<Guid> AddDoctorAsync(string userId, BecomeDoctorModel model);
-
         Task<List<PatientViewModel>> GetPatientsByDoctorIdAsync(Guid doctorId);
+        Task<bool> ApproveDoctorAsync(Guid doctorId);
+        Task<bool> DeleteDoctorAsync(Guid doctorId);
     }
 }

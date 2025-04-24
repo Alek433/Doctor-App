@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Security.Claims;
 using Doctor_App.Core.Models.Doctor;
 using Doctor_App.Core.Models.Patient;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Doctor_App.Core.Services.DoctorServices
 {
@@ -59,6 +60,26 @@ namespace Doctor_App.Core.Services.DoctorServices
             return doctor.Id;
         }
 
+        public async Task<bool> ApproveDoctorAsync(Guid doctorId)
+        {
+            var doctor = await _dbContext.Doctors.FindAsync(doctorId);
+            if (doctor == null) return false;
+
+            doctor.IsApproved = true;
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> DeleteDoctorAsync(Guid doctorId)
+        {
+            var doctor = await _dbContext.Doctors.FindAsync(doctorId);
+            if (doctor == null) return false;
+
+            _dbContext.Doctors.Remove(doctor);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
         public async Task<bool> ExistsByIdAsync(string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
@@ -71,19 +92,23 @@ namespace Doctor_App.Core.Services.DoctorServices
         }
         public async Task<List<DoctorViewModel>> GetAllDoctorsAsync()
         {
-            return await _dbContext.Doctors
-                .Select(d => new DoctorViewModel
-                {
-                    Id = d.Id,
-                    FirstName = d.FirstName,
-                    LastName = d.LastName,
-                    Email = d.User.Email,
-                    Specialization= d.Specialization,
-                    City = d.City,
-                    OfficeLocation= d.OfficeLocation,
-                    ContactInformation= d.ContactInformation,
-                })
+            var doctors = await _dbContext.Doctors
+                .Include(d => d.User)
+                .Where(d => d.IsApproved == true || d.IsApproved == false)
                 .ToListAsync();
+
+            return doctors.Select(d => new DoctorViewModel
+            {
+                Id = d.Id,
+                FirstName = d.FirstName ?? string.Empty,
+                LastName = d.LastName ?? string.Empty,
+                Email = d.User?.Email,
+                City = d.City ?? string.Empty,
+                Specialization = d.Specialization ?? string.Empty,
+                OfficeLocation = d.OfficeLocation ?? string.Empty,
+                ContactInformation = d.ContactInformation ?? string.Empty,
+                IsApproved = d.IsApproved,
+            }).ToList();
         }
         public async Task<string> GetDoctorIdAsync(string userId)
         {

@@ -16,7 +16,7 @@ using Doctor_App.Core.Models.Patient;
 
 namespace Doctor_App.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Doctor")]
     public class DoctorController : Controller
     {
         private readonly IDoctorService _doctorService;

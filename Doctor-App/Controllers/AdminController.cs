@@ -70,6 +70,23 @@ namespace Doctor_App.Controllers
             var doctors = await _doctorService.GetAllDoctorsAsync();
             return View(doctors);
         }
+        [HttpPost]
+        public async Task<IActionResult> ApproveDoctor(Guid id)
+        {
+            var success = await _doctorService.ApproveDoctorAsync(id);
+            if (!success) return NotFound();
+
+            return RedirectToAction(nameof(ManageDoctors));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteDoctor(Guid id)
+        {
+            var success = await _doctorService.DeleteDoctorAsync(id);
+            if (!success) return NotFound();
+
+            return RedirectToAction(nameof(ManageDoctors));
+        }
 
         // Manage patients
         public async Task<IActionResult> ManagePatients()

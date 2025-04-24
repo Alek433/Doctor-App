@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using System.Web.WebPages.Html;
 
 namespace Doctor_App.Controllers
 {
@@ -126,6 +127,7 @@ namespace Doctor_App.Controllers
 
             var allDoctors = await _doctorService.GetAllDoctorsAsync();
 
+
             if (!string.IsNullOrWhiteSpace(specialization))
             {
                 allDoctors = allDoctors
@@ -146,12 +148,12 @@ namespace Doctor_App.Controllers
         public async Task<IActionResult> AssignDoctor(Guid doctorId)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Get the logged-in user's ID
-
+            
             //var patient = await _context.Patients.FirstOrDefaultAsync(p => p.UserId == userId);
             var patient = await _patientService.GetPatientByUserIdAsync(userId);
             if (patient == null)
             {
-                return NotFound("Patient not found.");
+                return NotFound("Doctor not found.");
             }
             await _patientService.AssignDoctorToPatientAsync(patient.Id, doctorId);
 

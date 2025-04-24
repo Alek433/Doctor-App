@@ -1,38 +1,101 @@
 ﻿@model List<Doctor_App.Core.Models.Doctor.DoctorViewModel>
 
 @{
-    ViewData["Title"] = "All Visits";
+    ViewData["Title"] = "Manage Doctors";
+    var pendingDoctors = Model.Where(d => !d.IsApproved).ToList();
+    var approvedDoctors = Model.Where(d => d.IsApproved).ToList();
 }
 
-<h2>All Patient Visits</h2>
+<h2 class="mb-4">Manage Doctors</h2>
 
-@if (Model != null && Model.Any())
+@if (approvedDoctors.Any())
 {
-    <table class="table table-bordered table-striped">
-        <thead class="table-dark">
+    <h4 class="text-success">Approved Doctors</h4>
+    <table class="table table-bordered table-hover shadow-sm">
+        <thead class="table-success text-center">
             <tr>
                 <th>First Name</th>
                 <th>Last Name</th>
                 <th>Email</th>
                 <th>Specialization</th>
+                <th>City</th>
+                <th>Office Location</th>
+                <th>Contact Information</th>
+                <th>Status</th>
+                <th>Action</th>
             </tr>
         </thead>
-        <tbody>
-            @foreach (var doctor in Model)
+        <tbody class="text-center">
+            @foreach (var doctor in approvedDoctors)
             {
                 <tr>
                     <td>@doctor.FirstName</td>
                     <td>@doctor.LastName</td>
                     <td>@doctor.Email</td>
                     <td>@doctor.Specialization</td>
+                    <td>@doctor.City</td>
+                    <td>@doctor.OfficeLocation</td>
+                    <td>@doctor.ContactInformation</td>
+                    <td><span class="badge bg-success">Approved</span></td>
+                    <td>
+                        <form asp-action="DeleteDoctor" method="post" asp-route-id="@doctor.Id" class="d-inline"
+                              onsubmit="return confirm('Are you sure you want to delete this doctor?');">
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </td>
                 </tr>
             }
         </tbody>
     </table>
 }
-else
+
+@if (pendingDoctors.Any())
 {
-    <div class="alert alert-warning">
-        No visits found.
+    <h4 class="text-warning">Pending Doctors</h4>
+    <table class="table table-bordered table-hover shadow-sm mb-5">
+        <thead class="table-warning text-center">
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Specialization</th>
+                <th>City</th>
+                <th>Office Location</th>
+                <th>Contact Information</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody class="text-center">
+            @foreach (var doctor in pendingDoctors)
+            {
+                <tr>
+                    <td>@doctor.FirstName</td>
+                    <td>@doctor.LastName</td>
+                    <td>@doctor.Email</td>
+                    <td>@doctor.Specialization</td>
+                    <td>@doctor.City</td>
+                    <td>@doctor.OfficeLocation</td>
+                    <td>@doctor.ContactInformation</td>
+                    <td><span class="badge bg-warning text-dark">Pending</span></td>
+                    <td>
+                        <form asp-action="ApproveDoctor" method="post" asp-route-id="@doctor.Id" class="d-inline">
+                            <button type="submit" class="btn btn-success btn-sm">Approve</button>
+                        </form>
+                        <form asp-action="DeleteDoctor" method="post" asp-route-id="@doctor.Id" class="d-inline"
+                              onsubmit="return confirm('Are you sure you want to delete this doctor?');">
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@if (!pendingDoctors.Any() && !approvedDoctors.Any())
+{
+    <div class="alert alert-info">
+        No doctors found.
     </div>
 }

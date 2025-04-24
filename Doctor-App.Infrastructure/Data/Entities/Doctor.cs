@@ -13,6 +13,7 @@ namespace Doctor_App.Infrastructure.Data.Entities
 
         [ForeignKey(nameof(UserId))]
         public virtual IdentityUser User { get; set; }
+        public bool IsApproved { get; set; } = false;
         [Required]
         [MaxLength(100)]
         public string FirstName { get; set; }

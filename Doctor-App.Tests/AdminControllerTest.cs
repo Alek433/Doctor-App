@@ -46,7 +46,7 @@ public class AdminControllerTests
     {
         // Arrange
         var fakeBills = new List<BillViewModel> { new BillViewModel { Id = 1, Amount = 100 } };
-        _billingServiceMock.Setup(x => x.GetPendingBillsAsync()).ReturnsAsync(fakeBills);
+        _billingServiceMock.Setup(x => x.GetAllBillsAsync()).ReturnsAsync(fakeBills);
 
         // Act
         var result = await _controller.AllBills() as ViewResult;

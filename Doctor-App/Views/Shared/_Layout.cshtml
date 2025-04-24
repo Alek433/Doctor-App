@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="~/css/site.css" />
     @RenderSection("Styles", required: false)
 </head>
-<body style="background-color: #f9fdfb;">
+<body style="background-color:@(ViewData["PageBackground"] ?? "white")">
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-success shadow-sm">
             <div class="container">
