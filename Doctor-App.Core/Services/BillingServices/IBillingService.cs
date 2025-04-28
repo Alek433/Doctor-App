@@ -20,6 +20,7 @@ namespace Doctor_App.Core.Services.BillingServices
         Task<List<BillViewModel>> GetBillsByPatientUserIdAsync(string userId);
         Task<IEnumerable<BillViewModel>> GetBillsForPatientAsync(Guid patientId);
         Task<bool> DeleteBillByIdAsync(int id);
-        Task MarkAsPaidAsync(int billId);
+        Task<List<BillViewModel>> GetPaidBillsByDoctorAsync(string doctorId);
+        Task<List<BillViewModel>> GetAllApprovedBillsAsync();
     }
 }

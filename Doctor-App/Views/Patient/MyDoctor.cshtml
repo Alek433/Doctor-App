@@ -1,0 +1,58 @@
+﻿@model Doctor_App.Core.Models.Doctor.DoctorViewModel
+
+@{
+    ViewData["Title"] = "My Doctor";
+}
+
+<div class="container mt-4">
+    <div class="card shadow p-4">
+        <h2 class="mb-4">My Doctor</h2>
+
+        <div class="mb-3">
+            <strong>Name:</strong> @Model.FirstName @Model.LastName
+        </div>
+        <div class="mb-3">
+            <strong>Specialization:</strong> @Model.Specialization
+        </div>
+        <div class="mb-3">
+            <strong>City:</strong> @Model.City
+        </div>
+        <div class="mb-3">
+            <strong>Office Location:</strong> @Model.OfficeLocation
+        </div>
+        <div class="mb-3">
+            <strong>Contact Information:</strong> @Model.ContactInformation
+        </div>
+        <div class="mb-3">
+            <strong>Average Rating:</strong>
+            @if (Model.AverageRating.HasValue)
+            {
+                var fullStars = (int)Math.Floor(Model.AverageRating.Value);
+                var hasHalfStar = Model.AverageRating.Value - fullStars >= 0.5;
+                var emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+
+                for (int i = 0; i < fullStars; i++)
+                {
+                    <span style="color: gold; font-size: 1.5em;">&#9733;</span>
+                }
+                if (hasHalfStar)
+                {
+                    <span style="color: gold; font-size: 1.5em;">&#189;</span>
+                }
+                for (int i = 0; i < emptyStars; i++)
+                {
+                    <span style="color: lightgray; font-size: 1.5em;">&#9734;</span>
+                }
+                <span class="ms-2">(@Model.AverageRating.Value.ToString("0.0"))</span>
+            }
+            else
+            {
+                <span>No ratings yet</span>
+            }
+        </div>
+
+        <div class="mt-4">
+            <a asp-controller="Patient" asp-action="RateDoctor" asp-route-doctorId="@Model.Id" class="btn btn-primary">Rate This Doctor</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,35 @@
+﻿@using Doctor_App.Core.Models.Billing
+@model IEnumerable<BillViewModel>
+
+<h2>My Payments</h2>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">No payments found yet.</div>
+}
+else
+{
+    <table class="table table-bordered table-hover shadow-sm">
+        <thead class="table-dark text-center">
+            <tr>
+                <th>Patient</th>
+                <th>Visit Date</th>
+                <th>Amount</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody class="text-center">
+            @foreach (var bill in Model)
+            {
+                <tr>
+                    <td>@bill.PatientName</td>
+                    <td>@bill.VisitDate.ToString("yyyy-MM-dd")</td>
+                    <td>@bill.Amount.ToString("C")</td>
+                    <td>
+                        <span class="badge bg-success">Paid</span>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

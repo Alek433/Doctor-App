@@ -14,12 +14,14 @@
                 {
                     <a class="btn btn-primary btn-lg" asp-controller="Doctor" asp-action="Dashboard">Doctor Dashboard</a>
                     <a class="btn btn-primary btn-lg" asp-controller="Doctor" asp-action="MyPatients">My Patients</a>
+                    <a class="btn btn-primary btn-lg" asp-controller="Doctor" asp-action="MyPayments">My Payments</a>
                 }
                 else if (User.IsInRole("Patient"))
                 {
                     <a class="btn btn-success btn-lg" asp-controller="Patient" asp-action="ViewMyRecords">View Medical Records</a>
                     <a class="btn btn-success btn-lg" asp-controller="Patient" asp-action="AssignDoctor">Assign a Doctor</a>
                     <a class="btn btn-success btn-lg" asp-controller="Patient" asp-action="MyBills">My Bills</a>
+                    <a class="btn btn-success btn-lg" asp-controller="Patient" asp-action="MyDoctor">My Doctor</a>
                 }
                 else if (User.IsInRole("Admin"))
                 {
@@ -46,7 +48,7 @@
                             </div>
 
                             <div class="col-md-4">
-                                <a asp-controller="Admin" asp-action="AllBills" class="btn btn-outline-warning w-100">
+                                <a asp-controller="Admin" asp-action="AllApprovedBills" class="btn btn-outline-warning w-100">
                                     All Bills
                                 </a>
                             </div>

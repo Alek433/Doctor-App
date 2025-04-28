@@ -22,5 +22,6 @@ namespace Doctor_App.Core.Models.Billing
         public string PaymentStatus { get; set; }
         public string PatientName { get; set; }
         public string DoctorName { get; set; }
+        public DateTime VisitDate { get; set; }
     }
 }

@@ -119,14 +119,14 @@ namespace Doctor_App.Controllers
             return View("ViewMyRecords", records);
         }
         [HttpGet]
-        public async Task<IActionResult> AssignDoctor(string specialization, string officeLocation)
+        public async Task<IActionResult> AssignDoctor(string specialization, string city)
         {
             var patientId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (patientId == null)
                 return Unauthorized();
 
             var allDoctors = await _doctorService.GetAllDoctorsAsync();
-
+            var assignedDoctorIds = await _patientService.GetAssignedDoctorIdsAsync(Guid.Parse(patientId));
 
             if (!string.IsNullOrWhiteSpace(specialization))
             {
@@ -135,14 +135,18 @@ namespace Doctor_App.Controllers
                     .ToList();
             }
 
-            if (!string.IsNullOrWhiteSpace(officeLocation))
+            if (!string.IsNullOrWhiteSpace(city))
             {
                 allDoctors = allDoctors
-                    .Where(d => d.OfficeLocation != null && d.OfficeLocation.Contains(officeLocation, StringComparison.OrdinalIgnoreCase))
+                    .Where(d => d.City != null && d.City.Contains(city, StringComparison.OrdinalIgnoreCase))
                     .ToList();
             }
-
-            return View(allDoctors);
+            var model = allDoctors.Select(d => new AssignedDoctorViewModel
+            {
+                Doctor = d,
+                IsAssigned = assignedDoctorIds.Contains(d.Id)
+            }).ToList();
+            return View(model);
         }
         [HttpPost]
         public async Task<IActionResult> AssignDoctor(Guid doctorId)
@@ -154,6 +158,10 @@ namespace Doctor_App.Controllers
             if (patient == null)
             {
                 return NotFound("Doctor not found.");
+            }
+            if (await _patientService.IsAlreadyAssigned(patient.Id.ToString(), doctorId.ToString()))
+            {
+                return RedirectToAction("AssignDoctor");
             }
             await _patientService.AssignDoctorToPatientAsync(patient.Id, doctorId);
 
@@ -185,6 +193,51 @@ namespace Doctor_App.Controllers
             await _billingService.UpdateBillAsync(model);
 
             return RedirectToAction("MyBills");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> MyDoctor()
+        {
+            var patientId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (patientId == null)
+                return Unauthorized();
+
+            var doctor = await _patientService.GetAssignedDoctorAsync(patientId);
+
+            if (doctor == null)
+                return View("NoDoctorAssigned"); // Optional: view if no doctor assigned yet
+
+            return View(doctor);
+        }
+
+        [HttpGet]
+        public IActionResult RateDoctor(Guid doctorId)
+        {
+            var model = new RateDoctorViewModel
+            {
+                DoctorId = doctorId
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SubmitRating(RateDoctorViewModel model)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var patient = await _patientService.GetPatientByUserIdAsync(userId);
+
+            var patientDoctor = await _context.PatientDoctors
+                .FirstOrDefaultAsync(pd => pd.PatientId == patient.Id && pd.DoctorId == model.DoctorId);
+
+            if (patientDoctor == null)
+            {
+                return NotFound();
+            }
+
+            patientDoctor.Rating = model.Rating;
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index", "Home");
         }
         public IActionResult ReceiveNotifications() => View();
     }

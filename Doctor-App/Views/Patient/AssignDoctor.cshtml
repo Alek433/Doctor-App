@@ -1,10 +1,10 @@
 ﻿@using Doctor_App.Core.Models.Doctor
-@model List<DoctorViewModel>
+@model List<AssignedDoctorViewModel>
 
 @{
     ViewData["Title"] = "Assign a Doctor";
-
     var specializationFilter = Context.Request.Query["Specialization"].ToString();
+    var cityFilter = Context.Request.Query["City"].ToString();
 }
 
 @section Styles {
@@ -45,6 +45,10 @@
                 <label for="specialization" class="form-label fw-semibold">Specialization</label>
                 <input type="text" class="form-control" id="specialization" name="specialization" value="@specializationFilter" placeholder="e.g., Cardiology" />
             </div>
+            <div class="col-md-5">
+                <label for="city" class="form-label fw-semibold">City</label>
+                <input type="text" class="form-control" id="city" name="city" value="@cityFilter" placeholder="e.g., Sofia" />
+            </div>
             <div class="col-md-2 text-end">
                 <button type="submit" class="btn btn-primary w-100"><i class="bi bi-search me-1"></i>Search</button>
             </div>
@@ -66,20 +70,51 @@
                     <div class="card doctor-card border-0 shadow-sm h-100">
                         <div class="card-body">
                             <h5 class="card-title fw-bold">
-                                <i class="bi bi-person-circle me-2"></i>@doctor.FirstName @doctor.LastName
+                                <i class="bi bi-person-circle me-2"></i>@doctor.Doctor.FirstName @doctor.Doctor.LastName
                             </h5>
                             <p class="card-text">
-                                <span class="specialization-badge">@doctor.Specialization</span>
+                                <span class="specialization-badge">@doctor.Doctor.Specialization</span>
                             </p>
-                            <p class="text-muted mb-1"><i class="bi bi-location me-1"></i><strong>City:</strong> @doctor.City</p>
-                            <p class="text-muted mb-1"><i class="bi bi-building me-1"></i><strong>Office:</strong> @doctor.OfficeLocation</p>
-                            <p class="text-muted mb-2"><i class="bi bi-telephone me-1"></i><strong>Contact:</strong> @doctor.ContactInformation</p>
-                            <form asp-action="AssignDoctor" asp-controller="Patient" method="post">
-                                <input type="hidden" name="doctorId" value="@doctor.Id" />
-                                <button type="submit" class="btn btn-success w-100 mt-2">
-                                    <i class="bi bi-check2-circle me-1"></i> Assign
-                                </button>
-                            </form>
+                            <p class="text-muted mb-1"><i class="bi bi-location me-1"></i><strong>City:</strong> @doctor.Doctor.City</p>
+                            <p class="text-muted mb-1"><i class="bi bi-building me-1"></i><strong>Office:</strong> @doctor.Doctor.OfficeLocation</p>
+                            <p class="text-muted mb-2"><i class="bi bi-telephone me-1"></i><strong>Contact:</strong> @doctor.Doctor.ContactInformation</p>
+                            @if (doctor.Doctor.AverageRating.HasValue)
+                            {
+                                var fullStars = (int)Math.Floor(doctor.Doctor.AverageRating.Value);
+                                var hasHalfStar = doctor.Doctor.AverageRating.Value - fullStars >= 0.5;
+                                var emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+    
+                                <p>
+                                    @for (int i = 0; i < fullStars; i++)
+                                    {
+                                         <span style="color: gold; font-size: 1.5em;">&#9733;</span> <!-- Full star -->
+                                    }
+                                    @if (hasHalfStar)
+                                    {
+                                         <span style="color: gold; font-size: 1.5em;">&#189;</span> <!-- Half star (optional style) -->
+                                    }
+                                    @for (int i = 0; i < emptyStars; i++)
+                                    {
+                                         <span style="color: lightgray; font-size: 1.5em;">&#9734;</span> <!-- Empty star -->
+                                    }
+                                    <span class="ms-2">(@doctor.Doctor.AverageRating.Value.ToString("0.0"))</span>
+                                </p>
+                            }
+                            else
+                            {
+                                <p>No ratings yet</p>
+                            }
+                            @if (doctor.Doctor.IsAssignedToPatient)
+                            {
+                                <button class="btn btn-secondary" disabled>Assigned</button>
+                            }
+                            else
+                            {
+                                <form asp-action="AssignDoctor" method="post">
+                                    <input type="hidden" name="doctorId" value="@doctor.Doctor.Id" />
+                                    <button type="submit" class="btn btn-primary">Assign</button>
+                                </form>
+                            }
                         </div>
                     </div>
                 </div>

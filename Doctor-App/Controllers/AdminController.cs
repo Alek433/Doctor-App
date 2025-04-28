@@ -4,6 +4,7 @@ using Doctor_App.Core.Services.BillingServices;
 using Doctor_App.Core.Services.DoctorServices;
 using Doctor_App.Core.Services.MedicalRecordServices;
 using Doctor_App.Core.Services.PatientServices;
+using Doctor_App.Infrastructure.Data.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -54,11 +55,11 @@ namespace Doctor_App.Controllers
         {
             if (action == "Approve")
             {
-                model.PaymentStatus = "Approved";
+                model.PaymentStatus = "Paid";
             }
             else if (action == "Reject")
             {
-                model.PaymentStatus = "Rejected";
+                model.PaymentStatus = "ReturnedToPatient";
             }
 
             await _billingService.UpdateBillAsync(model);
@@ -78,7 +79,6 @@ namespace Doctor_App.Controllers
 
             return RedirectToAction(nameof(ManageDoctors));
         }
-
         [HttpPost]
         public async Task<IActionResult> DeleteDoctor(Guid id)
         {
@@ -116,10 +116,11 @@ namespace Doctor_App.Controllers
             var appointments = await _appointmentService.GetAllAppointmentsAsync(); // Implement this in the service
             return View(appointments);
         }
-        public async Task<IActionResult> AdminVisits()
+        [HttpGet]
+        public async Task<IActionResult> AllApprovedBills()
         {
-            var visits = await _medicalRecordService.GetAllVisitsAsync(); // You can implement this method in IVisitService
-            return View(visits);
+            var bills = await _billingService.GetAllApprovedBillsAsync();
+            return View(bills);
         }
     }
 }

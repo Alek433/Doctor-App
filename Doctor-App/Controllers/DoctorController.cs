@@ -13,6 +13,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Doctor_App.Core.Services.MedicalRecordServices;
 using Doctor_App.Core.Models.Patient;
+using Doctor_App.Core.Services.BillingServices;
 
 namespace Doctor_App.Controllers
 {
@@ -21,13 +22,15 @@ namespace Doctor_App.Controllers
     {
         private readonly IDoctorService _doctorService;
         private readonly IMedicalRecordService _medicalRecordService;
+        private readonly IBillingService _billingService;
         private readonly DoctorAppDbContext _dbContext;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public DoctorController(IDoctorService doctorService, IMedicalRecordService medicalRecordService, DoctorAppDbContext dbContext, UserManager<IdentityUser> userManager)
+        public DoctorController(IDoctorService doctorService, IMedicalRecordService medicalRecordService, IBillingService billingService, DoctorAppDbContext dbContext, UserManager<IdentityUser> userManager)
         {
             _doctorService = doctorService;
             _medicalRecordService = medicalRecordService;
+            _billingService = billingService;
             _dbContext = dbContext;
             _userManager = userManager;
         }
@@ -146,14 +149,12 @@ namespace Doctor_App.Controllers
             var visitId = await _medicalRecordService.AddPatientRecordAsync(model, userId);
             return RedirectToAction("Dashboard");
 
-            //return RedirectToAction("Create", "Billing", new { visitId = visitId });
         }
         public async Task<IActionResult> ViewPatientRecords()
         {
             var records = await _medicalRecordService.GetAllPatientRecordsAsync();
             return View(records);
         }
-        //public IActionResult ManageAppointments() => View();
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
@@ -177,17 +178,6 @@ namespace Doctor_App.Controllers
 
             await _medicalRecordService.UpdatePatientRecordAsync(model);
             return RedirectToAction("Dashboard");
-            /*if (!ModelState.IsValid)
-            {
-                return View("Records/Edit", model);
-            }
-            bool updated = await _medicalRecordService.UpdatePatientRecordAsync(model);
-            if (!updated)
-            {
-                return NotFound();
-            }
-
-            return RedirectToAction("Dashboard");*/
         }
         //public IActionResult EditMedicalCard(int patientId) => View();
         [HttpPost]
@@ -217,5 +207,16 @@ namespace Doctor_App.Controllers
             }
             return View("Records/View", record);
         }
+        [HttpGet]
+        public async Task<IActionResult> MyPayments()
+        {
+            var doctorIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (doctorIdString == null)
+                return Unauthorized();
+
+            var paidBills = await _billingService.GetPaidBillsByDoctorAsync(doctorIdString);
+            return View("Records/MyPayments", paidBills);
+        }
+
     }
 }

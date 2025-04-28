@@ -13,5 +13,7 @@ namespace Doctor_App.Infrastructure.Data.Entities
 
         public Guid DoctorId { get; set; }
         public Doctor Doctor { get; set; }
+
+        public int? Rating { get; set; }
     }
 }

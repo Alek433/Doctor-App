@@ -6,9 +6,13 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using Doctor_App.Core.Models.Doctor;
+using Doctor_App.Core.Models.Patient;
+using Doctor_App.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
 namespace Doctor_App.Areas.Identity.Pages.Account.Manage
 {
@@ -16,15 +20,22 @@ namespace Doctor_App.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly DoctorAppDbContext _context;
 
         public IndexModel(
             UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager)
+            SignInManager<IdentityUser> signInManager,
+            DoctorAppDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _context = context;
         }
+        [BindProperty]
+        public PatientViewModel PatientInfo { get; set; }
 
+        [BindProperty]
+        public DoctorViewModel DoctorInfo { get; set; }
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
@@ -80,8 +91,48 @@ namespace Doctor_App.Areas.Identity.Pages.Account.Manage
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
+            Username = user.UserName;
 
-            await LoadAsync(user);
+            var role = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
+
+            if (role == "Patient")
+            {
+                var patient = await _context.Patients
+                    .FirstOrDefaultAsync(p => p.UserId == user.Id);
+
+                if (patient != null)
+                {
+                    PatientInfo = new PatientViewModel
+                    {
+                        FirstName = patient.FirstName,
+                        LastName = patient.LastName,
+                        DateOfBirth = patient.DateOfBirth,
+                        Gender = patient.Gender,
+                        ContactInformation = patient.ContactInformation,
+                        // Fill other fields if you have them
+                    };
+                }
+            }
+            else if (role == "Doctor")
+            {
+                var doctor = await _context.Doctors
+                    .FirstOrDefaultAsync(d => d.UserId == user.Id);
+
+                if (doctor != null)
+                {
+                    DoctorInfo = new DoctorViewModel
+                    {
+                        FirstName = doctor.FirstName,
+                        LastName = doctor.LastName,
+                        Specialization = doctor.Specialization,
+                        City = doctor.City,
+                        OfficeLocation = doctor.OfficeLocation,
+                        ContactInformation = doctor.ContactInformation,
+                        // Fill other fields if you have them
+                    };
+                }
+            }
+
             return Page();
         }
 
@@ -93,25 +144,43 @@ namespace Doctor_App.Areas.Identity.Pages.Account.Manage
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            if (!ModelState.IsValid)
-            {
-                await LoadAsync(user);
-                return Page();
-            }
+            var role = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
 
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-            if (Input.PhoneNumber != phoneNumber)
+            if (role == "Patient")
             {
-                var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
-                if (!setPhoneResult.Succeeded)
+                var patient = await _context.Patients
+                    .FirstOrDefaultAsync(p => p.UserId == user.Id);
+
+                if (patient != null)
                 {
-                    StatusMessage = "Unexpected error when trying to set phone number.";
-                    return RedirectToPage();
+                    patient.FirstName = PatientInfo.FirstName;
+                    patient.LastName = PatientInfo.LastName;
+                    patient.DateOfBirth = PatientInfo.DateOfBirth;
+                    patient.Gender = PatientInfo.Gender;
+                    patient.ContactInformation = PatientInfo.ContactInformation;
+                    // Update any other fields you added
+                }
+            }
+            else if (role == "Doctor")
+            {
+                var doctor = await _context.Doctors
+                    .FirstOrDefaultAsync(d => d.UserId == user.Id);
+
+                if (doctor != null)
+                {
+                    doctor.FirstName = DoctorInfo.FirstName;
+                    doctor.LastName = DoctorInfo.LastName;
+                    doctor.Specialization = DoctorInfo.Specialization;
+                    doctor.City = DoctorInfo.City;
+                    doctor.OfficeLocation = DoctorInfo.OfficeLocation;
+                    doctor.ContactInformation = DoctorInfo.ContactInformation;
+                    // Update any other fields you added
                 }
             }
 
-            await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your profile has been updated";
+            await _context.SaveChangesAsync();
+
+            StatusMessage = "Your profile has been updated!";
             return RedirectToPage();
         }
     }

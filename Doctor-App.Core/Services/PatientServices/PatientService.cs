@@ -1,4 +1,5 @@
-﻿using Doctor_App.Core.Models.Patient;
+﻿using Doctor_App.Core.Models.Doctor;
+using Doctor_App.Core.Models.Patient;
 using Doctor_App.Data.Models;
 using Doctor_App.Infrastructure.Data.Common;
 using Doctor_App.Infrastructure.Data.Entities;
@@ -113,7 +114,46 @@ namespace Doctor_App.Core.Services.PatientServices
                 Console.WriteLine($"⚠️ Patient {patientId} is already assigned to Doctor {doctorId}.");
             }
         }
+        public async Task<DoctorViewModel> GetAssignedDoctorAsync(string patientId)
+        {
+            var patient = await _dbContext.Patients
+                .Include(p => p.PatientDoctors)
+                    .ThenInclude(pd => pd.Doctor)
+                .FirstOrDefaultAsync(p => p.UserId == patientId);
 
+            if (patient == null || !patient.PatientDoctors.Any())
+                return null;
+
+            var doctor = patient.PatientDoctors.First().Doctor;
+
+            return new DoctorViewModel
+            {
+                Id = doctor.Id,
+                FirstName = doctor.FirstName,
+                LastName = doctor.LastName,
+                Email = doctor.User?.Email,
+                City = doctor.City ?? string.Empty,
+                Specialization = doctor.Specialization,
+                OfficeLocation = doctor.OfficeLocation,
+                ContactInformation = doctor.ContactInformation ?? string.Empty,
+                IsApproved = doctor.IsApproved,
+                AverageRating = doctor.PatientDoctors.Any(pd => pd.Rating.HasValue)
+                     ? doctor.PatientDoctors.Where(pd => pd.Rating.HasValue).Average(pd => pd.Rating.Value)
+                     : (double?)null
+                // Add more properties if needed
+            };
+        }
+        public async Task<List<Guid>> GetAssignedDoctorIdsAsync(Guid patientId)
+        {
+            return await _dbContext.PatientDoctors
+                .Where(pd => pd.PatientId == patientId)
+                .Select(pd => pd.DoctorId)
+                .ToListAsync();
+        }
+        public async Task<bool> IsAlreadyAssigned(string patientId, string doctorId)
+        {
+            return await _dbContext.PatientDoctors.AnyAsync(pd => pd.PatientId.ToString() == patientId && pd.DoctorId.ToString() == doctorId);
+        }
         public async Task<Patient?> GetPatientByUserIdAsync(string userId)
         {
             return await _dbContext.Patients.FirstOrDefaultAsync(p => p.UserId == userId);

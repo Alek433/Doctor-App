@@ -16,6 +16,8 @@ namespace Doctor_App.Core.Models.Doctor
         public string City { get; set; }
         public string OfficeLocation {  get; set; }
         public string ContactInformation {  get; set; }
+        public double? AverageRating { get; set; }
         public bool IsApproved { get; set; }
+        public bool IsAssignedToPatient { get; set; }
     }
 }

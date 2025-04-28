@@ -12,7 +12,7 @@
     </a>
 </div>
 
-@if (!Model.Any(b => b.PaymentStatus == "Approved" || b.PaymentStatus == "Rejected"))
+@if (!Model.Any(b => b.PaymentStatus == "Paid"))
 {
     <p>No approved or rejected bills found.</p>
 }
@@ -24,22 +24,24 @@ else
                 <th>Visit ID</th>
                 <th>Doctor</th>
                 <th>Patient</th>
+                <th>Visit Date</th>
                 <th>Amount</th>
                 <th>Status</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var bill in Model.Where(b => b.PaymentStatus == "Approved" || b.PaymentStatus == "Rejected"))
+            @foreach (var bill in Model.Where(b => b.PaymentStatus == "Paid"))
             {
                 <tr>
                     <td>@bill.VisitId</td>
                     <td>@bill.DoctorName</td>
                     <td>@bill.PatientName</td>
+                    <td>@bill.VisitDate.ToShortDateString()</td>
                     <td>@bill.Amount.ToString("C")</td>
                     <td>
-                        @if (bill.PaymentStatus == "Approved")
+                        @if (bill.PaymentStatus == "Paid")
                         {
-                            <span class="badge bg-success">Approved</span>
+                            <span class="badge bg-success">Paid</span>
                         }
                         else if (bill.PaymentStatus == "Rejected")
                         {

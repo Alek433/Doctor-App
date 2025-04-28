@@ -94,6 +94,7 @@ namespace Doctor_App.Core.Services.DoctorServices
         {
             var doctors = await _dbContext.Doctors
                 .Include(d => d.User)
+                .Include(d => d.PatientDoctors)
                 .Where(d => d.IsApproved == true || d.IsApproved == false)
                 .ToListAsync();
 
@@ -108,6 +109,9 @@ namespace Doctor_App.Core.Services.DoctorServices
                 OfficeLocation = d.OfficeLocation ?? string.Empty,
                 ContactInformation = d.ContactInformation ?? string.Empty,
                 IsApproved = d.IsApproved,
+                AverageRating = d.PatientDoctors.Any(pd => pd.Rating.HasValue)
+                     ? d.PatientDoctors.Where(pd => pd.Rating.HasValue).Average(pd => pd.Rating.Value)
+                     : (double?)null
             }).ToList();
         }
         public async Task<string> GetDoctorIdAsync(string userId)

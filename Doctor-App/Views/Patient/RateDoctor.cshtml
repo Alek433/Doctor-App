@@ -1,0 +1,21 @@
+﻿@using Doctor_App.Core.Models.Patient
+@model RateDoctorViewModel
+
+<h2>Rate Your Doctor</h2>
+
+<form asp-action="SubmitRating" method="post">
+    <input type="hidden" name="DoctorId" value="@Model.DoctorId" />
+
+    <div class="form-group">
+        <label for="rating">Rating (1-5)</label>
+        <select name="Rating" class="form-control" required>
+            <option value="">Select a rating</option>
+            @for (int i = 1; i <= 5; i++)
+            {
+                <option value="@i">@i Star@(i > 1 ? "s" : "")</option>
+            }
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Submit Rating</button>
+</form>

@@ -1,8 +1,12 @@
 ﻿@page
 @model IndexModel
+@using Microsoft.AspNetCore.Identity
+@using System.Security.Claims
+
 @{
     ViewData["Title"] = "Profile";
     ViewData["ActivePage"] = ManageNavPages.Index;
+    var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
 }
 
 <h3>@ViewData["Title"]</h3>
@@ -15,6 +19,65 @@
                 <input asp-for="Username" class="form-control" disabled />
                 <label asp-for="Username" class="form-label"></label>
             </div>
+            @if (userRole == "Patient")
+            {
+                <div class="form-floating mb-3">
+                    <input asp-for="PatientInfo.FirstName" class="form-control" />
+                    <label asp-for="PatientInfo.FirstName" class="form-label"></label>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input asp-for="PatientInfo.LastName" class="form-control" />
+                    <label asp-for="PatientInfo.LastName" class="form-label"></label>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input asp-for="PatientInfo.DateOfBirth" type="date" class="form-control" />
+                    <label asp-for="PatientInfo.DateOfBirth" class="form-label"></label>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input asp-for="PatientInfo.Gender" class="form-control" />
+                    <label asp-for="PatientInfo.Gender" class="form-label"></label>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input asp-for="PatientInfo.ContactInformation" class="form-control" />
+                    <label asp-for="PatientInfo.ContactInformation" class="form-label"></label>
+                </div>
+            }
+            else if (userRole == "Doctor")
+            {
+                <div class="form-floating mb-3">
+                    <input asp-for="DoctorInfo.FirstName" class="form-control" />
+                    <label asp-for="DoctorInfo.FirstName" class="form-label"></label>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input asp-for="DoctorInfo.LastName" class="form-control" />
+                    <label asp-for="DoctorInfo.LastName" class="form-label"></label>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input asp-for="DoctorInfo.Specialization" class="form-control" />
+                    <label asp-for="DoctorInfo.Specialization" class="form-label"></label>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input asp-for="DoctorInfo.City" class="form-control" />
+                    <label asp-for="DoctorInfo.City" class="form-label"></label>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input asp-for="DoctorInfo.OfficeLocation" class="form-control" />
+                    <label asp-for="DoctorInfo.OfficeLocation" class="form-label"></label>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input asp-for="DoctorInfo.ContactInformation" class="form-control" />
+                    <label asp-for="DoctorInfo.ContactInformation" class="form-label"></label>
+                </div>
+            }
             <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
         </form>
     </div>
