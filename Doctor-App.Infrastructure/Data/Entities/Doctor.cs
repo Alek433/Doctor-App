@@ -22,6 +22,7 @@ namespace Doctor_App.Infrastructure.Data.Entities
         public string LastName { get; set; }
         public string Specialization { get; set; }
         public string ContactInformation { get; set; }
+        [Required]
         public string City { get; set; }
         public string OfficeLocation { get; set; }
 

@@ -42,6 +42,14 @@
                         @if (isPatient)
                         {
                             <li class="nav-item"><a class="nav-link text-white" href="/Patient/ViewMyRecords">Records</a></li>
+                            <li class="nav-item"><a class="nav-link text-white" href="/Patient/AssignDoctor">Assign Doctor</a></li>
+                            <li class="nav-item"><a class="nav-link text-white" href="/Patient/MyBills">My Bills</a></li>
+                            <li class="nav-item"><a class="nav-link text-white" href="/Patient/MyDoctor">My Doctor</a></li>
+                        }
+                        @if (isDoctor)
+                        {
+                            <li class="nav-item"><a class="nav-link text-white" href="/Doctor/MyPatients">My Patients</a></li>
+                            <li class="nav-item"><a class="nav-link text-white" href="/Doctor/MyPayments">My Payments</a></li>
                         }
                     </ul>
 

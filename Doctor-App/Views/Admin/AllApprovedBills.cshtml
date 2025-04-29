@@ -12,7 +12,7 @@
     </a>
 </div>
 
-@if (!Model.Any(b => b.PaymentStatus == "Paid"))
+@if (!Model.Any(b => b.PaymentStatus == "Paid" || b.PaymentStatus == "Rejected"))
 {
     <p>No approved or rejected bills found.</p>
 }
@@ -21,7 +21,6 @@ else
     <table class="table">
         <thead>
             <tr>
-                <th>Visit ID</th>
                 <th>Doctor</th>
                 <th>Patient</th>
                 <th>Visit Date</th>
@@ -30,10 +29,9 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var bill in Model.Where(b => b.PaymentStatus == "Paid"))
+            @foreach (var bill in Model.Where(b => b.PaymentStatus == "Paid" || b.PaymentStatus == "Rejected"))
             {
                 <tr>
-                    <td>@bill.VisitId</td>
                     <td>@bill.DoctorName</td>
                     <td>@bill.PatientName</td>
                     <td>@bill.VisitDate.ToShortDateString()</td>
@@ -46,6 +44,9 @@ else
                         else if (bill.PaymentStatus == "Rejected")
                         {
                             <span class="badge bg-danger">Rejected</span>
+                            <form asp-controller="Admin" asp-action="DeleteBills" method="post" class="d-inline">
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
+                            </form>
                         }
                     </td>
                 </tr>

@@ -16,6 +16,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Doctor_App.Core.Services.BillingServices;
 
 namespace Doctor_App.Tests
 {
@@ -23,25 +24,32 @@ namespace Doctor_App.Tests
     {
         private Mock<IDoctorService> _doctorServiceMock;
         private Mock<IMedicalRecordService> _medicalRecordServiceMock;
+        private Mock<IBillingService> _billingServiceMock;
         private Mock<UserManager<IdentityUser>> _userManagerMock;
         private DoctorController _controller;
+        private DoctorAppDbContext _dbContext;
 
         [SetUp]
         public void Setup()
         {
             _doctorServiceMock = new Mock<IDoctorService>();
             _medicalRecordServiceMock = new Mock<IMedicalRecordService>();
+            _billingServiceMock = new Mock<IBillingService>();
             _userManagerMock = MockUserManager();
 
+            var store = new Mock<IUserStore<IdentityUser>>();
+            _userManagerMock = new Mock<UserManager<IdentityUser>>(
+                store.Object, null, null, null, null, null, null, null, null
+            );
             // Setup In-Memory DbContext
             var options = new DbContextOptionsBuilder<DoctorAppDbContext>()
                 .UseInMemoryDatabase("TestDatabase")
                 .Options;
 
-            var dbContext = new DoctorAppDbContext(options);
+            var _dbContext = new DoctorAppDbContext(options);
 
             // Add mock data to the In-Memory DbContext
-            dbContext.Doctors.Add(new Doctor
+            _dbContext.Doctors.Add(new Doctor
             {
                 Id = Guid.NewGuid(),
                 UserId = "test-user-id",
@@ -49,16 +57,18 @@ namespace Doctor_App.Tests
                 FirstName = "John",                 // Add missing properties
                 LastName = "Doe",                   // Add missing properties
                 OfficeLocation = "Room 101",        // Add missing properties
-                Specialization = "Cardiology"       // Add missing properties
+                Specialization = "Cardiology",      // Add missing properties
+                City = "New York"                   // Add missing properties
             });
-            dbContext.SaveChanges();
+            _dbContext.SaveChanges();
 
 
             // Instantiate the controller with the in-memory DbContext and services
             _controller = new DoctorController(
                 _doctorServiceMock.Object,
                 _medicalRecordServiceMock.Object,
-                dbContext,
+                _billingServiceMock.Object,
+                _dbContext,
                 _userManagerMock.Object
             );
 
@@ -107,7 +117,8 @@ namespace Doctor_App.Tests
                 FirstName = "John",                   // Ensure required property is populated
                 LastName = "Doe",                     // Ensure required property is populated
                 OfficeLocation = "Room 101",          // Ensure required property is populated
-                Specialization = "Cardiology"         // Ensure required property is populated
+                Specialization = "Cardiology",
+                City = "New York"                     // Ensure required property is populated
             };
 
             // Set up the in-memory DbContext for testing
@@ -130,6 +141,7 @@ namespace Doctor_App.Tests
                 _controller = new DoctorController(
                     _doctorServiceMock.Object,
                     _medicalRecordServiceMock.Object,
+                    _billingServiceMock.Object,
                     dbContext, // Use the in-memory DbContext
                     _userManagerMock.Object
                 );
