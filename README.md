@@ -29,9 +29,9 @@ Doctor -
 email: doctor@hospital.com
 password: Doctor@123
 
-Unassigned user:
-email: user@hospital.com
-password: User@123
+No roled user:
+email: user1@hospital.com
+password: User1@123
 
 ## 🔧 Setup Instructions
 
