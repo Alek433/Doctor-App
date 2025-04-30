@@ -47,7 +47,7 @@ Visit /Identity/Account/Register to create a new account.
 
 Login via /Identity/Account/Login.
 
-✅ Admins must manually assign roles to users after registration.
+✅ Admins must approve roles Doctor to users after registration.
 
 🧑‍⚕️ Doctor Role
 After login as Doctor:
