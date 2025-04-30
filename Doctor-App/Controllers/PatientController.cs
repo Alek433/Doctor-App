@@ -19,7 +19,7 @@ using System.Web.WebPages.Html;
 
 namespace Doctor_App.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Patient")]
     public class PatientController : Controller
     {
         private readonly IPatientService _patientService;

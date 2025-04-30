@@ -81,6 +81,7 @@ namespace Doctor_App.Core.Services.AppointmentService
                 .OrderByDescending(a => a.AppointmentDate)
                 .Select(a => new AppointmentViewModel
                 {
+                    Id = a.Id,
                     DoctorId = a.DoctorId,
                     AppointmentDate = a.AppointmentDate,
                     Reason = a.Reason,
@@ -96,6 +97,7 @@ namespace Doctor_App.Core.Services.AppointmentService
                 .OrderByDescending(a => a.AppointmentDate)
                 .Select(a => new AppointmentViewModel
                 {
+                    Id = a.Id,
                     PatientId = a.PatientId,
                     AppointmentDate = a.AppointmentDate,
                     Reason = a.Reason,
@@ -104,13 +106,14 @@ namespace Doctor_App.Core.Services.AppointmentService
         }
 
         // ✅ Cancel an appointment
-        public async Task<bool> CancelAppointmentAsync(int appointmentId)
+        public async Task CancelAppointmentAsync(int appointmentId)
         {
             var appointment = await _context.Appointments.FindAsync(appointmentId);
-            if (appointment == null) return false;
+            if (appointment == null)
+                throw new InvalidOperationException("Appointment not found.");
 
-            appointment.Status = "Cancelled";
-            return await _context.SaveChangesAsync() > 0;
+            _context.Appointments.Remove(appointment);
+            await _context.SaveChangesAsync();
         }
         public async Task<List<SelectListItem>> GetAvailableDoctorsAsync()
         {

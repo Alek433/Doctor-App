@@ -39,8 +39,9 @@ namespace Doctor_App.Controllers
                     viewModel.Appointments = await _context.Appointments
                         .Where(a => a.PatientId == patient.Id)
                         .Include(a => a.Doctor)
-                        .Select(a => new AppointmentViewModel  // ✅ Convert Appointment to ViewModel
+                        .Select(a => new AppointmentViewModel  
                         {
+                            Id = a.Id,
                             DoctorName = a.Doctor != null ? a.Doctor.FirstName + " " + a.Doctor.LastName : "N/A",
                             PatientId = a.PatientId,
                             DoctorId = a.DoctorId,
@@ -60,6 +61,7 @@ namespace Doctor_App.Controllers
                         .Include(a => a.Patient)
                         .Select(a => new AppointmentViewModel
                         {
+                            Id = a.Id,
                             PatientName = a.Patient != null ? a.Patient.FirstName + " " + a.Patient.LastName : "N/A",
                             PatientId = a.PatientId,
                             DoctorId = a.DoctorId,
@@ -183,15 +185,11 @@ namespace Doctor_App.Controllers
             return View(model);
         }
 
-        [HttpPost("Cancel/{appointmentId}")]
+        [HttpPost]
         [Authorize(Roles = "Patient,Doctor")]
         public async Task<IActionResult> CancelAppointment(int appointmentId)
         {
-            bool success = await _appointmentService.CancelAppointmentAsync(appointmentId);
-            if (!success)
-            {
-                ModelState.AddModelError("", "Failed to cancel appointment.");
-            }
+            await _appointmentService.CancelAppointmentAsync(appointmentId);
 
             return RedirectToAction("Manage");
         }

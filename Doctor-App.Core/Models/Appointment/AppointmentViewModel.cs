@@ -10,6 +10,7 @@ namespace Doctor_App.Core.Models.Appointment
 {
     public class AppointmentViewModel
     {
+        public int Id { get; set; }
         public Guid PatientId { get; set; }  // For doctor selection
         public Guid DoctorId { get; set; }   // For patient selection
         public DateTime AppointmentDate { get; set; }

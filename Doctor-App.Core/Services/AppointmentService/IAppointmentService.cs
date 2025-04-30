@@ -14,7 +14,7 @@ namespace Doctor_App.Core.Services.AppointmentService
         Task<List<AppointmentViewModel>> GetAllAppointmentsAsync();
         Task<List<AppointmentViewModel>> GetAppointmentsByPatientAsync(Guid patientId);
         Task<List<AppointmentViewModel>> GetAppointmentsByDoctorAsync(Guid doctorId);
-        Task<bool> CancelAppointmentAsync(int appointmentId);
+        Task CancelAppointmentAsync(int appointmentId);
         Task<List<SelectListItem>> GetAvailableDoctorsAsync();
         Task<List<SelectListItem>> GetAvailablePatientsAsync();
     }
